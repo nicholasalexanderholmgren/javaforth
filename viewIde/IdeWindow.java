@@ -9,6 +9,7 @@ import javax.swing.JPanel;
 import javax.swing.border.BevelBorder;
 import javax.swing.border.CompoundBorder;
 import javax.swing.border.EtchedBorder;
+import edu.mccc.cos210.ds.fp.javaforth.machineModel.ForthMachine;
 import edu.mccc.cos210.ds.fp.javaforth.util.IObserver;
 import edu.mccc.cos210.ds.fp.javaforth.util.ISubject;
 
@@ -17,8 +18,10 @@ public class IdeWindow extends JFrame implements IObserver {
 	private TextEditorPanel textPanel;
 	private StackPanel stackPanel;
 	private TerminalPanel terminalPanel;
-	public IdeWindow() {
+	private ForthMachine machine;
+	public IdeWindow(ForthMachine machine) {
 		super("Java Forth IDE");
+		this.machine = machine;
 		this.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
 		JPanel rootPanel = createRootPanel();
 		
@@ -98,5 +101,8 @@ public class IdeWindow extends JFrame implements IObserver {
 	@Override
 	public void update(ISubject s) {
 		
+	}
+	public ForthMachine getMachine() {
+		return machine;
 	}
 }

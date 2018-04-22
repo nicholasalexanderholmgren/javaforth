@@ -9,4 +9,7 @@ public class ForthStack extends AbstractMemorySegment {
 	public String stackAsString() {
 		return "";
 	}
+	public int stackHeight() {
+		return 0;
+	}
 }

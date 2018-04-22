@@ -9,11 +9,11 @@ public class JavaForth {
 	private IdeWindow view;
 	JavaForth() {
 		this.machine = createForthMachine();
-		this.view = createViewIDE();
+		this.view = createViewIDE(this.machine);
 		this.machine.registerObserver(this.view);
 	}
-	public static IdeWindow createViewIDE() {
-		return new IdeWindow();
+	public static IdeWindow createViewIDE(ForthMachine machine) {
+		return new IdeWindow(machine);
 	}
 	public ForthMachine createForthMachine() { 
 		return new ForthMachine();//this);

@@ -50,4 +50,13 @@ public class ForthMachine implements ISubject {
 	public void setChanged() {
 		changed = true;
 	}
+	public void interpret(String input) {
+		
+	}
+	public Object getFromAddress(int address) {
+		return memory[address];
+	}
+	public void setAddress(int address, Object entry) {
+		
+	}
 }

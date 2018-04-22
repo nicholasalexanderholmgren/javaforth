@@ -5,7 +5,9 @@ public class ForthInterpretor {
 	private String debugWord;
 	private ForthStack stack;
 	private ForthDictionary dict;
-	public ForthInterpretor(ForthDictionary dictionary, ForthStack stack) {
+	private Status status;
+	private Object[] memory;
+	public ForthInterpretor(ForthDictionary dictionary, ForthStack stack, Object[] memory) {
 		this.stack = stack;
 		dict = dictionary;
 	}
@@ -26,5 +28,24 @@ public class ForthInterpretor {
 	}
 	public void interpretFile(String input) {
 		
+	}
+	public void setDegbug(boolean debugState) {
+		
+	}
+	public Status getStatus() {
+		return status;
+	}
+	public static enum Status {
+		SUCCESSUL("SUCCESS"), ERROR("ERROR");
+		private String message;
+		Status(String s) {
+			message = s;
+		}
+		public String getMessage() { 
+			return message;
+		}
+		public void setStatus(String newMessage) {
+			message = newMessage;
+		}
 	}
 }
