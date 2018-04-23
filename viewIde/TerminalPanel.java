@@ -31,4 +31,6 @@ public class TerminalPanel extends JScrollPane {
 	public void getStatus() {
 		
 	}
+	public void update(String status) {
+	}
 }

@@ -97,10 +97,13 @@ public class IdeWindow extends JFrame implements IObserver {
 		);
 		return panel;
 	}
-
 	@Override
 	public void update(ISubject s) {
-		
+		ForthMachine m = (ForthMachine) s;
+		dictPanel.update(m.getDictionaryAsMap());
+		//textPanel.update();
+		stackPanel.update(m.getStackAsString());
+		terminalPanel.update(m.getStatus());
 	}
 	public ForthMachine getMachine() {
 		return machine;

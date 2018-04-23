@@ -3,13 +3,10 @@
 public class ForthInterpretor {
 	private int debugStackheight;
 	private String debugWord;
-	private ForthStack stack;
-	private ForthDictionary dict;
 	private Status status;
-	private Object[] memory;
-	public ForthInterpretor(ForthDictionary dictionary, ForthStack stack, Object[] memory) {
-		this.stack = stack;
-		dict = dictionary;
+	private ForthMachine machine;
+	public ForthInterpretor(ForthMachine parent) {
+		machine = parent;
 	}
 	public String getDebugWord() {
 		return debugWord;

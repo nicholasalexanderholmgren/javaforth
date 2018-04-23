@@ -23,7 +23,7 @@ public class StackPanel extends JScrollPane {
 		this.setViewport(jvp);
 		this.panel = (MyPanel) this.getViewport().getView();
 	}
-	public void update() {
+	public void update(String stack) {
 		
 	}
 	private class MyPanel extends JPanel {
