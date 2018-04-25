@@ -23,6 +23,7 @@ public class ForthStack extends AbstractMemorySegment {
 	 * @return String This returns a string representing the stack.
 	 */
 	public String stackAsString() {
+		
 		return "";
 	}
 	/**
@@ -33,6 +34,6 @@ public class ForthStack extends AbstractMemorySegment {
 	 * @return int the number of bytes on the stack.
 	 */
 	public int stackHeight() {
-		return 0;
+		return INITIAL_POINTER-getCurrentPointer();
 	}
 }

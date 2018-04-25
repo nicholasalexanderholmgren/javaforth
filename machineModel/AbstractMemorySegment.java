@@ -12,6 +12,7 @@ public abstract class AbstractMemorySegment implements IMemorySegment {
 		INITIAL_POINTER = initialPointer;
 		currentPointer = initialPointer;
 	}
+	
 	public int getCurrentPointer() {
 		return currentPointer;
 	}
