@@ -1,11 +1,14 @@
 package edu.mccc.cos210.ds.fp.javaforth.machineModel;
 
+import java.util.StringTokenizer;
+
 public class ForthInterpretor {
 	private int debugStackheight;
 	private String debugWord;
 	private Status status;
 	private ForthMachine machine;
 	private boolean comment;
+	StringTokenizer currentLineTokens;
 	public ForthInterpretor(ForthMachine parent) {
 		machine = parent;
 		initDictionary();
@@ -30,23 +33,45 @@ public class ForthInterpretor {
 
   //Might need to word with a
   //dataStack/variableStack/forthStack
-	public void interpretLine(String input) {
-
+	public void interpretLine(String input, boolean isLastLine) {
+		currentLineTokens = new StringTokenizer(input); 
+		while (currentLineTokens.hasMoreTokens()) {
+			String currentToken = currentLineTokens.nextToken();
+			if(machine.getDictionaryAsMap().containsKey(currentToken)) {
+				 AbstractWord w = findWord(currentToken);
+				continue;
+			}else {
+				if(currentToken.length()>3) {
+					status = Status.ERROR;
+				}
+			}
+		}
+		if(isLastLine) {
+			machine.setChanged();
+			machine.notifyObservers();
+		}
 	}
-
-  //interprets entire forth file and updates
-  //the memory segment accordingly.
-  //should the file be saved to the memory?
-  //or should the final output just be logged.
+	/**
+	 * Method which takes a string containing line breaks and feeds them to the interpretLine method.
+	 * @param String containing either \n or \r characters
+	 */
 	public void interpretFile(String input) {
-
+		StringTokenizer s = new StringTokenizer(input, "\n\r");
+		while(s.hasMoreTokens()) {
+			String s1 = s.nextToken();
+			interpretLine(s1,s.hasMoreTokens());
+		}
+		machine.setChanged();
+		machine.notifyObservers();
 	}
-
-  //line by line or word by word?
+	/**
+	 * Method for setting a flag in the interpreter as to whether conditional 
+	 * debugging methods will be 
+	 * 
+	 */
 	public void setDegbug(boolean debugState) {
 
 	}
-  //What is inside of this?
 	public Status getStatus() {
 		return status;
 	}
@@ -63,13 +88,13 @@ public class ForthInterpretor {
 			message = newMessage;
 		}
 	}
-	private abstract class nucleusWord extends AbstractWord {
+	private abstract class NucleusWord extends AbstractWord {
 
-		public nucleusWord(int numberOfArgument, boolean isPrimitive, boolean isImmediate) {
+		public NucleusWord(int numberOfArgument, boolean isPrimitive, boolean isImmediate) {
 			super(numberOfArgument, true, isImmediate);
 		}
 
-		public nucleusWord(int numberOfArgument) {
+		public NucleusWord(int numberOfArgument) {
 			super (numberOfArgument, true, false);
 		}
 
@@ -84,7 +109,7 @@ public class ForthInterpretor {
 		writeToDict(3);
 		writeToDict('+');
 		writeToDict(null);
-		writeToDict(new nucleusWord(4) {
+		writeToDict(new NucleusWord(4) {
 
 			@Override
 			public byte[] evaluate(byte[] args) {
@@ -103,7 +128,7 @@ public class ForthInterpretor {
 		writeToDict(3);
 		writeToDict('-');
 		writeToDict(null);
-		writeToDict(new nucleusWord(4) {
+		writeToDict(new NucleusWord(4) {
 			@Override
 			public byte[] evaluate(byte[] args) {
 				byte n1a = popStack();
@@ -120,8 +145,7 @@ public class ForthInterpretor {
 		writeToDict(3);
 		writeToDict('*');
 		writeToDict(null);
-		writeToDict(new nucleusWord(4) {
-
+		writeToDict(new NucleusWord(4) {
 			@Override
 			public byte[] evaluate(byte[] args) {
 				byte n1a = popStack();
@@ -141,7 +165,7 @@ public class ForthInterpretor {
 		});
 		writeToDict(3);
 		writeToDict('!');
-		writeToDict(new nucleusWord(4){
+		writeToDict(new NucleusWord(4){
 
 			@Override
 			public byte[] evaluate(byte[] args) {
@@ -151,6 +175,10 @@ public class ForthInterpretor {
 				byte addra = popStack();
 				byte addrb = popStack();
 				int addr = bytesToAddr(addra,addrb);
+				if(machine.getFromAddress(addr) instanceof VariableWord) {
+					((VariableWord) machine.getFromAddress(addr)).setValue(n);
+					return null;
+				}
 				machine.putAtAddress(addr, n);
 				return null;
 			} 
@@ -160,7 +188,7 @@ public class ForthInterpretor {
 		writeToDict('0');
 		writeToDict('<');
 		writeToDict(null);
-		writeToDict(new nucleusWord(2){
+		writeToDict(new NucleusWord(2){
 
 			@Override
 			public byte[] evaluate(byte[] args) {
@@ -181,7 +209,7 @@ public class ForthInterpretor {
 		writeToDict('0');
 		writeToDict('=');
 		writeToDict(null);
-		writeToDict(new nucleusWord(2){
+		writeToDict(new NucleusWord(2){
 
 			@Override
 			public byte[] evaluate(byte[] args) {
@@ -202,7 +230,7 @@ public class ForthInterpretor {
 		writeToDict('0');
 		writeToDict('>');
 		writeToDict(null);
-		writeToDict(new nucleusWord(2){
+		writeToDict(new NucleusWord(2){
 
 			@Override
 			public byte[] evaluate(byte[] args) {
@@ -219,15 +247,19 @@ public class ForthInterpretor {
 			}
 			
 		});
-		writeToDict(4);
-		writeToDict('1');
-		writeToDict('+');
-		writeToDict('1');
-		writeToDict('-');
-		writeToDict('2');
-		writeToDict('+');
-		writeToDict('2');
-		writeToDict('-');
+		writeToDict(10);
+		writeToDict("variable");
+		writeToDict(new NucleusWord(0) {
+
+			@Override
+			public byte[] evaluate(byte[] args) {
+				String vName = currentLineTokens.nextToken();
+				writeToDict(vName.length());
+				writeToDict(vName);
+				writeToDict(new VariableWord(0));
+				return null;
+			}
+		});
 	}
 	private byte popStack() {
 		byte b  = (byte)machine.getFromAddress(machine.getStack().getCurrentPointer());
@@ -241,6 +273,11 @@ public class ForthInterpretor {
 	private void writeToDict( Object o) {
 		machine.putAtAddress(machine.getDictionary().getCurrentPointer(), o);
 		machine.getDictionary().setCurrentPointer(machine.getDictionary().getCurrentPointer()+1);
+	}
+	private void writeToDict(String s) {
+		for(int i =0; i< s.length(); i++) {
+			writeToDict(s.charAt(i));
+		}
 	}
 	/**
 	 * @param byte a is the leading half of the integer
@@ -272,5 +309,26 @@ public class ForthInterpretor {
 		}else {
 			return 256 +b;
 		}
+	}
+	private AbstractWord findWord(String name) {
+		final int START = 0;
+		int current = START;
+		int end = machine.getDictionary().getCurrentPointer();
+		while(current < end) {
+			if((Integer)(machine.getFromAddress(current)) != name.length()) {
+				current+=(Integer)(machine.getFromAddress(current));
+				continue;
+			}
+			StringBuilder sb = new StringBuilder();
+			current+=1;
+			while(machine.getFromAddress(current) != null) {
+				sb.append((char)(machine.getFromAddress(current)));
+			}
+			if(sb.toString().equals(name)) {
+				return ((AbstractWord) (machine.getFromAddress(current+1)));
+			}
+			current+=1;
+		}
+		return null;
 	}
 }
