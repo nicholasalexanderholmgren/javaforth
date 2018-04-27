@@ -1,4 +1,4 @@
-package edu.mccc.cos210.ds.fp.javaforth.util;
+package javaforth.util;
 
 public interface ISubject {
 	void registerObserver(IObserver o);

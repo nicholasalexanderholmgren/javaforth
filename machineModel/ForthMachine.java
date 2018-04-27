@@ -1,15 +1,15 @@
-package edu.mccc.cos210.ds.fp.javaforth.machineModel;
+package javaforth.machineModel;
 
+import javaforth.util.*;
 import java.util.ArrayList;
 import java.util.Collection;
 import java.util.HashMap;
 import java.util.Map;
-import edu.mccc.cos210.ds.fp.javaforth.util.IObserver;
-import edu.mccc.cos210.ds.fp.javaforth.util.ISubject;
+
 
 public class ForthMachine implements ISubject {
 	private Collection<IObserver> listeners;
-	private Object[] memory;
+	Object[] memory;
 	private ForthStack stack;
 	private ForthDictionary dict;
 	private ForthInterpretor interp;
@@ -21,16 +21,10 @@ public class ForthMachine implements ISubject {
 	public ForthMachine() {//JavaForth master) {
 		//this.master = master;
 
-		//declares a large array of objects used
-		//to store and simulate the memory used by
-		//the FORTH code
 		memory = new Object[(int)Math.pow(2,16)];
-
-		//How will these be changing after they are
-		//initialized?
-		//Reply: memory segments can be updated by calling their setMemoryPointer method.
-		//@see AbstractMemorySegment
-		stack = new ForthStack(memory, INITIAL_STACK_POINTER);
+		
+//		interp = new ForthInterpretor(this);
+//		stack = new ForthStack(interp  , INITIAL_STACK_POINTER);
 		dict = new ForthDictionary(memory,INITIAL_DICT_POINTER);
 		listeners = new ArrayList<>();
 
@@ -40,10 +34,10 @@ public class ForthMachine implements ISubject {
 		//to the memory segment.
 		//Also how will be delimiting the memory?
 		//Reply: interpreter has access to the memory segments via the getStack and getDictionary methods.
-		interp = new ForthInterpretor(this);
+		
 		changed = false;
 	}
-	public ForthStack getStack() {
+	public ForthStack getStack() {		
 		return this.stack;
 	}
 	public ForthDictionary getDictionary() {
@@ -87,10 +81,10 @@ public class ForthMachine implements ISubject {
 
 	}
 	public Object getFromAddress(int address) {
-		return null;
+		return memory[address];
 	}
 	public void putAtAddress(int address, Object entry) {
-
+		memory[address] = entry; 
 	}
 	//Stops the interpreter from running through
 	//the forth code?
@@ -140,6 +134,8 @@ public class ForthMachine implements ISubject {
 	 * @return Map<String,String>
 	 */
 	public Map<String,String> getDictionaryAsMap(){
+		
+		
 		return null;
 	}
 	/**

@@ -1,4 +1,4 @@
-package edu.mccc.cos210.ds.fp.javaforth.viewIde;
+package javaforth.viewIde;
 
 import java.awt.Font;
 import java.awt.event.KeyListener;

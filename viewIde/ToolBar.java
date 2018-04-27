@@ -1,4 +1,4 @@
-package edu.mccc.cos210.ds.fp.javaforth.viewIde;
+package javaforth.viewIde;
 
 public class ToolBar {
 }

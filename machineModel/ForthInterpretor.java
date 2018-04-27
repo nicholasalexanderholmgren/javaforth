@@ -1,4 +1,4 @@
-package edu.mccc.cos210.ds.fp.javaforth.machineModel;
+package javaforth.machineModel;
 
 import java.util.StringTokenizer;
 
@@ -6,12 +6,18 @@ public class ForthInterpretor {
 	private int debugStackheight;
 	private String debugWord;
 	private Status status;
-	private ForthMachine machine;
+	ForthMachine machine;
 	private boolean comment;
 	StringTokenizer currentLineTokens;
 	public ForthInterpretor(ForthMachine parent) {
-		machine = parent;
+		
+		this.machine = new ForthMachine();
+		this.machine = parent;
+		
 		initDictionary();
+		
+		
+		parent = machine;
 	}
 	public String getDebugWord() {
 		return debugWord;
@@ -26,15 +32,19 @@ public class ForthInterpretor {
 		this.debugStackheight = debugStackheight;
 	}
 
-  //Should we make it interprety things
+  //Should we make it interpret things
   //line by line or word by word?
   //Also should this take in a stack or
   //a string.
 
   //Might need to word with a
   //dataStack/variableStack/forthStack
+
+	/**
+	 *
+	 */
 	public void interpretLine(String input, boolean isLastLine) {
-		currentLineTokens = new StringTokenizer(input); 
+		currentLineTokens = new StringTokenizer(input);
 		while (currentLineTokens.hasMoreTokens()) {
 			String currentToken = currentLineTokens.nextToken();
 			if(machine.getDictionaryAsMap().containsKey(currentToken)) {
@@ -65,9 +75,9 @@ public class ForthInterpretor {
 		machine.notifyObservers();
 	}
 	/**
-	 * Method for setting a flag in the interpreter as to whether conditional 
-	 * debugging methods will be 
-	 * 
+	 * Method for setting a flag in the interpreter as to whether conditional
+	 * debugging methods will be
+	 *
 	 */
 	public void setDegbug(boolean debugState) {
 
@@ -104,11 +114,13 @@ public class ForthInterpretor {
 					+ "bytes as arguments.";
 		}
 	}
-	
+
 	private void initDictionary() {
+		final Object myNull = null;
+		
 		writeToDict(3);
 		writeToDict('+');
-		writeToDict(null);
+		writeToDict(myNull);
 		writeToDict(new NucleusWord(4) {
 
 			@Override
@@ -123,11 +135,11 @@ public class ForthInterpretor {
 				ans [1] = (byte) (total%256);
 				return ans;
 			}
-			
+
 		});
 		writeToDict(3);
 		writeToDict('-');
-		writeToDict(null);
+		writeToDict(myNull);
 		writeToDict(new NucleusWord(4) {
 			@Override
 			public byte[] evaluate(byte[] args) {
@@ -144,7 +156,7 @@ public class ForthInterpretor {
 		});
 		writeToDict(3);
 		writeToDict('*');
-		writeToDict(null);
+		writeToDict(myNull);
 		writeToDict(new NucleusWord(4) {
 			@Override
 			public byte[] evaluate(byte[] args) {
@@ -161,7 +173,7 @@ public class ForthInterpretor {
 				ans [1] = (byte) (total%256);
 				return ans;
 			}
-			
+
 		});
 		writeToDict(3);
 		writeToDict('!');
@@ -181,13 +193,13 @@ public class ForthInterpretor {
 				}
 				machine.putAtAddress(addr, n);
 				return null;
-			} 
-			
+			}
+
 		});
 		writeToDict(4);
 		writeToDict('0');
 		writeToDict('<');
-		writeToDict(null);
+		writeToDict(myNull);
 		writeToDict(new NucleusWord(2){
 
 			@Override
@@ -203,12 +215,12 @@ public class ForthInterpretor {
 				}
 				return ans;
 			}
-			
+
 		});
 		writeToDict(4);
 		writeToDict('0');
 		writeToDict('=');
-		writeToDict(null);
+		writeToDict(myNull);
 		writeToDict(new NucleusWord(2){
 
 			@Override
@@ -224,12 +236,12 @@ public class ForthInterpretor {
 				}
 				return ans;
 			}
-			
+
 		});
 		writeToDict(4);
 		writeToDict('0');
 		writeToDict('>');
-		writeToDict(null);
+		writeToDict(myNull);
 		writeToDict(new NucleusWord(2){
 
 			@Override
@@ -245,7 +257,7 @@ public class ForthInterpretor {
 				}
 				return ans;
 			}
-			
+
 		});
 		writeToDict(10);
 		writeToDict("variable");
@@ -274,6 +286,9 @@ public class ForthInterpretor {
 		machine.putAtAddress(machine.getDictionary().getCurrentPointer(), o);
 		machine.getDictionary().setCurrentPointer(machine.getDictionary().getCurrentPointer()+1);
 	}
+//	private void writeToDict() {
+//		
+//	}
 	private void writeToDict(String s) {
 		for(int i =0; i< s.length(); i++) {
 			writeToDict(s.charAt(i));
@@ -291,7 +306,7 @@ public class ForthInterpretor {
 			leadingDigits = a*256;
 		}
 		int trailingDigits = unsignByte(b);
-			
+
 		return leadingDigits + trailingDigits;
 	}
 	/**
@@ -331,4 +346,9 @@ public class ForthInterpretor {
 		}
 		return null;
 	}
+	public ForthMachine getInterpMachine () {
+		return this.machine;
+	}
+	
+	
 }
