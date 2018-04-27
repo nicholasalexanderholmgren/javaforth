@@ -1,4 +1,4 @@
-package edu.mccc.cos210.ds.fp.javaforth.machineModel;
+package javaforth.machineModel;
 
 public class VariableWord extends AbstractWord {
 	int value;

@@ -1,5 +1,7 @@
-package edu.mccc.cos210.ds.fp.javaforth.viewIde;
+package javaforth.viewIde;
 
+import javaforth.machineModel.*;
+import javaforth.util.*;
 import java.awt.Color;
 import java.awt.Dimension;
 import java.awt.GridBagConstraints;
@@ -9,9 +11,7 @@ import javax.swing.JPanel;
 import javax.swing.border.BevelBorder;
 import javax.swing.border.CompoundBorder;
 import javax.swing.border.EtchedBorder;
-import edu.mccc.cos210.ds.fp.javaforth.machineModel.ForthMachine;
-import edu.mccc.cos210.ds.fp.javaforth.util.IObserver;
-import edu.mccc.cos210.ds.fp.javaforth.util.ISubject;
+
 
 public class IdeWindow extends JFrame implements IObserver {
 	private DictionaryPanel dictPanel;

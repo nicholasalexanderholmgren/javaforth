@@ -1,4 +1,5 @@
-package edu.mccc.cos210.ds.fp.javaforth.machineModel;
+package javaforth.machineModel;
+
 
 /**
  * Forthstack is a memory segment implementation that is further specialized to aid in managing the stack
@@ -13,13 +14,18 @@ package edu.mccc.cos210.ds.fp.javaforth.machineModel;
 public class ForthStack extends AbstractMemorySegment {
 
 	private Object[] stackMemorySegment;
-	private Object[] memory;
-
-	public ForthStack(Object[] memory, int stackPointer) {
+	private ForthMachine fullMachine;
+	
+	
+	//ForthMachine can be changed to memory but machine was called for FINAL variable access.
+	public ForthStack(ForthInterpretor interp, int stackPointer) {
 		super(stackPointer);
-		this.memory = memory;
-		for (int i = INITIAL_POINTER; i >= super.getCurrentPointer() ; i--) {
-				stackMemorySegment[i] = memory[i];
+		
+		
+		for (int i = stackPointer, j = 0 ; i >= interp.machine.getStack().currentPointer  ; i += 2 , j++) {
+			
+				stackMemorySegment[j] = fullMachine.memory[i];
+				
 		}
 	}
 	/**
@@ -28,10 +34,15 @@ public class ForthStack extends AbstractMemorySegment {
 	 * @return String This returns a string representing the stack.
 	 */
 	public String stackAsString() {
-		String stackString;
-		for(thing : stackMemorySegment) {
-				stackString.concat((String)thing);
-				stackString.concat(" ");
+		String stackString = "",currentString = null;
+		for(int i = 0 ; i < (stackMemorySegment.length) ; i++ ) {
+				
+				if (stackMemorySegment[i] == null) {
+					stackString.concat(" ");
+				} else {
+					currentString = stackMemorySegment[i].toString();
+					stackString.concat(currentString);
+				}
 		}
 		return stackString;
 	}
@@ -45,4 +56,5 @@ public class ForthStack extends AbstractMemorySegment {
 	public int stackHeight() {
 		return INITIAL_POINTER-getCurrentPointer();
 	}
+	
 }

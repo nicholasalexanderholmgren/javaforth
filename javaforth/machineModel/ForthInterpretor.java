@@ -1,4 +1,4 @@
-package edu.mccc.cos210.ds.fp.javaforth.machineModel;
+package javaforth.machineModel;
 
 import java.util.StringTokenizer;
 
@@ -6,12 +6,18 @@ public class ForthInterpretor {
 	private int debugStackheight;
 	private String debugWord;
 	private Status status;
-	private ForthMachine machine;
+	ForthMachine machine;
 	private boolean comment;
 	StringTokenizer currentLineTokens;
 	public ForthInterpretor(ForthMachine parent) {
-		machine = parent;
+		
+		this.machine = new ForthMachine();
+		this.machine = parent;
+		
 		initDictionary();
+		
+		
+		parent = machine;
 	}
 	public String getDebugWord() {
 		return debugWord;
@@ -110,9 +116,11 @@ public class ForthInterpretor {
 	}
 
 	private void initDictionary() {
+		final Object myNull = null;
+		
 		writeToDict(3);
 		writeToDict('+');
-		writeToDict(null);
+		writeToDict(myNull);
 		writeToDict(new NucleusWord(4) {
 
 			@Override
@@ -131,7 +139,7 @@ public class ForthInterpretor {
 		});
 		writeToDict(3);
 		writeToDict('-');
-		writeToDict(null);
+		writeToDict(myNull);
 		writeToDict(new NucleusWord(4) {
 			@Override
 			public byte[] evaluate(byte[] args) {
@@ -148,7 +156,7 @@ public class ForthInterpretor {
 		});
 		writeToDict(3);
 		writeToDict('*');
-		writeToDict(null);
+		writeToDict(myNull);
 		writeToDict(new NucleusWord(4) {
 			@Override
 			public byte[] evaluate(byte[] args) {
@@ -191,7 +199,7 @@ public class ForthInterpretor {
 		writeToDict(4);
 		writeToDict('0');
 		writeToDict('<');
-		writeToDict(null);
+		writeToDict(myNull);
 		writeToDict(new NucleusWord(2){
 
 			@Override
@@ -212,7 +220,7 @@ public class ForthInterpretor {
 		writeToDict(4);
 		writeToDict('0');
 		writeToDict('=');
-		writeToDict(null);
+		writeToDict(myNull);
 		writeToDict(new NucleusWord(2){
 
 			@Override
@@ -233,7 +241,7 @@ public class ForthInterpretor {
 		writeToDict(4);
 		writeToDict('0');
 		writeToDict('>');
-		writeToDict(null);
+		writeToDict(myNull);
 		writeToDict(new NucleusWord(2){
 
 			@Override
@@ -278,6 +286,9 @@ public class ForthInterpretor {
 		machine.putAtAddress(machine.getDictionary().getCurrentPointer(), o);
 		machine.getDictionary().setCurrentPointer(machine.getDictionary().getCurrentPointer()+1);
 	}
+//	private void writeToDict() {
+//		
+//	}
 	private void writeToDict(String s) {
 		for(int i =0; i< s.length(); i++) {
 			writeToDict(s.charAt(i));
@@ -335,4 +346,9 @@ public class ForthInterpretor {
 		}
 		return null;
 	}
+	public ForthMachine getInterpMachine () {
+		return this.machine;
+	}
+	
+	
 }
