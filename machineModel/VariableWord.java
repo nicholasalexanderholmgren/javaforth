@@ -1,5 +1,7 @@
 package edu.mccc.cos210.ds.fp.javaforth.machineModel;
 
+import java.util.List;
+
 public class VariableWord extends AbstractWord {
 	int value;
 	public VariableWord(int value) {
@@ -23,8 +25,8 @@ public class VariableWord extends AbstractWord {
 	}
 
 	@Override
-	public int evaluate(int[] args) {
+	public List<Integer> evaluate(List<Integer> args) {
 		// TODO Auto-generated method stub
-		return 0;
+		return null;
 	}
 }

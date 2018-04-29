@@ -1,4 +1,7 @@
 package edu.mccc.cos210.ds.fp.javaforth.machineModel;
+
+import java.util.List;
+
 /**
  * This class is the abstract form of the forth words that are stored in the Forth Machine's emulated memory.
  * Individual words will be defined either at start up or during runtime, thus there are currently no non-abstract word objects.
@@ -39,6 +42,6 @@ public abstract class AbstractWord {
 		return isPrimitive;
 	}
 	public abstract String toString();
-	public abstract int evaluate(int[] args);
+	public abstract List<Integer> evaluate(List<Integer> args);
 
 }

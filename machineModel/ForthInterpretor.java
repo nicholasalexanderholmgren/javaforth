@@ -1,5 +1,7 @@
 package edu.mccc.cos210.ds.fp.javaforth.machineModel;
 
+import java.util.ArrayList;
+import java.util.List;
 import java.util.StringTokenizer;
 
 public class ForthInterpretor {
@@ -11,6 +13,7 @@ public class ForthInterpretor {
 	private boolean comment;
 	private boolean debugCondition;
 	private boolean debugMode;
+	int currentLineNumber;
 	StringTokenizer currentLineTokens;
 	public ForthInterpretor(ForthMachine parent) {
 		machine = parent;
@@ -33,23 +36,28 @@ public class ForthInterpretor {
 	/**
 	 *
 	 */
-	public void interpretLine(String input, boolean isLastLine) {
+	public void interpretLine(String input) {
+		currentLineNumber++;
 		currentLineTokens = new StringTokenizer(input);
 		while (currentLineTokens.hasMoreTokens() && !debugCondition) {
 			String currentToken = currentLineTokens.nextToken();
 			if(machine.getDictionaryAsMap().containsKey(currentToken)) {
 				AbstractWord w = findWord(currentToken);
 				int argNumber = w.getNumberOfArguments();
-				int[] args = new int[argNumber];
+				List<Integer> args = new ArrayList<Integer>();;
 				try {
 					for(int i = 0; i < argNumber; i++) {
-						args[i] = popStack();
+						args.add(popStack());
 					}
-					int result = w.evaluate(args);
-					pushStack(result);
+					List<Integer> result = w.evaluate(args);
+					if(result !=null) {
+						for(Integer i : result) {
+							pushStack(result);
+						}
+					}
 				}catch (IndexOutOfBoundsException e) {
 					status = Status.ERROR;
-					status.message = "Stack underflow error on word "+currentToken;
+					status.message += "Stack underflow error on word "+currentToken;
 					break;
 				}
 				continue;
@@ -73,10 +81,6 @@ public class ForthInterpretor {
 				}
 			}
 		}
-		if(isLastLine) {
-			machine.setChanged();
-			machine.notifyObservers();
-		}
 	}
 	
 	public boolean isInteger( String input )  {  
@@ -89,14 +93,15 @@ public class ForthInterpretor {
 	   }  
 	}
 	/**
-	 * Method which takes a string containing line breaks and feeds them to the interpretLine method.
+	 * Method which takes a string, possibly containing line breaks and feeds them to the interpretLine method.
 	 * @param String containing either \n or \r characters
 	 */
-	public void interpretFile(String input) {
+	public void interpret(String input) {
+		currentLineNumber = 0;
 		StringTokenizer s = new StringTokenizer(input, "\n\r");
 		while(s.hasMoreTokens() && status != Status.ERROR) {
 			String s1 = s.nextToken();
-			interpretLine(s1,s.hasMoreTokens());
+			interpretLine(s1);
 		}
 		machine.setChanged();
 		machine.notifyObservers();
@@ -146,10 +151,10 @@ public class ForthInterpretor {
 		writeToDict('.');
 		writeToDict(myNull);
 		writeToDict(new InterpreterWord("." , 1) {
-			
-			
-			public int evaluate(int[] args) {
-				return args[0];	
+			@Override
+			public List<Integer> evaluate(List<Integer> args) {
+				status.message += args.get(0);
+				return null;	
 			}
 		});
 		writeToDict(3);
@@ -157,8 +162,10 @@ public class ForthInterpretor {
 		writeToDict(myNull);
 		writeToDict(new NucleusWord(2) {
 			@Override
-			public int evaluate(int[] args) {
-				return args[0]+args[1];
+			public List<Integer> evaluate(List<Integer> args) {
+				ArrayList<Integer> ans = new ArrayList<>();
+				ans.add(args.get(0)+args.get(1));
+				return ans;
 			}
 		});
 		writeToDict(3);
@@ -166,8 +173,10 @@ public class ForthInterpretor {
 		writeToDict(myNull);
 		writeToDict(new NucleusWord(2) {
 			@Override
-			public int evaluate(int[] args) {
-				return args[0] - args[1];
+			public List<Integer> evaluate(List<Integer> args) {
+				ArrayList<Integer> ans = new ArrayList<>();
+				ans.add(args.get(0)-args.get(1));
+				return ans;
 			}
 
 		});
@@ -176,107 +185,53 @@ public class ForthInterpretor {
 		writeToDict(myNull);
 		writeToDict(new NucleusWord(2) {
 			@Override
-			public int evaluate(int[] args) {
-				return args[0]*args[1];
+			public List<Integer> evaluate(List<Integer> args) {
+				ArrayList<Integer> ans = new ArrayList<>();
+				ans.add(args.get(1)*args.get(0));
+				return ans;
 			}
 		});
 		writeToDict(3);
 		writeToDict('!');
 		writeToDict(myNull);
 		writeToDict(new NucleusWord(2){
-
 			@Override
-			public int evaluate(int[] args) {
-				int n = popStack();
-				int addr = popStack();
+			public List<Integer> evaluate(List<Integer> args) {
+				int n = args.get(0);
+				int addr = args.get(1);
 				if(machine.getFromAddress(addr) instanceof VariableWord) {
 					((VariableWord) machine.getFromAddress(addr)).setValue(n);
-					return addr;
+					return null;
 				}
 				machine.putAtAddress(addr, n);
-				return addr;
+				return null;
 			}
-
-		});
-		writeToDict(4);
-		writeToDict('0');
-		writeToDict('<');
-		writeToDict(myNull);
-		writeToDict(new NucleusWord(1){
-			@Override
-			public int evaluate(int[] args) {				
-				int n = popStack();
-				int ans;
-				if(n<0) {
-					ans = 1;
-				}else {
-					ans = 0;
-				}
-				pushStack(ans);
-				return ans;
-			}
-
-		});
-		writeToDict(4);
-		writeToDict('0');
-		writeToDict('=');
-		writeToDict(myNull);
-		writeToDict(new NucleusWord(1){
-
-			@Override
-			public int evaluate(int[] args) {
-				int n = popStack();
-				int ans;
-				if(n==0) {
-					ans = 1;
-				}else {
-					ans = 0;
-				}
-				pushStack(ans);
-				return ans;
-			}
-
-		});
-		writeToDict(4);
-		writeToDict('0');
-		writeToDict('>');
-		writeToDict(myNull);
-		writeToDict(new NucleusWord(1){
-			@Override
-			public int evaluate(int[] args) {				
-				int n = popStack();
-				int ans;
-				if(n>0) {
-					ans = 1;
-				}else {
-					ans = 0;
-				}
-				pushStack(ans);
-				return ans;
-			}
-
 		});
 		writeToDict(10);
 		writeToDict("variable");
 		writeToDict(new NucleusWord(0) {
-
 			@Override
-			public int evaluate(int[] args) {
+			public List<Integer> evaluate(List<Integer> args) {
 				String vName = currentLineTokens.nextToken();
 				int i = machine.getDictionary().getCurrentPointer();
 				writeToDict(vName.length() + 2);
 				writeToDict(vName);
 				writeToDict(new VariableWord(0));
 				pushStack(i);
-				return i;
+				return null;
 			}
 		});
 	}
 	private int popStack() {
-		return (int) machine.getStack().pop();
+		return (Integer) machine.getStack().pop();
 	}
-	private void pushStack(int i) {	
-		machine.getStack().push(i);
+	private void pushStack(List<Integer> in) {
+		for(Integer i : in) {
+			machine.getStack().push(i);
+		}
+	}
+	private void pushStack(int in) {
+		machine.getStack().push(in);
 	}
 	private void writeToDict( Object o) {
 		
