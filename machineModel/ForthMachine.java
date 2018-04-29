@@ -2,6 +2,7 @@ package edu.mccc.cos210.ds.fp.javaforth.machineModel;
 
 import java.util.ArrayList;
 import java.util.Collection;
+import java.util.HashMap;
 import java.util.Map;
 import edu.mccc.cos210.ds.fp.javaforth.util.IObserver;
 import edu.mccc.cos210.ds.fp.javaforth.util.ISubject;
@@ -78,21 +79,15 @@ public class ForthMachine implements ISubject {
 	 * @param String input - the string of input data to be processed
 	 */
 	public void interpret(String input) {
-<<<<<<< HEAD
 		interp.interpretFile(input);
-=======
 		interp.interpretLine(input , true);
->>>>>>> e33a6b2a5b00c40969b1a16241fc3e6a9d492682
 	}
 	public Object getFromAddress(int address) {
 		return memory[address];
 	}
 	public void putAtAddress(int address, Object entry) {
-<<<<<<< HEAD
 		memory[address] = entry;
-=======
 		memory[address] = entry; 
->>>>>>> e33a6b2a5b00c40969b1a16241fc3e6a9d492682
 	}
 	//Stops the interpreter from running through
 	//the forth code?
