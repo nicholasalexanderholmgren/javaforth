@@ -27,6 +27,8 @@ public class TerminalPanel extends JScrollPane {
 	}
 	public void update(String status) {
 		outputTextArea.append(status+"\n");
+		outputTextArea.setMaximumSize(new Dimension(Integer.MAX_VALUE, 
+				outputTextArea.getFont().getSize()*outputTextArea.getLineCount()));
 	}
 	public String getTerminalInput() {
 		return input;
@@ -49,10 +51,7 @@ public class TerminalPanel extends JScrollPane {
 					if(inputArea.getText().length() > 4) {
 						String input = inputArea.getText().substring(inputArea.getText().indexOf(">")+1);
 						outputTextArea.append(input.trim() + "\t");
-						outputTextArea.setSize((int) outputTextArea.getSize().getWidth(), 0);
 						machine.interpret(input);
-						outputTextArea.setMaximumSize(new Dimension(Integer.MAX_VALUE, 
-								outputTextArea.getFont().getSize()*outputTextArea.getLineCount()));
 						inputArea.setText("-->");
 						inputArea.moveCaretPosition(3);
 					}
