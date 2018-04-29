@@ -99,8 +99,6 @@ public class IdeWindow extends JFrame implements IObserver {
 	public void update(ISubject s) {
 		ForthMachine m = (ForthMachine) s;
 		dictPanel.update(m.getDictionaryAsMap());
-		//textPanel.update();
-		
 		stackPanel.update(m.getStack());
 		terminalPanel.update(m.getStatus());
 	}

@@ -1,15 +1,15 @@
 package edu.mccc.cos210.ds.fp.javaforth.machineModel;
 
-import java.util.ArrayList;
-import java.util.Collection;
 import java.util.HashMap;
+import java.util.HashSet;
 import java.util.Map;
+import java.util.Set;
 import edu.mccc.cos210.ds.fp.javaforth.util.IObserver;
 import edu.mccc.cos210.ds.fp.javaforth.util.ISubject;
 
 
 public class ForthMachine implements ISubject {
-	private Collection<IObserver> listeners;
+	private Set<IObserver> listeners;
 	Object[] memory;
 	private ForthStack stack;
 	private ForthDictionary dict;
@@ -25,7 +25,7 @@ public class ForthMachine implements ISubject {
 		dict = new ForthDictionary(memory,INITIAL_DICT_POINTER);
 		interp = new ForthInterpretor(this);	
 		stack = new ForthStack(memory , INITIAL_STACK_POINTER);
-		listeners = new ArrayList<>();
+		listeners = new HashSet<>();
 		changed = false;
 	}
 	
@@ -68,8 +68,7 @@ public class ForthMachine implements ISubject {
 	 * @param String input - the string of input data to be processed
 	 */
 	public void interpret(String input) {
-		interp.interpretFile(input);
-		interp.interpretLine(input , true);
+		interp.interpret(input);
 	}
 	public Object getFromAddress(int address) {
 		return memory[address];

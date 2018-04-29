@@ -38,28 +38,28 @@ public class TerminalPanel extends JScrollPane {
 		inputArea = new JTextArea();
 		inputArea.setPreferredSize(this.getSize());
 		inputArea.setTabSize(4);
-		inputArea.setFont(new Font(Font.SERIF, Font.ITALIC, 16));
+		inputArea.setFont(new Font(Font.SERIF,Font.PLAIN, 16));
 		inputArea.addKeyListener(new KeyAdapter() {
 			@Override
 			public void keyReleased(KeyEvent ke) {
-				if (ke.getKeyCode() == KeyEvent.VK_ENTER) {
+				if (ke.getKeyCode() == KeyEvent.VK_ENTER && inputArea.hasFocus()) {
 					//Need to find a way to do this line by line
 					String input = inputArea.getText();
 					if(input.length()>0) {
 						machine.interpret(input);
 					}
 					inputArea.setText("");
-					System.out.println("Your string is " + input);
+					//System.out.println("Your string is " + input);
 					inputArea.moveCaretPosition(0);
 					outputTextArea.setSize((int) outputTextArea.getSize().getWidth(), 0);
-					outputTextArea.append(input);
+					outputTextArea.append("\t"+ input);
 				}
 			}
 		});
 		outputTextArea = new JTextArea();
 		outputTextArea.setEditable(false);
 		outputTextArea.setTabSize(4);
-		outputTextArea.setFont(new Font(Font.SERIF, Font.ITALIC, 16));
+		outputTextArea.setFont(new Font(Font.SERIF, Font.PLAIN, 16));
 		outputTextArea.setSize((int) outputTextArea.getSize().getWidth(), 0);
 		outputTextArea.setWrapStyleWord(true);
 		ioRegion = new JPanel();
