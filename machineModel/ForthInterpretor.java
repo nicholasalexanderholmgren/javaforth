@@ -150,7 +150,7 @@ public class ForthInterpretor {
 			@Override
 			public int evaluate(int[] args) {
 				int n1 = popStack();
-				int n2 = popStack();			
+				int n2 = popStack();
 				int total = n1 + n2;
 				pushStack(total);
 				return total;
@@ -332,6 +332,7 @@ public class ForthInterpretor {
 	private AbstractWord findWord(String name) {
 		if(machine.getDictionaryAsMap().containsKey(name)) {
 			System.out.println("Found word " + name);
+			return machine.getDictionaryAsMap().get(name);
 		}
 		return null;
 	}
