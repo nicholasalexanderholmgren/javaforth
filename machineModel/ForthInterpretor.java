@@ -18,7 +18,7 @@ public class ForthInterpretor {
 	public ForthInterpretor(ForthMachine parent) {
 		machine = parent;
 		initDictionary();
-		status = Status.SUCCESSUL;
+		status = Status.SUCCESS;
 	}
 	public String getDebugWord() {
 		return debugWord;
@@ -118,13 +118,15 @@ public class ForthInterpretor {
 		return status;
 	}
 	public static enum Status {
-		SUCCESSUL("SUCCESS"), ERROR("ERROR");
+		SUCCESS("SUCCESS"), ERROR("ERROR");
 		private String message;
 		Status(String s) {
-			message = s;
 		}
 		public String getMessage() {
-			return this + "\t" + message;
+			if (message == null) {
+				return this.name();
+			}
+			return message + " " + this.name();
 		}
 		public void setStatus(String newMessage) {
 			message = newMessage;

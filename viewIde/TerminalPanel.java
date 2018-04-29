@@ -1,5 +1,6 @@
 package edu.mccc.cos210.ds.fp.javaforth.viewIde;
 
+import java.awt.Dimension;
 import java.awt.Font;
 import java.awt.event.KeyAdapter;
 import java.awt.event.KeyEvent;
@@ -11,6 +12,7 @@ import javax.swing.JTextArea;
 import edu.mccc.cos210.ds.fp.javaforth.machineModel.ForthMachine;
 
 public class TerminalPanel extends JScrollPane {
+	private static final long serialVersionUID = 1L;
 	ForthMachine machine;
 	String input;
 	JComponent contents;
@@ -24,7 +26,7 @@ public class TerminalPanel extends JScrollPane {
 		
 	}
 	public void update(String status) {
-		outputTextArea.append(status);
+		outputTextArea.append(status+"\n");
 	}
 	public String getTerminalInput() {
 		return input;
@@ -44,13 +46,15 @@ public class TerminalPanel extends JScrollPane {
 			@Override
 			public void keyReleased(KeyEvent ke) {
 				if (ke.getKeyCode() == KeyEvent.VK_ENTER && inputArea.hasFocus()) {
-					if(inputArea.getText().length() > 3) {
+					if(inputArea.getText().length() > 4) {
 						String input = inputArea.getText().substring(inputArea.getText().indexOf(">")+1);
-						machine.interpret(input);
-						inputArea.moveCaretPosition(1);
+						outputTextArea.append(input.trim() + "\t");
 						outputTextArea.setSize((int) outputTextArea.getSize().getWidth(), 0);
-						outputTextArea.append("\t"+ input);
+						machine.interpret(input);
+						outputTextArea.setMaximumSize(new Dimension(Integer.MAX_VALUE, 
+								outputTextArea.getFont().getSize()*outputTextArea.getLineCount()));
 						inputArea.setText("-->");
+						inputArea.moveCaretPosition(3);
 					}
 				}
 			}
@@ -58,6 +62,7 @@ public class TerminalPanel extends JScrollPane {
 			public void keyTyped(KeyEvent ke) {
 				if(inputArea.getText().length() < 3) {
 					inputArea.setText("-->");
+					inputArea.moveCaretPosition(3);
 				}
 			}
 		});
@@ -65,9 +70,8 @@ public class TerminalPanel extends JScrollPane {
 		outputTextArea.setEditable(false);
 		outputTextArea.setTabSize(4);
 		outputTextArea.setFont(new Font(Font.SERIF, Font.PLAIN, 16));
-		outputTextArea.setSize((int) outputTextArea.getSize().getWidth(), 0);
 		outputTextArea.setWrapStyleWord(true);
-		outputTextArea.setRows(0);
+		outputTextArea.setMaximumSize(new Dimension(Integer.MAX_VALUE, 0));
 		ioRegion = new JPanel();
 		ioRegion.setLayout(new BoxLayout(ioRegion, BoxLayout.Y_AXIS));
 		ioRegion.add(outputTextArea);

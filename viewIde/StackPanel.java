@@ -40,7 +40,7 @@ public class StackPanel extends JScrollPane {
 	}
 	public void update(ForthStack fs) {
 		theStack = fs;
-		System.out.println("I work");
+		//System.out.println("I work");
 		panel.paintAll(getGraphics());
 	}
 	public class MyPanel extends JPanel {

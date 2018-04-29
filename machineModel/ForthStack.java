@@ -10,15 +10,13 @@ import java.util.List;
  * where the stack is in memory.
  */
 public class ForthStack extends AbstractMemorySegment {
-
 	private Object[] stackMemorySegment, memory;
-	List<Object> stackList = new ArrayList <Object> ();
-	
+	List<Object> stackList;
 	public ForthStack(Object[] memory, int stackPointer) {
 		super(stackPointer);	
 		this.memory = memory;
+		stackList = new ArrayList <Object>(INITIAL_POINTER);
 	}
-	
 	public Object[] registerStackMemory() {
 		
 		for (int i = super.INITIAL_POINTER, j = 0 ; i < this.getCurrentPointer()  ; i-- , j++) {			
@@ -34,23 +32,16 @@ public class ForthStack extends AbstractMemorySegment {
 	 * @return String This returns a string representing the stack.
 	 */
 	public String toString() {
-		int counter = 0;
 		StringBuilder sb = new StringBuilder();
-		
 		sb.append("[");
-		
-		while( sb.length() <= stackList.size() * 2) {
-			sb.append(stackList.get(counter));
-			if ( sb.length() == stackList.size() * 2) {
-				sb.append("]>");
-				return sb.toString();
+		if(stackList.size()>0) {
+			for(Object o : stackList) {
+				sb.append(o +", ");
 			}
-			sb.append(", ");
-			counter++;
+			sb.deleteCharAt(sb.length()-1);
+			sb.deleteCharAt(sb.length()-1);
 		}
-		sb.deleteCharAt(sb.length()-1);
-		sb.append("]>");
-		
+		sb.append("]-->");
 		return sb.toString();
 	}
 	/**
@@ -66,15 +57,21 @@ public class ForthStack extends AbstractMemorySegment {
 	
 	public void push(Object n) {
 		//stackMemorySegment[stackMemorySegment.length] = n;
+		if(getCurrentPointer()>memory.length) {
+			System.out.println("How?");
+		}
 		memory[getCurrentPointer()] = n;
 		this.setCurrentPointer(this.getCurrentPointer() - 1);
 		stackList.add(n);
 		System.out.println("You just pushed " + n + " on!");
 		System.out.println(this.toString());
 	}
-	public Object pop() {
+	public Object pop() throws IndexOutOfBoundsException {
 		//Object top = stackMemorySegment[stackMemorySegment.length - 1];
 		//stackMemorySegment[stackMemorySegment.length - 1] = null;
+		if(getCurrentPointer() >= INITIAL_POINTER) {
+			throw new IndexOutOfBoundsException();
+		}
 		Object top = memory[getCurrentPointer()+1];
 		this.setCurrentPointer(this.getCurrentPointer() + 1);
 		stackList.remove(stackList.size() - 1);
