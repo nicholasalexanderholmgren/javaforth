@@ -61,6 +61,7 @@ public class TerminalPanel extends JScrollPane {
 		outputTextArea.setTabSize(4);
 		outputTextArea.setFont(new Font(Font.SERIF, Font.ITALIC, 16));
 		outputTextArea.setSize((int) outputTextArea.getSize().getWidth(), 0);
+		outputTextArea.setWrapStyleWord(true);
 		ioRegion = new JPanel();
 		ioRegion.setLayout(new BoxLayout(ioRegion, BoxLayout.Y_AXIS));
 		ioRegion.add(outputTextArea);

@@ -15,6 +15,7 @@ public class ForthInterpretor {
 	public ForthInterpretor(ForthMachine parent) {
 		machine = parent;
 		initDictionary();
+		status = Status.SUCCESSUL;
 	}
 	public String getDebugWord() {
 		return debugWord;
@@ -40,11 +41,17 @@ public class ForthInterpretor {
 				AbstractWord w = findWord(currentToken);
 				int argNumber = w.getNumberOfArguments();
 				int[] args = new int[argNumber];
-				for(int i = 0; i < argNumber; i++) {
-					args[i] = popStack();
+				try {
+					for(int i = 0; i < argNumber; i++) {
+						args[i] = popStack();
+					}
+					int result = w.evaluate(args);
+					pushStack(result);
+				}catch (IndexOutOfBoundsException e) {
+					status = Status.ERROR;
+					status.message = "Stack underflow error on word "+currentToken;
+					break;
 				}
-				int result = w.evaluate(args);
-				pushStack(result);
 				continue;
 			} else {
 				if(isInteger(currentToken) ) {
@@ -73,7 +80,6 @@ public class ForthInterpretor {
 	}
 	
 	public boolean isInteger( String input )  {  
-		
 	   try {  
 		  stringToInt = Integer.parseInt( input );  
 	      return true;  
@@ -81,16 +87,14 @@ public class ForthInterpretor {
 	   catch( Exception e ) {  
 	      return false;  
 	   }  
-	}  
-	
-	
+	}
 	/**
 	 * Method which takes a string containing line breaks and feeds them to the interpretLine method.
 	 * @param String containing either \n or \r characters
 	 */
 	public void interpretFile(String input) {
 		StringTokenizer s = new StringTokenizer(input, "\n\r");
-		while(s.hasMoreTokens()) {
+		while(s.hasMoreTokens() && status != Status.ERROR) {
 			String s1 = s.nextToken();
 			interpretLine(s1,s.hasMoreTokens());
 		}
@@ -115,7 +119,7 @@ public class ForthInterpretor {
 			message = s;
 		}
 		public String getMessage() {
-			return message;
+			return this + "\t" + message;
 		}
 		public void setStatus(String newMessage) {
 			message = newMessage;

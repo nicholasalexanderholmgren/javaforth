@@ -21,22 +21,11 @@ public class ForthMachine implements ISubject {
 	final int INITIAL_INPUT_STREAM_POINTER = (int)Math.pow(2, 16)/3;
 	final int PAD_POINTER = (int)Math.pow(2, 16)-1;
 	public ForthMachine() {
-		
-
 		memory = new Object[(int)Math.pow(2,16)];
 		dict = new ForthDictionary(memory,INITIAL_DICT_POINTER);
-		
-		interp = new ForthInterpretor(this);
-		
+		interp = new ForthInterpretor(this);	
 		stack = new ForthStack(memory , INITIAL_STACK_POINTER);
-		
-		
-
-		
-		
 		listeners = new ArrayList<>();
-		
-		
 		changed = false;
 	}
 	
@@ -160,6 +149,6 @@ public class ForthMachine implements ISubject {
 	 * @return String 
 	 */
 	public String getStatus() {
-		return null;
+		return interp.getStatus().getMessage();
 	}
 }
