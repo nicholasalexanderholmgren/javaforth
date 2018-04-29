@@ -39,20 +39,25 @@ public class TerminalPanel extends JScrollPane {
 		inputArea.setPreferredSize(this.getSize());
 		inputArea.setTabSize(4);
 		inputArea.setFont(new Font(Font.SERIF,Font.PLAIN, 16));
+		inputArea.append("-->");
 		inputArea.addKeyListener(new KeyAdapter() {
 			@Override
 			public void keyReleased(KeyEvent ke) {
 				if (ke.getKeyCode() == KeyEvent.VK_ENTER && inputArea.hasFocus()) {
-					//Need to find a way to do this line by line
-					String input = inputArea.getText();
-					if(input.length()>0) {
+					if(inputArea.getText().length() > 3) {
+						String input = inputArea.getText().substring(inputArea.getText().indexOf(">")+1);
 						machine.interpret(input);
+						inputArea.moveCaretPosition(1);
+						outputTextArea.setSize((int) outputTextArea.getSize().getWidth(), 0);
+						outputTextArea.append("\t"+ input);
+						inputArea.setText("-->");
 					}
-					inputArea.setText("");
-					//System.out.println("Your string is " + input);
-					inputArea.moveCaretPosition(0);
-					outputTextArea.setSize((int) outputTextArea.getSize().getWidth(), 0);
-					outputTextArea.append("\t"+ input);
+				}
+			}
+			@Override
+			public void keyTyped(KeyEvent ke) {
+				if(inputArea.getText().length() < 3) {
+					inputArea.setText("-->");
 				}
 			}
 		});
@@ -62,6 +67,7 @@ public class TerminalPanel extends JScrollPane {
 		outputTextArea.setFont(new Font(Font.SERIF, Font.PLAIN, 16));
 		outputTextArea.setSize((int) outputTextArea.getSize().getWidth(), 0);
 		outputTextArea.setWrapStyleWord(true);
+		outputTextArea.setRows(0);
 		ioRegion = new JPanel();
 		ioRegion.setLayout(new BoxLayout(ioRegion, BoxLayout.Y_AXIS));
 		ioRegion.add(outputTextArea);
