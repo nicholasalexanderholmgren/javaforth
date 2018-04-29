@@ -150,11 +150,8 @@ public class ForthInterpretor {
 
 			@Override
 			public int evaluate(int[] args) {
-				int n1 = popStack();
-				int n2 = popStack();
-				int total = n1 + n2;
-				pushStack(total);
-				return total;
+				
+				return args[0]+args[1];
 			}
 
 		});
