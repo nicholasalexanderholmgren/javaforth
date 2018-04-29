@@ -331,24 +331,8 @@ public class ForthInterpretor {
 		}
 	}
 	private AbstractWord findWord(String name) {
-		final int START = 0;
-		int current = START;
-		int end = machine.getDictionary().getCurrentPointer();
-		while(current < end) {
-			if((Integer)(machine.getFromAddress(current))-2 != name.length()) {
-				current+=(Integer)(machine.getFromAddress(current));
-				continue;
-			}
-			StringBuilder sb = new StringBuilder();
-			current+=1;
-			while(machine.getFromAddress(current) != null) {
-				sb.append((char)(machine.getFromAddress(current)));
-				current ++;
-			}
-			if(sb.toString().equals(name)) {
-				return ((AbstractWord) (machine.getFromAddress(current+1)));
-			}
-			current+=1;
+		if(machine.getDictionaryAsMap().containsKey(name)) {
+			return machine.getDictionaryAsMap().get(name);
 		}
 		return null;
 	}
