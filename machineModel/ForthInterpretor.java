@@ -11,13 +11,8 @@ public class ForthInterpretor {
 	private boolean comment;
 	StringTokenizer currentLineTokens;
 	public ForthInterpretor(ForthMachine parent) {
-		
 		machine = parent;
-		
 		initDictionary();
-		
-		
-		parent = machine;
 	}
 	public String getDebugWord() {
 		return debugWord;
@@ -41,7 +36,13 @@ public class ForthInterpretor {
 			String currentToken = currentLineTokens.nextToken();
 			if(machine.getDictionaryAsMap().containsKey(currentToken)) {
 				 AbstractWord w = findWord(currentToken);
-				 w.evaluate(null);
+				 int argNumber = w.getNumberOfArguments();
+				 int[] args = new int[argNumber];
+				 for(int i = 0; i < argNumber; i++) {
+					 args[i] = popStack();
+				 }
+				 int result = w.evaluate(args);
+				 pushStack(result);
 				continue;
 			}else {
 				if(isInteger(currentToken) ) {
@@ -136,7 +137,7 @@ public class ForthInterpretor {
 			
 			
 			public int evaluate(int[] args) {
-				return (int) machine.getStack().pop();	
+				return args[0];	
 			}
 		});
 		

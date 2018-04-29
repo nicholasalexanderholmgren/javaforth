@@ -75,7 +75,7 @@ public class ForthStack extends AbstractMemorySegment {
 	public Object pop() {
 		//Object top = stackMemorySegment[stackMemorySegment.length - 1];
 		//stackMemorySegment[stackMemorySegment.length - 1] = null;
-		Object top = memory[getCurrentPointer()];
+		Object top = memory[getCurrentPointer()+1];
 		this.setCurrentPointer(this.getCurrentPointer() + 1);
 		stackList.remove(stackList.size() - 1);
 		System.out.println("You just poped " + top + " off!");
