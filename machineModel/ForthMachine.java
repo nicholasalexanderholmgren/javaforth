@@ -6,43 +6,40 @@ import java.util.Map;
 import edu.mccc.cos210.ds.fp.javaforth.util.IObserver;
 import edu.mccc.cos210.ds.fp.javaforth.util.ISubject;
 
+
 public class ForthMachine implements ISubject {
 	private Collection<IObserver> listeners;
-	private Object[] memory;
+	Object[] memory;
 	private ForthStack stack;
 	private ForthDictionary dict;
+	private Map<String, AbstractWord> dictMap = new HashMap<String, AbstractWord>();
 	private ForthInterpretor interp;
 	private boolean changed;
 	final int INITIAL_STACK_POINTER = (int)Math.pow(2,16)-65;
 	final int INITIAL_DICT_POINTER = 0;
 	final int INITIAL_INPUT_STREAM_POINTER = (int)Math.pow(2, 16)/3;
 	final int PAD_POINTER = (int)Math.pow(2, 16)-1;
-	public ForthMachine() {//JavaForth master) {
-		//this.master = master;
+	public ForthMachine() {
+		
 
-		//declares a large array of objects used
-		//to store and simulate the memory used by
-		//the FORTH code
 		memory = new Object[(int)Math.pow(2,16)];
-
-		//How will these be changing after they are
-		//initialized?
-		//Reply: memory segments can be updated by calling their setMemoryPointer method.
-		//@see AbstractMemorySegment
-		stack = new ForthStack(memory, INITIAL_STACK_POINTER);
 		dict = new ForthDictionary(memory,INITIAL_DICT_POINTER);
-		listeners = new ArrayList<>();
-
-		//I'm presuming strings and memory data will
-		//be passed to this from within this class
-		//Does the interpreter class have access
-		//to the memory segment.
-		//Also how will be delimiting the memory?
-		//Reply: interpreter has access to the memory segments via the getStack and getDictionary methods.
+		
 		interp = new ForthInterpretor(this);
+		
+		stack = new ForthStack(memory , INITIAL_STACK_POINTER);
+		
+		
+
+		
+		
+		listeners = new ArrayList<>();
+		
+		
 		changed = false;
 	}
-	public ForthStack getStack() {
+	
+	public ForthStack getStack() {		
 		return this.stack;
 	}
 	public ForthDictionary getDictionary() {
@@ -74,8 +71,6 @@ public class ForthMachine implements ISubject {
 		changed = true;
 	}
 
-	//Where in the memory will input stream be saved
-	//Is it going to be in the memory segment?
 	/**
 	 * Method used for objects outside of the machine to send string into the machine
 	 * for interpretation. Strings passed in with this method will be written into memory
@@ -83,13 +78,21 @@ public class ForthMachine implements ISubject {
 	 * @param String input - the string of input data to be processed
 	 */
 	public void interpret(String input) {
+<<<<<<< HEAD
 		interp.interpretFile(input);
+=======
+		interp.interpretLine(input , true);
+>>>>>>> e33a6b2a5b00c40969b1a16241fc3e6a9d492682
 	}
 	public Object getFromAddress(int address) {
 		return memory[address];
 	}
 	public void putAtAddress(int address, Object entry) {
+<<<<<<< HEAD
 		memory[address] = entry;
+=======
+		memory[address] = entry; 
+>>>>>>> e33a6b2a5b00c40969b1a16241fc3e6a9d492682
 	}
 	//Stops the interpreter from running through
 	//the forth code?
@@ -138,8 +141,22 @@ public class ForthMachine implements ISubject {
 	 * find the definition of a word using it as the key and the definition will be the value.
 	 * @return Map<String,String>
 	 */
-	public Map<String,String> getDictionaryAsMap(){
-		return null;
+	public Map<String, AbstractWord> getDictionaryAsMap(){
+		
+		int current = 0;
+		int end = getDictionary().getCurrentPointer();
+		while(current < end) {
+			StringBuilder sb = new StringBuilder();
+			current+=1;
+			while(getFromAddress(current) != null) {
+				sb.append((getFromAddress(current)));
+				current ++;
+			}
+			current++;
+			dictMap.put(sb.toString(), (AbstractWord) getFromAddress(current));
+			current ++;
+		}
+		return dictMap;
 	}
 	/**
 	 * Method for retrieving the status message from the machine upon code execution completion. 

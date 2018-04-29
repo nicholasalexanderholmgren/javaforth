@@ -1,5 +1,7 @@
 package edu.mccc.cos210.ds.fp.javaforth.viewIde;
 
+import edu.mccc.cos210.ds.fp.javaforth.machineModel.*;
+
 import java.awt.Font;
 import java.awt.event.KeyAdapter;
 import java.awt.event.KeyEvent;
@@ -13,7 +15,8 @@ import javax.swing.border.EtchedBorder;
 
 public class TerminalPanel extends JScrollPane {
 	JTextArea textArea;
-	public TerminalPanel(DictionaryPanel dp) {
+	String input;
+	public TerminalPanel(ForthMachine machine , StackPanel sp) {
 		super(new JTextArea(), JScrollPane.VERTICAL_SCROLLBAR_ALWAYS, JScrollPane.HORIZONTAL_SCROLLBAR_ALWAYS);
 		this.textArea = (JTextArea) this.getViewport().getView();
 		this.textArea.setTabSize(4);
@@ -22,8 +25,11 @@ public class TerminalPanel extends JScrollPane {
 			@Override
 			public void keyPressed(KeyEvent ke) {
 				if (ke.getKeyCode() == KeyEvent.VK_ENTER) {
-					//System.out.println(textArea.getText());
-					dp.getTextArea().setText(textArea.getText());
+					//Need to find a way to do this line by line
+					input = textArea.getText();
+					machine.interpret(input);
+					System.out.println("Your string is " + input);
+					sp.paintAll(getGraphics());
 				}
 			}
 		});
@@ -32,5 +38,8 @@ public class TerminalPanel extends JScrollPane {
 		
 	}
 	public void update(String status) {
+	}
+	public String getTerminalInput() {
+		return input;
 	}
 }
