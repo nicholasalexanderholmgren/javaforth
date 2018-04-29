@@ -86,16 +86,13 @@ public class IdeWindow extends JFrame implements IObserver {
     	c.gridy = 2;
     	c.gridwidth = 3;
 		this.terminalPanel = new TerminalPanel(machine , stackPanel);
-		terminalPanel.setBorder(
+    	terminalPanel.setBorder(
 			new CompoundBorder(
 				new BevelBorder(BevelBorder.RAISED),
 				new EtchedBorder()
 			)
 		);
-		panel.add(
-			terminalPanel,
-			c
-		);
+		panel.add(terminalPanel,c);
 		return panel;
 	}
 	@Override

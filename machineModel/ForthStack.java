@@ -45,7 +45,7 @@ public class ForthStack extends AbstractMemorySegment {
 				sb.append("]>");
 				return sb.toString();
 			}
-			sb.append("-");
+			sb.append(", ");
 			counter++;
 		}
 		sb.deleteCharAt(sb.length()-1);

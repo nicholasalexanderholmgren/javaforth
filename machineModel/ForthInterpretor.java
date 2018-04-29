@@ -37,23 +37,22 @@ public class ForthInterpretor {
 		while (currentLineTokens.hasMoreTokens() && !debugCondition) {
 			String currentToken = currentLineTokens.nextToken();
 			if(machine.getDictionaryAsMap().containsKey(currentToken)) {
-				 AbstractWord w = findWord(currentToken);
-				 int argNumber = w.getNumberOfArguments();
-				 int[] args = new int[argNumber];
-				 for(int i = 0; i < argNumber; i++) {
-					 args[i] = popStack();
-				 }
-				 int result = w.evaluate(args);
-				 pushStack(result);
-				 continue;
+				AbstractWord w = findWord(currentToken);
+				int argNumber = w.getNumberOfArguments();
+				int[] args = new int[argNumber];
+				for(int i = 0; i < argNumber; i++) {
+					args[i] = popStack();
+				}
+				int result = w.evaluate(args);
+				pushStack(result);
+				continue;
 			} else {
 				if(isInteger(currentToken) ) {
 					machine.getStack().push(stringToInt);
 				} else { 
 					if (currentToken.length()>3) {
-					status = Status.ERROR;
+						status = Status.ERROR;
 					}
-					
 				}
 			}
 			if (debugMode) { 
@@ -123,7 +122,6 @@ public class ForthInterpretor {
 		}
 	}
 	private abstract class NucleusWord extends AbstractWord {
-
 		public NucleusWord(int numberOfArgument, boolean isPrimitive, boolean isImmediate) {
 			super(numberOfArgument, true, isImmediate);
 		}
@@ -138,10 +136,8 @@ public class ForthInterpretor {
 					+ "bytes as arguments.";
 		} 
 	}
-
 	private void initDictionary() {
 		final Object myNull = null;
-		
 		writeToDict(3);
 		writeToDict('.');
 		writeToDict(myNull);
@@ -152,20 +148,14 @@ public class ForthInterpretor {
 				return args[0];	
 			}
 		});
-		
-		
-		
 		writeToDict(3);
 		writeToDict('+');
 		writeToDict(myNull);
 		writeToDict(new NucleusWord(2) {
-
 			@Override
 			public int evaluate(int[] args) {
-				
 				return args[0]+args[1];
 			}
-
 		});
 		writeToDict(3);
 		writeToDict('-');
@@ -185,7 +175,6 @@ public class ForthInterpretor {
 			public int evaluate(int[] args) {
 				return args[0]*args[1];
 			}
-
 		});
 		writeToDict(3);
 		writeToDict('!');

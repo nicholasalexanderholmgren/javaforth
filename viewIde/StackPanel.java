@@ -56,18 +56,11 @@ public class StackPanel extends JScrollPane {
 		@Override
 		public void paintComponent(Graphics g) {
 			super.paintComponent(g);
-			
 			Graphics2D g2d = (Graphics2D) g.create();
-			
 			g2d.setColor(Color.black);
 			g2d.setBackground(Color.orange);
-			
 			g2d.drawString(theStack.toString(), 50, 50);
-			
-				
-			
 			//g2d.fill(new Rectangle2D.Double(0.0, 0.0, this.getWidth(), this.getHeight()));
-			
 		}
 	}
 	private void paintSelf(Graphics2D g2d, String s, int fontSize) {
