@@ -1,5 +1,6 @@
 package edu.mccc.cos210.ds.fp.javaforth.viewIde;
 
+import java.awt.Dimension;
 import java.awt.Font;
 import java.awt.event.KeyAdapter;
 import java.awt.event.KeyEvent;
@@ -50,6 +51,14 @@ public class TerminalPanel extends JScrollPane {
 						inputArea.moveCaretPosition(1);
 						outputTextArea.setSize((int) outputTextArea.getSize().getWidth(), 0);
 						outputTextArea.append("\t"+ input);
+						/*trying to resize the output area so that it is as small 
+						 * as possible while still holding its contents
+						 */
+						outputTextArea.setMaximumSize(new Dimension(
+								outputTextArea.getWidth(),
+								outputTextArea.getLineCount()*outputTextArea.getFont().getSize()
+								));
+						
 						inputArea.setText("-->");
 					}
 				}
@@ -68,6 +77,10 @@ public class TerminalPanel extends JScrollPane {
 		outputTextArea.setSize((int) outputTextArea.getSize().getWidth(), 0);
 		outputTextArea.setWrapStyleWord(true);
 		outputTextArea.setRows(0);
+		outputTextArea.setMaximumSize(new Dimension(
+				outputTextArea.getWidth(),
+				outputTextArea.getLineCount()*outputTextArea.getFont().getSize()
+				));
 		ioRegion = new JPanel();
 		ioRegion.setLayout(new BoxLayout(ioRegion, BoxLayout.Y_AXIS));
 		ioRegion.add(outputTextArea);
