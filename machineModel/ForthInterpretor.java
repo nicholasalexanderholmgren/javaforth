@@ -9,6 +9,8 @@ public class ForthInterpretor {
 	private Status status;
 	ForthMachine machine;
 	private boolean comment;
+	private boolean debugCondition;
+	private boolean debugMode;
 	StringTokenizer currentLineTokens;
 	public ForthInterpretor(ForthMachine parent) {
 		machine = parent;
@@ -32,7 +34,7 @@ public class ForthInterpretor {
 	 */
 	public void interpretLine(String input, boolean isLastLine) {
 		currentLineTokens = new StringTokenizer(input);
-		while (currentLineTokens.hasMoreTokens()) {
+		while (currentLineTokens.hasMoreTokens() && !debugCondition) {
 			String currentToken = currentLineTokens.nextToken();
 			if(machine.getDictionaryAsMap().containsKey(currentToken)) {
 				 AbstractWord w = findWord(currentToken);
@@ -43,8 +45,8 @@ public class ForthInterpretor {
 				 }
 				 int result = w.evaluate(args);
 				 pushStack(result);
-				continue;
-			}else {
+				 continue;
+			} else {
 				if(isInteger(currentToken) ) {
 					machine.getStack().push(stringToInt);
 				} else { 
@@ -52,6 +54,16 @@ public class ForthInterpretor {
 					status = Status.ERROR;
 					}
 					
+				}
+			}
+			if (debugMode) { 
+				if ( debugStackheight > 0 && debugStackheight < machine.getStack().stackHeight()) {
+					debugCondition = true;
+					break;
+				}
+				if (debugWord.equals(currentToken)) {
+					debugCondition = true;
+					break;
 				}
 			}
 		}
