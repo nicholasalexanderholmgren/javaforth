@@ -41,6 +41,7 @@ public class ForthInterpretor {
 			String currentToken = currentLineTokens.nextToken();
 			if(machine.getDictionaryAsMap().containsKey(currentToken)) {
 				 AbstractWord w = findWord(currentToken);
+				 w.evaluate(null);
 				continue;
 			}else {
 				if(isInteger(currentToken) ) {
@@ -209,7 +210,6 @@ public class ForthInterpretor {
 		writeToDict('<');
 		writeToDict(myNull);
 		writeToDict(new NucleusWord(1){
-
 			@Override
 			public int evaluate(int[] args) {				
 				int n = popStack();
@@ -249,7 +249,6 @@ public class ForthInterpretor {
 		writeToDict('>');
 		writeToDict(myNull);
 		writeToDict(new NucleusWord(1){
-
 			@Override
 			public int evaluate(int[] args) {				
 				int n = popStack();
@@ -332,7 +331,7 @@ public class ForthInterpretor {
 	}
 	private AbstractWord findWord(String name) {
 		if(machine.getDictionaryAsMap().containsKey(name)) {
-			return machine.getDictionaryAsMap().get(name);
+			System.out.println("Found word " + name);
 		}
 		return null;
 	}
