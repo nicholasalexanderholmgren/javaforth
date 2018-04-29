@@ -3,15 +3,21 @@ package edu.mccc.cos210.ds.fp.javaforth.machineModel;
 import java.util.StringTokenizer;
 
 public class ForthInterpretor {
+	private int stringToInt;
 	private int debugStackheight;
 	private String debugWord;
 	private Status status;
-	private ForthMachine machine;
+	ForthMachine machine;
 	private boolean comment;
 	StringTokenizer currentLineTokens;
 	public ForthInterpretor(ForthMachine parent) {
+		
 		machine = parent;
+		
 		initDictionary();
+		
+		
+		parent = machine;
 	}
 	public String getDebugWord() {
 		return debugWord;
@@ -26,23 +32,24 @@ public class ForthInterpretor {
 		this.debugStackheight = debugStackheight;
 	}
 
-  //Should we make it interprety things
-  //line by line or word by word?
-  //Also should this take in a stack or
-  //a string.
-
-  //Might need to word with a
-  //dataStack/variableStack/forthStack
+	/**
+	 *
+	 */
 	public void interpretLine(String input, boolean isLastLine) {
-		currentLineTokens = new StringTokenizer(input); 
+		currentLineTokens = new StringTokenizer(input);
 		while (currentLineTokens.hasMoreTokens()) {
 			String currentToken = currentLineTokens.nextToken();
 			if(machine.getDictionaryAsMap().containsKey(currentToken)) {
 				 AbstractWord w = findWord(currentToken);
 				continue;
 			}else {
-				if(currentToken.length()>3) {
+				if(isInteger(currentToken) ) {
+					machine.getStack().push(stringToInt);
+				} else { 
+					if (currentToken.length()>3) {
 					status = Status.ERROR;
+					}
+					
 				}
 			}
 		}
@@ -51,6 +58,19 @@ public class ForthInterpretor {
 			machine.notifyObservers();
 		}
 	}
+	
+	public boolean isInteger( String input )  {  
+		
+	   try {  
+		  stringToInt = Integer.parseInt( input );  
+	      return true;  
+	   }  
+	   catch( Exception e ) {  
+	      return false;  
+	   }  
+	}  
+	
+	
 	/**
 	 * Method which takes a string containing line breaks and feeds them to the interpretLine method.
 	 * @param String containing either \n or \r characters
@@ -65,9 +85,9 @@ public class ForthInterpretor {
 		machine.notifyObservers();
 	}
 	/**
-	 * Method for setting a flag in the interpreter as to whether conditional 
-	 * debugging methods will be 
-	 * 
+	 * Method for setting a flag in the interpreter as to whether conditional
+	 * debugging methods will be
+	 *
 	 */
 	public void setDegbug(boolean debugState) {
 
@@ -102,178 +122,178 @@ public class ForthInterpretor {
 		public String toString() {
 			return "This word is defined in the Forth 79 Standard, it takes " + getNumberOfArguments() + ""
 					+ "bytes as arguments.";
-		}
+		} 
 	}
-	
+
 	private void initDictionary() {
+		final Object myNull = null;
+		
+		writeToDict(3);
+		writeToDict('.');
+		writeToDict(myNull);
+		writeToDict(new InterpreterWord("." , 1) {
+			
+			
+			public int evaluate(int[] args) {
+				return (int) machine.getStack().pop();	
+			}
+		});
+		
+		
+		
 		writeToDict(3);
 		writeToDict('+');
-		writeToDict(null);
-		writeToDict(new NucleusWord(4) {
+		writeToDict(myNull);
+		writeToDict(new NucleusWord(2) {
 
 			@Override
-			public byte[] evaluate(byte[] args) {
-				byte n1a = popStack();
-				byte n1b = popStack();
-				byte n2a = popStack();
-				byte n2b = popStack();
-				int total = bytesToInt(n1a, n1b) +  bytesToInt(n2a, n2b);
-				byte[] ans = new byte[2];
-				ans [0] = (byte) ((total/256)%256);
-				ans [1] = (byte) (total%256);
-				return ans;
+			public int evaluate(int[] args) {
+				int n1 = popStack();
+				int n2 = popStack();			
+				int total = n1 + n2;
+				pushStack(total);
+				return total;
 			}
-			
+
 		});
 		writeToDict(3);
 		writeToDict('-');
-		writeToDict(null);
-		writeToDict(new NucleusWord(4) {
+		writeToDict(myNull);
+		writeToDict(new NucleusWord(2) {
+
 			@Override
-			public byte[] evaluate(byte[] args) {
-				byte n1a = popStack();
-				byte n1b = popStack();
-				byte n2a = popStack();
-				byte n2b = popStack();
-				int total = bytesToInt(n1a, n1b) -  bytesToInt(n2a, n2b);
-				byte[] ans = new byte[2];
-				ans [0] = (byte) ((total/256)%256);
-				ans [1] = (byte) (total%256);
-				return ans;
+			public int evaluate(int[] args) {
+				int n1 = popStack();
+				int n2 = popStack();			
+				int total = n2 - n1;
+				pushStack(total);
+				return total;
 			}
+
 		});
 		writeToDict(3);
 		writeToDict('*');
-		writeToDict(null);
-		writeToDict(new NucleusWord(4) {
+		writeToDict(myNull);
+		writeToDict(new NucleusWord(2) {
+
 			@Override
-			public byte[] evaluate(byte[] args) {
-				byte n1a = popStack();
-				byte n1b = popStack();
-				byte n2a = popStack();
-				byte n2b = popStack();
-				int total = (bytesToInt(n1a, n1b) *  bytesToInt(n2a, n2b));
-				if (total > Math.pow(2, 16)) {
-					total = total%((int)Math.pow(2, 16));
-				}
-				byte[] ans = new byte[2];
-				ans [0] = (byte) ((total/256)%256);
-				ans [1] = (byte) (total%256);
-				return ans;
+			public int evaluate(int[] args) {
+				int n1 = popStack();
+				int n2 = popStack();			
+				int total = n1 * n2;
+				pushStack(total);
+				return total;
 			}
-			
+
 		});
 		writeToDict(3);
 		writeToDict('!');
-		writeToDict(new NucleusWord(4){
+		writeToDict(myNull);
+		writeToDict(new NucleusWord(2){
 
 			@Override
-			public byte[] evaluate(byte[] args) {
-				byte na = popStack();
-				byte nb = popStack();
-				int n = bytesToInt(na, nb);
-				byte addra = popStack();
-				byte addrb = popStack();
-				int addr = bytesToAddr(addra,addrb);
+			public int evaluate(int[] args) {
+				int n = popStack();
+				int addr = popStack();
 				if(machine.getFromAddress(addr) instanceof VariableWord) {
 					((VariableWord) machine.getFromAddress(addr)).setValue(n);
-					return null;
+					return addr;
 				}
 				machine.putAtAddress(addr, n);
-				return null;
-			} 
-			
+				return addr;
+			}
+
 		});
 		writeToDict(4);
 		writeToDict('0');
 		writeToDict('<');
-		writeToDict(null);
-		writeToDict(new NucleusWord(2){
+		writeToDict(myNull);
+		writeToDict(new NucleusWord(1){
 
 			@Override
-			public byte[] evaluate(byte[] args) {
-				byte na = popStack();
-				byte nb = popStack();
-				int n = bytesToInt(na,nb);
-				byte[] ans = new byte[1];
+			public int evaluate(int[] args) {				
+				int n = popStack();
+				int ans;
 				if(n<0) {
-					ans[0] = 1;
+					ans = 1;
 				}else {
-					ans[0] = 0;
+					ans = 0;
 				}
+				pushStack(ans);
 				return ans;
 			}
-			
+
 		});
 		writeToDict(4);
 		writeToDict('0');
 		writeToDict('=');
-		writeToDict(null);
-		writeToDict(new NucleusWord(2){
+		writeToDict(myNull);
+		writeToDict(new NucleusWord(1){
 
 			@Override
-			public byte[] evaluate(byte[] args) {
-				byte na = popStack();
-				byte nb = popStack();
-				int n = bytesToInt(na,nb);
-				byte[] ans = new byte[1];
+			public int evaluate(int[] args) {
+				int n = popStack();
+				int ans;
 				if(n==0) {
-					ans[0] = 1;
+					ans = 1;
 				}else {
-					ans[0] = 0;
+					ans = 0;
 				}
+				pushStack(ans);
 				return ans;
 			}
-			
+
 		});
 		writeToDict(4);
 		writeToDict('0');
 		writeToDict('>');
-		writeToDict(null);
-		writeToDict(new NucleusWord(2){
+		writeToDict(myNull);
+		writeToDict(new NucleusWord(1){
 
 			@Override
-			public byte[] evaluate(byte[] args) {
-				byte na = popStack();
-				byte nb = popStack();
-				int n = bytesToInt(na,nb);
-				byte[] ans = new byte[1];
+			public int evaluate(int[] args) {				
+				int n = popStack();
+				int ans;
 				if(n>0) {
-					ans[0] = 1;
+					ans = 1;
 				}else {
-					ans[0] = 0;
+					ans = 0;
 				}
+				pushStack(ans);
 				return ans;
 			}
-			
+
 		});
 		writeToDict(10);
 		writeToDict("variable");
 		writeToDict(new NucleusWord(0) {
 
 			@Override
-			public byte[] evaluate(byte[] args) {
+			public int evaluate(int[] args) {
 				String vName = currentLineTokens.nextToken();
-				writeToDict(vName.length());
+				int i = machine.getDictionary().getCurrentPointer();
+				writeToDict(vName.length() + 2);
 				writeToDict(vName);
 				writeToDict(new VariableWord(0));
-				return null;
+				pushStack(i);
+				return i;
 			}
 		});
 	}
-	private byte popStack() {
-		byte b  = (byte)machine.getFromAddress(machine.getStack().getCurrentPointer());
-		machine.getStack().setCurrentPointer(machine.getStack().getCurrentPointer()+1);
-		return b;
+	private int popStack() {
+		return (int) machine.getStack().pop();
 	}
-	private void pushStack(byte b) {
-		machine.putAtAddress(machine.getStack().getCurrentPointer(), b);
-		machine.getStack().setCurrentPointer(machine.getStack().getCurrentPointer()-1);
+	private void pushStack(int i) {	
+		machine.getStack().push(i);
 	}
 	private void writeToDict( Object o) {
+		
 		machine.putAtAddress(machine.getDictionary().getCurrentPointer(), o);
 		machine.getDictionary().setCurrentPointer(machine.getDictionary().getCurrentPointer()+1);
 	}
+//	private void writeToDict() {
+//		
+//	}
 	private void writeToDict(String s) {
 		for(int i =0; i< s.length(); i++) {
 			writeToDict(s.charAt(i));
@@ -291,7 +311,7 @@ public class ForthInterpretor {
 			leadingDigits = a*256;
 		}
 		int trailingDigits = unsignByte(b);
-			
+
 		return leadingDigits + trailingDigits;
 	}
 	/**
@@ -315,7 +335,7 @@ public class ForthInterpretor {
 		int current = START;
 		int end = machine.getDictionary().getCurrentPointer();
 		while(current < end) {
-			if((Integer)(machine.getFromAddress(current)) != name.length()) {
+			if((Integer)(machine.getFromAddress(current))-2 != name.length()) {
 				current+=(Integer)(machine.getFromAddress(current));
 				continue;
 			}
@@ -323,6 +343,7 @@ public class ForthInterpretor {
 			current+=1;
 			while(machine.getFromAddress(current) != null) {
 				sb.append((char)(machine.getFromAddress(current)));
+				current ++;
 			}
 			if(sb.toString().equals(name)) {
 				return ((AbstractWord) (machine.getFromAddress(current+1)));

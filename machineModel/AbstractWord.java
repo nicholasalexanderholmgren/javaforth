@@ -39,5 +39,6 @@ public abstract class AbstractWord {
 		return isPrimitive;
 	}
 	public abstract String toString();
-	public abstract byte[] evaluate(byte[] args);
+	public abstract int evaluate(int[] args);
+
 }

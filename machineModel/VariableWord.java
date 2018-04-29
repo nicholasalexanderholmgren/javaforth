@@ -12,17 +12,19 @@ public class VariableWord extends AbstractWord {
 		return "This is a variable, its current value is "+value;
 	}
 
-	@Override
-	public byte[] evaluate(byte[] args) {
-		return valueToByteArray();
+	public int evaluate(int arg) {
+		return groovy();
 	}
 	public void setValue(int newValue) {
 		value = newValue;
 	}
-	private byte[] valueToByteArray() {
-		byte[] ans = new byte[2];
-		ans [0] = (byte) ((value/256)%256);
-		ans [1] = (byte) (value%256);
-		return ans;
+	private int groovy() {
+		return value;
+	}
+
+	@Override
+	public int evaluate(int[] args) {
+		// TODO Auto-generated method stub
+		return 0;
 	}
 }

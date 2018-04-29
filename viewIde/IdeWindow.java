@@ -13,6 +13,7 @@ import edu.mccc.cos210.ds.fp.javaforth.machineModel.ForthMachine;
 import edu.mccc.cos210.ds.fp.javaforth.util.IObserver;
 import edu.mccc.cos210.ds.fp.javaforth.util.ISubject;
 
+
 public class IdeWindow extends JFrame implements IObserver {
 	private DictionaryPanel dictPanel;
 	private TextEditorPanel textPanel;
@@ -24,7 +25,7 @@ public class IdeWindow extends JFrame implements IObserver {
 		this.machine = machine;
 		this.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
 		JPanel rootPanel = createRootPanel();
-		
+		machine.registerObserver(this);
 		this.add(rootPanel);
 		this.pack();
 		this.setLocationRelativeTo(null);
@@ -53,7 +54,7 @@ public class IdeWindow extends JFrame implements IObserver {
 		c.gridx = 2;
     	c.gridy = 0;
     	c.gridheight = 1;
-		this.stackPanel = new StackPanel();
+		this.stackPanel = new StackPanel(machine);
 		stackPanel.setBorder(
 			new CompoundBorder(
 				new BevelBorder(BevelBorder.RAISED),
@@ -84,7 +85,7 @@ public class IdeWindow extends JFrame implements IObserver {
 		c.gridx = 0;
     	c.gridy = 2;
     	c.gridwidth = 3;
-		this.terminalPanel = new TerminalPanel(dictPanel);
+		this.terminalPanel = new TerminalPanel(machine , stackPanel);
 		terminalPanel.setBorder(
 			new CompoundBorder(
 				new BevelBorder(BevelBorder.RAISED),
@@ -102,7 +103,8 @@ public class IdeWindow extends JFrame implements IObserver {
 		ForthMachine m = (ForthMachine) s;
 		dictPanel.update(m.getDictionaryAsMap());
 		//textPanel.update();
-		stackPanel.update(m.getStackAsString());
+		
+		stackPanel.update(m.getStack());
 		terminalPanel.update(m.getStatus());
 	}
 	public ForthMachine getMachine() {
