@@ -54,10 +54,10 @@ public class TextEditorPanel extends JScrollPane {
 		textArea.addKeyListener(new KeyAdapter() {
 			@Override
 			public void keyPressed(KeyEvent arg0) {
-					while(breakPointsModel.size() > textArea.getLineCount()) {
+					while(breakPointsModel.size() >= textArea.getLineCount()) {
 						breakPointsModel.remove(breakPointsModel.size() - 1);
 					}
-					while(breakPointsModel.size() < textArea.getLineCount()) {
+					while(breakPointsModel.size() < textArea.getLineCount() + 1) {
 						breakPointsModel.add(false);
 					}
 				breakPointHolder.update();
@@ -79,7 +79,7 @@ public class TextEditorPanel extends JScrollPane {
 		public void update() {
 			System.out.println(breakPointsModel);
 			while (bps.size() > textArea.getLineCount() + 1) {
-				bps.remove(bps.size()-1);
+				this.remove(bps.remove(bps.size()-1));
 			}
 			while (bps.size() < textArea.getLineCount() + 1) {
 				int temp = bps.size();
@@ -99,8 +99,8 @@ public class TextEditorPanel extends JScrollPane {
 			super();
 			BreakPoint bp = this;
 			this.index = index;
-			this.setMinimumSize(new Dimension(breakPointHolder.getWidth(), textArea.getFont().getSize() * 19));
-			this.setMaximumSize(new Dimension(breakPointHolder.getWidth(), textArea.getFont().getSize() * 19));
+			this.setMinimumSize(new Dimension(breakPointHolder.getWidth(), 19));
+			this.setMaximumSize(new Dimension(breakPointHolder.getWidth(), 19));
 			this.addMouseListener(new MouseAdapter() {
 				@Override
 				public void mouseReleased(MouseEvent e) {
@@ -116,7 +116,7 @@ public class TextEditorPanel extends JScrollPane {
 			Graphics2D g2d = (Graphics2D) g;
 			if(breakPointsModel.size() > index && breakPointsModel.get(index)) {
 				g2d.setColor(Color.BLUE);
-				g2d.fillOval(0, 0, 8, 8);
+				g2d.fillOval(0, this.getHeight() / 4, breakPointHolder.getWidth(), breakPointHolder.getWidth());
 				System.out.println("Breakpoint #" + index + " set to " + breakPointsModel.get(index));
 			}
 			g2d.setColor(Color.BLACK);
