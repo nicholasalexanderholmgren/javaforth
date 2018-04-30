@@ -8,6 +8,9 @@ import java.util.concurrent.ConcurrentLinkedQueue;
  */
 public class InputStream {
 	private ConcurrentLinkedQueue<String> queue;
+	public InputStream() {
+		queue = new ConcurrentLinkedQueue<>();
+	}
 	public void add(String s) {
 		s = s.trim();
 		StringTokenizer tokenizer = new StringTokenizer(s);
