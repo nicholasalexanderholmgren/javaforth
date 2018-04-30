@@ -97,14 +97,6 @@ public class ForthInterpretor {
 	 * @param String containing either \n or \r characters
 	 */
 	public void interpret(String input) {
-		currentLineNumber = 0;
-		StringTokenizer s = new StringTokenizer(input, "\n\r");
-		while(s.hasMoreTokens() && status != Status.ERROR) {
-			String s1 = s.nextToken();
-			interpretLine(s1);
-		}
-		machine.setChanged();
-		machine.notifyObservers();
 	}
 	/**
 	 * Method for setting a flag in the interpreter as to whether conditional

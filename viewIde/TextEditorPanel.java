@@ -12,6 +12,7 @@ import java.awt.event.MouseAdapter;
 import java.awt.event.MouseEvent;
 import java.util.ArrayList;
 import java.util.List;
+import javax.swing.Box;
 import javax.swing.BoxLayout;
 import javax.swing.JComponent;
 import javax.swing.JPanel;
@@ -53,7 +54,7 @@ public class TextEditorPanel extends JScrollPane {
 		textArea.setFont(new Font(Font.SERIF, Font.PLAIN, 14));
 		textArea.addKeyListener(new KeyAdapter() {
 			@Override
-			public void keyPressed(KeyEvent arg0) {
+			public void keyReleased(KeyEvent arg0) {
 					while(breakPointsModel.size() >= textArea.getLineCount()) {
 						breakPointsModel.remove(breakPointsModel.size() - 1);
 					}
@@ -68,6 +69,8 @@ public class TextEditorPanel extends JScrollPane {
 		breakPointHolder = new BreakPointManager();
 		this.setRowHeaderView(breakPointHolder);
 		breakPointHolder.setLayout(new BoxLayout(breakPointHolder, BoxLayout.Y_AXIS));
+		breakPointHolder.add(Box.createHorizontalGlue());
+		breakPointHolder.update();
 	}
 	private class BreakPointManager extends JPanel {
 		private static final long serialVersionUID = 1L;
@@ -75,9 +78,10 @@ public class TextEditorPanel extends JScrollPane {
 		public BreakPointManager() {
 			super();
 			this.setMinimumSize(new Dimension(5, 0));
+			this.setVisible(true);
 		}
 		public void update() {
-			System.out.println(breakPointsModel);
+			
 			while (bps.size() > textArea.getLineCount() + 1) {
 				this.remove(bps.remove(bps.size()-1));
 			}
@@ -85,11 +89,15 @@ public class TextEditorPanel extends JScrollPane {
 				int temp = bps.size();
 				bps.add(new BreakPoint(temp));
 			}
+			int count =0;
 			for (JComponent c : bps) {
+				System.out.println(count);
+				count++;
 				c.setAlignmentX(Component.CENTER_ALIGNMENT);
 				this.add(c);
 			}
 			repaint();
+			System.out.println(breakPointsModel + " " + bps.size() + " " + textArea.getLineCount());
 		}	
 	}
 	private class BreakPoint extends JPanel {
