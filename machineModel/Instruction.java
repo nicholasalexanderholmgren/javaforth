@@ -4,7 +4,7 @@ public enum Instruction {
 	//Arithmatic operations 00-0F
 	ADD, SUB, DIV, MULT, MOD,
 	//Arithmatic double operations 10-1F
-	DADD, DSUB, DDIV, DMULT, DMOD,
+	DADD, DSUB, DDIV, DMULT,
 	//logical operations 20-2F
 	GREATER, LESS, EQL, AND, XOR,
 	//return stack operations 30-3F
