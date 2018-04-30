@@ -11,8 +11,8 @@ public class ForthInterpretor implements Runnable{
 	private boolean comment;
 	private boolean debugCondition;
 	private boolean debugMode;
-	int currentLineNumber;
-	StringTokenizer currentLineTokens;
+	// The pointer for where the interpreter currently is getting instruction from in memory
+	int instPoint;
 	private InputStream inputStream;
 	boolean haltFlag;
 	public ForthInterpretor(ForthMachine parent) {
