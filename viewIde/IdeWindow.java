@@ -54,7 +54,7 @@ public class IdeWindow extends JFrame implements IObserver {
 		c.gridx = 2;
     	c.gridy = 0;
     	c.gridheight = 1;
-		this.stackPanel = new StackPanel(machine);
+		this.stackPanel = new StackPanel(this);
 		stackPanel.setBorder(
 			new CompoundBorder(
 				new BevelBorder(BevelBorder.RAISED),
@@ -99,7 +99,7 @@ public class IdeWindow extends JFrame implements IObserver {
 	public void update(ISubject s) {
 		ForthMachine m = (ForthMachine) s;
 		dictPanel.update(m.getDictionaryAsMap());
-		stackPanel.update(m.getStack());
+		stackPanel.update();
 		terminalPanel.update(m.getStatus());
 	}
 	public ForthMachine getMachine() {

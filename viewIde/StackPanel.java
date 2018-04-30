@@ -4,59 +4,45 @@ import java.awt.Color;
 import java.awt.Font;
 import java.awt.Graphics;
 import java.awt.Graphics2D;
-import java.awt.TexturePaint;
-import java.awt.event.KeyEvent;
 import java.awt.geom.AffineTransform;
-import java.awt.geom.Rectangle2D;
-import java.awt.image.BufferedImage;
 import java.util.Timer;
-import java.util.TimerTask;
-
 import javax.swing.JPanel;
 import javax.swing.JScrollPane;
 import javax.swing.JViewport;
-import edu.mccc.cos210.ds.fp.javaforth.machineModel.ForthMachine;
 import edu.mccc.cos210.ds.fp.javaforth.machineModel.ForthStack;
 
 public class StackPanel extends JScrollPane {
 	
 	private Timer timer = new Timer();
-	private ForthStack theStack;
+	private IdeWindow parent;
 	private MyPanel panel;
-	public StackPanel(ForthMachine fm) {
+	public StackPanel(IdeWindow parent) {
 		super(JScrollPane.VERTICAL_SCROLLBAR_ALWAYS, JScrollPane.HORIZONTAL_SCROLLBAR_NEVER);
 		this.panel = (MyPanel) this.getViewport().getView();
-		
+		this.parent = parent;
 		System.out.println("test");
 //		this.panel.setBackground(Color.RED);
-		theStack = fm.getStack();
-		
 		JViewport jvp = new JViewport();
 		jvp.setView(new MyPanel());
 		this.setViewport(jvp);
-		this.panel = (MyPanel) this.getViewport().getView();
-		
-			
+		this.panel = (MyPanel) this.getViewport().getView();	
 	}
-	public void update(ForthStack fs) {
-		theStack = fs;
+	public void update() {
 		//System.out.println("I work");
 		panel.paintAll(getGraphics());
 	}
 	public class MyPanel extends JPanel {
-		
-		
-		private String stackData = theStack.toString();
 		MyPanel() {
 			super();
 		}
 		@Override
 		public void paintComponent(Graphics g) {
+			String stackData = parent.getMachine().getStackAsString();
 			super.paintComponent(g);
 			Graphics2D g2d = (Graphics2D) g.create();
 			g2d.setColor(Color.black);
 			g2d.setBackground(Color.orange);
-			g2d.drawString(theStack.toString(), 50, 50);
+			g2d.drawString(stackData, 50, 50);
 			//g2d.fill(new Rectangle2D.Double(0.0, 0.0, this.getWidth(), this.getHeight()));
 		}
 	}
@@ -75,14 +61,4 @@ public class StackPanel extends JScrollPane {
 			);
 		}
 
-		
-		
-		
-		
-		
-		
-		
-		
-		
-	
 }

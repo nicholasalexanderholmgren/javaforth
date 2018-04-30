@@ -28,7 +28,7 @@ public class TerminalPanel extends JScrollPane {
 	public void update(String status) {
 		outputTextArea.append(status+"\n");
 		outputTextArea.setMaximumSize(new Dimension(Integer.MAX_VALUE, 
-				outputTextArea.getFont().getSize()*outputTextArea.getLineCount()));
+				22*outputTextArea.getLineCount()));
 	}
 	public String getTerminalInput() {
 		return input;
