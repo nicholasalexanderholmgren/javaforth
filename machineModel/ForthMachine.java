@@ -1,9 +1,6 @@
 package edu.mccc.cos210.ds.fp.javaforth.machineModel;
 
-import java.util.ArrayList;
-import java.util.HashMap;
 import java.util.HashSet;
-import java.util.List;
 import java.util.Map;
 import java.util.Set;
 import edu.mccc.cos210.ds.fp.javaforth.util.IObserver;
@@ -14,11 +11,11 @@ public class ForthMachine implements ISubject {
 	private Set<IObserver> listeners;
 	Byte[] memory;
 	private ForthStack stack;
-	private ForthDictionary dict;
+	private LookUpTable dict;
+	private LookUpTable vars;
 	//private Map<String, String> dictMap = new HashMap<String, String>();
 	private boolean changed;
 	private InputStream input;
-	private List<Byte> pad = new ArrayList<>();
 	final int INITIAL_STACK_POINTER = (int)Math.pow(2,16)-65;
 	final int INITIAL_DICT_POINTER = 0;
 	final int INITIAL_INPUT_STREAM_POINTER = (int)Math.pow(2, 16)/3;
@@ -26,48 +23,38 @@ public class ForthMachine implements ISubject {
 	private ForthStack dataStack;
 	private ForthStack returnStack;
 	private ForthInterpretor interp;
+	private int nextAddr;
 	public ForthMachine() {
 		input = new InputStream();
 		memory = new Byte[(int)Math.pow(2,16)];
-		//dict = new ForthDictionary(memory,INITIAL_DICT_POINTER);
+		dict = new LookUpTable(this);
+		vars = new LookUpTable(this);
+		initDictToForth79();
 		dataStack = new ForthStack();
-		returnStack = new ForthStack();
+		nextAddr = 1;
 		listeners = new HashSet<>();
 		changed = false;
 	}
-	
-	public ForthStack getStack() {		
+	public InputStream getInputStream() {
+		return input;
+	}
+	public ForthStack getDataStack() {		
 		return this.stack;
 	}
-	public ForthDictionary getDictionary() {
+	public ForthStack getReturnStack() {
+		return this.returnStack;
+	}
+	public LookUpTable getDictionary() {
 		return this.dict;
+	}
+	public LookUpTable getVariables() {
+		return this.vars;
 	}
 //	//Will this be an array/sequence of characters
 //	//retrieved from the main memory segment?
-//	public List<Byte> getPadPointer() {
-//		return PAD_POINTER;
-//	}
-	@Override
-	public void registerObserver(IObserver o) {
-		listeners.add(o);
+	public int getPadPointer() {
+		return PAD_POINTER;
 	}
-	@Override
-	public void removeObserver(IObserver o) {
-		listeners.remove(o);
-	}
-	@Override
-	public void notifyObservers() {
-		if (changed) {
-			for(IObserver o : listeners) {
-				o.update(this);
-			}
-		}
-		changed = false;
-	}
-	public void setChanged() {
-		changed = true;
-	}
-
 	/**
 	 * Passes the input into the input stream so the interpreter can pick it up. Passing an empty string or no
 	 * string will result in interpretation being attempted anyway, which effectively resumes the program if it
@@ -76,14 +63,31 @@ public class ForthMachine implements ISubject {
 	 */
 	public void interpret(String input) {
 		this.input.add(input);
-		interp = new ForthInterpretor(this);
-		new Thread(() -> interp.run());
+		if(input.length() > 0) {
+			interp = new ForthInterpretor(this);
+		}
+		if(interp != null) {
+			new Thread(() -> interp.run());
+		}
 	}
-	public Object getFromAddress(int address) {
+	public Byte getFromAddr(int address) {
 		return memory[address];
 	}
-	public void putAtAddress(int address, Byte entry) {
+	public void putAtAddr(int address, Byte entry) {
 		memory[address] = entry;
+	}
+	/**
+	 * Places the supplied byte at the next available memory address, then returns the address where that byte
+	 * was placed.
+	 * @return Index of memory where the argument was added, should always be > 0 and < 2^16.
+	 */
+	public int putAtNextAddr(Byte entry) {
+		putAtAddr(nextAddr, entry);
+		nextAddr+=1;
+		return nextAddr;
+	}
+	public int getNextAddr() {
+		return nextAddr;
 	}
 	/**
 	 * Method that stops the interpreter from continuing and clears out the data stack, return stack, and 
@@ -150,8 +154,48 @@ public class ForthMachine implements ISubject {
 	public String getStatus() {
 		return null;
 	}
-
-	public InputStream getInputStream() {
-		return input;
+	@Override
+	public void registerObserver(IObserver o) {
+		listeners.add(o);
+	}
+	@Override
+	public void removeObserver(IObserver o) {
+		listeners.remove(o);
+	}
+	@Override
+	public void notifyObservers() {
+		if (changed) {
+			for(IObserver o : listeners) {
+				o.update(this);
+			}
+		}
+		changed = false;
+	}
+	public void setChanged() {
+		changed = true;
+	}
+	private void putReturn() {
+		putAtNextAddr(Forth79InstructionSet.convert(Instruction.RFROM));
+		putAtNextAddr(Forth79InstructionSet.convert(Instruction.JMP));
+	}
+	private Byte convert(Instruction i) {
+		return Forth79InstructionSet.convert(i);
+	}
+	private void initDictToForth79() {
+		dict.allocate("+");
+		putAtNextAddr(convert(Instruction.ADD));
+		putReturn();
+		dict.allocate("-");
+		putAtNextAddr(convert(Instruction.SUB));
+		putReturn();
+		dict.allocate("!");
+		putAtNextAddr(convert(Instruction.STORE));
+		putReturn();
+		dict.allocate("VARIABLE");
+		putAtNextAddr(convert(Instruction.ALLOC));
+		putReturn();
+		dict.allocate("@");
+		putAtNextAddr(convert(Instruction.FETCH));
+		putReturn();
 	}
 }
