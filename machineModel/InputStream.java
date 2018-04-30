@@ -15,7 +15,7 @@ public class InputStream {
 		s = s.trim();
 		StringTokenizer tokenizer = new StringTokenizer(s);
 		while(tokenizer.hasMoreTokens()) {
-			queue.add(tokenizer.nextToken().toLowerCase());
+			queue.add(tokenizer.nextToken());
 		}
 	}
 	public String pull() {
