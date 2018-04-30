@@ -96,9 +96,6 @@ public class ForthMachine implements ISubject {
 	 */	
 	public boolean halt() {
 		interp.stop();
-		while(! input.isEmpty()) {
-			input.pull();
-		}
 		return true;
 	}
 	/**

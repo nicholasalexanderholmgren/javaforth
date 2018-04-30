@@ -24,4 +24,7 @@ public class InputStream {
 	public boolean isEmpty() {
 		return queue.isEmpty();
 	}
+	public void flush() {
+		queue = new ConcurrentLinkedQueue<>();
+	}
 }
