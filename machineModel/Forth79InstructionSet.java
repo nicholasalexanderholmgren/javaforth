@@ -2,8 +2,7 @@ package edu.mccc.cos210.ds.fp.javaforth.machineModel;
 
 
 /**
- * Class that takes bytes and translates them into an enumerator for which instruction that byte correpsonds to
- * @interface FunctionalInterface
+ * Class handles translating instructions to bytes and bytes to instructions for the forth79 standard machine.
  */
 public interface Forth79InstructionSet extends InstructionSet{
 	/*
@@ -73,5 +72,68 @@ public interface Forth79InstructionSet extends InstructionSet{
 				return null;
 		}
 	}
-	
+	public default Byte convert(Instruction i) {
+		switch(i) {
+			case ADD:
+				return 0x01;
+			case SUB:
+				return 0x02;
+			case MULT:
+				return 0x03;
+			case DIV:
+				return 0x04;
+			case MOD:
+				return 0x05;
+			case DADD:
+				return 0x10;
+			case DSUB:
+				return 0x11;
+			case DMULT:
+				return 0x12;
+			case DDIV:
+				return 0x13;
+			case GREATER:
+				return 0x20;
+			case LESS:
+				return 0x21;
+			case EQL:
+				return 0x22;
+			case AND:
+				return 0x23;
+			case XOR:
+				return 0x24;
+			case RFETCH:
+				return 0x30;
+			case RPUSH:
+				return 0x31;
+			case RFROM:
+				return 0x32;
+			case DPUSH:
+				return 0x40;
+			case ROLL:
+				return 0x41;
+			case DPOP:
+				return 0x42;
+			case CJMP:
+				return 0x50;
+			case JMP:
+				return 0x51;
+			case FETCH:
+				return 0x52;
+			case STORE:
+				return 0x53;
+			case ALLOC:
+				return 0x54;
+			case ALLOCSTRING:
+				return 0x55;
+			case ALLOCVAR:
+				return 0x56;
+			case COMPILE:
+				return 0x60;
+			case INTERP:
+				return 0x61;
+			default:
+				return 0;
+		}
+	}
 }
