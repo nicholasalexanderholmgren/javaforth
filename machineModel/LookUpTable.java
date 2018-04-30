@@ -16,7 +16,10 @@ public class LookUpTable {
 	 * @param word being looked up
 	 */
 	public boolean contains(String word) {
-		return addrLookupTable.keySet().contains(word.toUpperCase());
+		if(word == null) {
+			return false;
+		}
+		return addrLookupTable.containsKey(word.toUpperCase());
 	}
 	public Integer findAddr(String word) {
 		if( contains(word)) {
