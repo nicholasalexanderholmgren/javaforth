@@ -8,7 +8,7 @@ public interface Forth79InstructionSet extends InstructionSet{
 	/*
 	 * 
 	 */
-	public default Instruction convert(Byte b) {
+	public static Instruction convert(Byte b) {
 		switch(b.byteValue()) {
 			case 0x01:
 				return Instruction.ADD;
@@ -72,7 +72,7 @@ public interface Forth79InstructionSet extends InstructionSet{
 				return null;
 		}
 	}
-	public default Byte convert(Instruction i) {
+	public static Byte convert(Instruction i) {
 		switch(i) {
 			case ADD:
 				return 0x01;
