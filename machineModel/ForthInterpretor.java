@@ -166,7 +166,7 @@ public class ForthInterpretor implements Runnable{
 		return ans;
 	}
 	private int unsignByte(byte b) {
-		if (b>0) {
+		if (b>=0) {
 			return b;
 		}else {
 			return 256 +b;
