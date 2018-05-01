@@ -1,10 +1,6 @@
 package edu.mccc.cos210.ds.fp.javaforth.viewIde;
 
-<<<<<<< HEAD
-
-=======
 import edu.mccc.cos210.ds.fp.javaforth.machineModel.AbstractWord;
->>>>>>> master
 import java.awt.Font;
 import java.awt.event.KeyListener;
 import java.util.Map;
@@ -26,7 +22,7 @@ public class DictionaryPanel extends JScrollPane {
 	public JTextArea getTextArea() {
 		return this.textArea;
 	}
-	public void update(Map< String, String> dict) {
+	public void update(Map< String, AbstractWord> dict) {
 		
 	}
 }
