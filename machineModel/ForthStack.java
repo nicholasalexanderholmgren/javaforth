@@ -51,6 +51,11 @@ public class ForthStack {
 	public void push(Byte b) {
 		stack.push(b);
 	}
+	public void push(Byte[] bs) {
+		for(Byte b : bs) {
+			push(b);
+		}
+	}
 	public Byte pop() throws EmptyStackException {
 		return stack.pop();
 	}
