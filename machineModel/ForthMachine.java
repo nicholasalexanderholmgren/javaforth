@@ -25,13 +25,13 @@ public class ForthMachine implements ISubject {
 	private int nextAddr;
 	private String output;
 	public ForthMachine() {
+		nextAddr = 1;
 		input = new InputStream();
 		memory = new Byte[(int)Math.pow(2,16)];
 		dict = new LookUpTable(this);
 		vars = new LookUpTable(this);
 		initDictToForth79();
 		dataStack = new ForthStack();
-		nextAddr = 1;
 		returnStack = new ForthStack();
 		listeners = new HashSet<>();
 		changed = false;
