@@ -1,5 +1,6 @@
 package edu.mccc.cos210.ds.fp.javaforth.machineModel;
 
+
 public class ForthInterpretor implements Runnable{
 	private int debugStackheight;
 	private String debugWord;
@@ -36,12 +37,18 @@ public class ForthInterpretor implements Runnable{
 	public void run() {
 		synchronized(inputStream) {
 			while(! (inputStream.isEmpty() && haltFlag)){
+			while(! (inputStream.isEmpty() || haltFlag)){
 				interpret(inputStream.pull());
 			}
 		}
+		machine.appendOutput("ok");
 	}
 	private void interpret(String token) {
+		if(token == null) {
+			return;
+		}
 		if(machine.getDictionary().contains(token)) {
+			machine.getReturnStack().push(addrToBytes(instPointer));
 			instPointer = machine.getDictionary().findAddr(token);
 			machine.getReturnStack().push((byte) 0);
 			while (instPointer != 0) {
@@ -65,21 +72,18 @@ public class ForthInterpretor implements Runnable{
 						break;
 					default:
 						break;
+							System.out.println("Return state: " + machine.getReturnStack().toString());
 				}
 			}
 			return;
 		}
 		if(machine.getVariables().contains(token)) {
-			byte[] addr = intToBytes(machine.getVariables().findAddr(token));
 			machine.getDataStack().push(addr[0]);
 			machine.getDataStack().push(addr[1]);
 			return;
 		}
 		try {
 			int i = Integer.parseInt(token);
-			byte[] val = intToBytes(i);
-			machine.getDataStack().push(val[0]);
-			machine.getDataStack().push(val[1]);
 			return;
 		}catch(NumberFormatException e) {
 			
@@ -94,6 +98,8 @@ public class ForthInterpretor implements Runnable{
 		haltFlag = true;
 		inputStream.flush();
 	}
+	public void pause() {
+		haltFlag = true;
 	/**
 	 * Method for setting a flag in the interpreter as to whether conditional
 	 * debugging methods will be
@@ -117,8 +123,7 @@ public class ForthInterpretor implements Runnable{
 
 		return leadingDigits + trailingDigits;
 	}
-	private byte[] intToBytes(Integer n) {
-		byte[] ans = new byte[2];
+	private Byte[] intToBytes(Integer n) {
 		if(n > Math.pow(2, 16)) {
 			n = n%((int)Math.pow(2, 16));
 		}
@@ -137,6 +142,12 @@ public class ForthInterpretor implements Runnable{
 		int trailingDigits = unsignByte(addrb);
 		return leadingDigits + trailingDigits;
 	}
+	private Byte[] addrToBytes(int addr) {
+		addr = (int) (addr%Math.pow(2, 16));
+		Byte[] ans = new Byte[2];
+		ans[0] = (byte) (addr%256);
+		ans[1] = (byte) (addr/256);
+		return ans;
 	private int unsignByte(byte b) {
 		if (b>0) {
 			return b;
