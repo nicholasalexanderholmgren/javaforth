@@ -15,6 +15,7 @@ import edu.mccc.cos210.ds.fp.javaforth.util.ISubject;
 
 
 public class IdeWindow extends JFrame implements IObserver {
+	private static final long serialVersionUID = 1L;
 	private DictionaryPanel dictPanel;
 	private TextEditorPanel textPanel;
 	private StackPanel stackPanel;
@@ -44,7 +45,7 @@ public class IdeWindow extends JFrame implements IObserver {
     	c.gridx = 0;
     	c.gridy = 0;
     	c.gridheight = 2;
-		this.textPanel = new TextEditorPanel();
+		this.textPanel = new TextEditorPanel(machine);
 		panel.add(
 			this.textPanel,
 			c

@@ -1,9 +1,8 @@
 package edu.mccc.cos210.ds.fp.javaforth.viewIde;
 
-import java.awt.Color;
-import java.awt.Component;
-import java.awt.Dimension;
+import java.awt.BorderLayout;
 import java.awt.Font;
+<<<<<<< HEAD
 import java.awt.Graphics;
 import java.awt.Graphics2D;
 import java.awt.event.KeyAdapter;
@@ -15,12 +14,16 @@ import java.util.List;
 import javax.swing.Box;
 import javax.swing.BoxLayout;
 import javax.swing.JComponent;
+=======
+>>>>>>> master
 import javax.swing.JPanel;
 import javax.swing.JScrollPane;
-import javax.swing.JTextArea;
+import javax.swing.JTextPane;
+import edu.mccc.cos210.ds.fp.javaforth.machineModel.ForthMachine;
 
-public class TextEditorPanel extends JScrollPane {
+public class TextEditorPanel extends JPanel {
 	private static final long serialVersionUID = 1L;
+<<<<<<< HEAD
 	JTextArea textArea;
 	JPanel contents;
 	BreakPointManager breakPointHolder;
@@ -131,4 +134,21 @@ public class TextEditorPanel extends JScrollPane {
 			g2d.drawRect(1, 1, this.getWidth() - 1, this.getHeight() - 1);
 		}
 	}
+=======
+	public TextEditorPanel(ForthMachine machine) {
+		int lineHeight = 16;
+		final JTextPane textPane = new JTextPane();
+		JScrollPane textScrollPane = new JScrollPane(textPane, JScrollPane.VERTICAL_SCROLLBAR_ALWAYS, JScrollPane.HORIZONTAL_SCROLLBAR_ALWAYS);
+		this.setLayout(new BorderLayout());
+		this.add(textScrollPane, BorderLayout.CENTER);
+		BreakPointPanel breakPointPanel = new BreakPointPanel(textPane.getStyledDocument(), lineHeight + 2);
+		this.add(breakPointPanel, BorderLayout.LINE_START);
+		textScrollPane.getVerticalScrollBar().addAdjustmentListener(breakPointPanel);
+		StatusPanel statusPanel = new StatusPanel();
+		new StatusPanelController(statusPanel, textPane.getStyledDocument(), machine);
+		this.add(statusPanel, BorderLayout.PAGE_START);
+		textPane.setFont(new Font(Font.SERIF, Font.PLAIN, lineHeight));
+	}
+	
+>>>>>>> master
 }

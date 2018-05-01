@@ -1,5 +1,6 @@
 package edu.mccc.cos210.ds.fp.javaforth.viewIde;
 
+<<<<<<< HEAD
 import java.awt.Color;
 import java.awt.Font;
 import java.awt.Graphics;
@@ -7,11 +8,17 @@ import java.awt.Graphics2D;
 import java.awt.geom.AffineTransform;
 import java.util.Timer;
 import javax.swing.JPanel;
+=======
+import javax.swing.DefaultListModel;
+import javax.swing.JList;
+>>>>>>> master
 import javax.swing.JScrollPane;
 import javax.swing.JViewport;
 import edu.mccc.cos210.ds.fp.javaforth.machineModel.ForthStack;
 
+@SuppressWarnings("serial")
 public class StackPanel extends JScrollPane {
+<<<<<<< HEAD
 	
 	private Timer timer = new Timer();
 	private IdeWindow parent;
@@ -22,9 +29,16 @@ public class StackPanel extends JScrollPane {
 		this.parent = parent;
 		System.out.println("test");
 //		this.panel.setBackground(Color.RED);
+=======
+	private DefaultListModel<String> list = new DefaultListModel<String>();
+	public StackPanel(ForthMachine fm) {
+		super(JScrollPane.VERTICAL_SCROLLBAR_ALWAYS, JScrollPane.HORIZONTAL_SCROLLBAR_NEVER);
+		System.out.println("test");
+>>>>>>> master
 		JViewport jvp = new JViewport();
-		jvp.setView(new MyPanel());
+		jvp.setView(new JList<String>(list));
 		this.setViewport(jvp);
+<<<<<<< HEAD
 		this.panel = (MyPanel) this.getViewport().getView();	
 	}
 	public void update() {
@@ -62,3 +76,12 @@ public class StackPanel extends JScrollPane {
 		}
 
 }
+=======
+	}
+	public void update(ForthStack fs) {
+		list.removeAllElements();
+		list.addElement(fs.toString());
+		// TODO
+	}
+}
+>>>>>>> master
