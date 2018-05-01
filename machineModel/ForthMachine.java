@@ -10,7 +10,6 @@ import edu.mccc.cos210.ds.fp.javaforth.util.ISubject;
 public class ForthMachine implements ISubject {
 	private Set<IObserver> listeners;
 	Byte[] memory;
-	private ForthStack stack;
 	private LookUpTable dict;
 	private LookUpTable vars;
 	//private Map<String, String> dictMap = new HashMap<String, String>();
@@ -24,6 +23,7 @@ public class ForthMachine implements ISubject {
 	private ForthStack returnStack;
 	private ForthInterpretor interp;
 	private int nextAddr;
+	private String output;
 	public ForthMachine() {
 		input = new InputStream();
 		memory = new Byte[(int)Math.pow(2,16)];
@@ -32,6 +32,7 @@ public class ForthMachine implements ISubject {
 		initDictToForth79();
 		dataStack = new ForthStack();
 		nextAddr = 1;
+		returnStack = new ForthStack();
 		listeners = new HashSet<>();
 		changed = false;
 	}
@@ -39,12 +40,15 @@ public class ForthMachine implements ISubject {
 		return input;
 	}
 	public ForthStack getDataStack() {		
-		return this.stack;
+		return this.dataStack;
 	}
 	public ForthStack getReturnStack() {
 		return this.returnStack;
 	}
 	public LookUpTable getDictionary() {
+		if(dict == null) {
+			dict = new LookUpTable(this);
+		}
 		return this.dict;
 	}
 	public LookUpTable getVariables() {
@@ -67,7 +71,7 @@ public class ForthMachine implements ISubject {
 			interp = new ForthInterpretor(this);
 		}
 		if(interp != null) {
-			new Thread(() -> interp.run());
+			new Thread(() -> interp.run()).start();
 		}
 	}
 	public Byte getFromAddr(int address) {
@@ -142,6 +146,9 @@ public class ForthMachine implements ISubject {
 	public Map<String, String> getDictionaryAsMap(){
 		return null;
 	}
+	public void appendOutput(String output) {
+		this.output += output;
+	}
 	/**
 	 * Method for retrieving the status message from the machine upon code execution completion. 
 	 * Status includes all program output heading for a live terminal, as well as if the program completed
@@ -149,7 +156,7 @@ public class ForthMachine implements ISubject {
 	 * @return String 
 	 */
 	public String getStatus() {
-		return null;
+		return output;
 	}
 	@Override
 	public void registerObserver(IObserver o) {
