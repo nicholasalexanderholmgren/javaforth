@@ -76,6 +76,7 @@ public class ForthInterpretor implements Runnable{
 							System.out.println("Return state: " + machine.getReturnStack().toString());
 							machine.getDataStack().push(machine.getReturnStack().pop());
 							machine.getDataStack().push(machine.getReturnStack().pop());
+							instPointer += 1;
 							break;
 						default:
 							break;
