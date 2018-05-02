@@ -64,7 +64,6 @@ public class ForthInterpretor implements Runnable{
 							break;
 						case JMP:
 							instPointer = bytesToAddr(machine.getDataStack().pop(), machine.getDataStack().pop());
-							System.out.println("JMP to "+instPointer);
 							break;
 						case CJMP:
 							if((bytesToInt(machine.getDataStack().pop(),machine.getDataStack().pop()) != 0)){
@@ -73,7 +72,6 @@ public class ForthInterpretor implements Runnable{
 							}
 							break;
 						case RFROM:
-							System.out.println("Return state: " + machine.getReturnStack().toString());
 							machine.getDataStack().push(machine.getReturnStack().pop());
 							machine.getDataStack().push(machine.getReturnStack().pop());
 							instPointer += 1;
