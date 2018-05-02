@@ -126,7 +126,7 @@ public class ForthInterpretor implements Runnable{
 	 * @param byte a is the leading half of the integer
 	 * @param byte b is the trailing half of the integer
 	 */
-	private int bytesToInt(byte a, byte b) {
+	private int bytesToInt(byte b, byte a) {
 		int leadingDigits = 0;
 		if(a<0) {
 			leadingDigits = (int) (-Math.pow(2, 16) + (a%128)*256);
