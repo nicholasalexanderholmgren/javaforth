@@ -28,11 +28,7 @@ public class ForthStack {
 	 * @return String This returns a string representing the stack.
 	 */
 	public String toString() {
-		StringBuilder sb = new StringBuilder();
-		for(Byte b : stack) {
-			sb.append(b.toString() + ", ");
-		}
-		return sb.toString();
+		return stack.toString();
 	}
 	public List<String> asList() {
 		ArrayList<String> strings = new ArrayList<>();
