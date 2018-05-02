@@ -48,12 +48,12 @@ public class ForthStack {
 	/**
 	 * Method for pushing bytes on to the stack. 
 	 */
-	public void push(Byte b) {
-		stack.push(b);
+	public void push(Byte byt) {
+		stack.push(byt);
 	}
-	public void push(Byte[] bs) {
-		for(Byte b : bs) {
-			push(b);
+	public void push(Byte[] bytes) {
+		for(Byte byt : bytes) {
+			push(byt);
 		}
 	}
 	public Byte pop() throws EmptyStackException {
