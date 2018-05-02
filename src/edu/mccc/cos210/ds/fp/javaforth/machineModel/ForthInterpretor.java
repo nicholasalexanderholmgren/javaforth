@@ -60,7 +60,6 @@ public class ForthInterpretor implements Runnable{
 							int n2 = bytesToInt(machine.getDataStack().pop(), machine.getDataStack().pop());
 							Byte[] ans = intToBytes(n1+n2);
 							machine.getDataStack().push(ans);
-							instPointer += 1;
 							break;
 						case JMP:
 							instPointer = bytesToAddr(machine.getDataStack().pop(), machine.getDataStack().pop());
@@ -74,10 +73,13 @@ public class ForthInterpretor implements Runnable{
 						case RFROM:
 							machine.getDataStack().push(machine.getReturnStack().pop());
 							machine.getDataStack().push(machine.getReturnStack().pop());
-							instPointer += 1;
 							break;
 						default:
 							break;
+					}
+					if(Forth79InstructionSet.convert(byteCode) != Instruction.JMP ||
+							Forth79InstructionSet.convert(byteCode) != Instruction.CJMP) {
+						instPointer += 1;
 					}
 				}
 			}catch(EmptyStackException e) {
