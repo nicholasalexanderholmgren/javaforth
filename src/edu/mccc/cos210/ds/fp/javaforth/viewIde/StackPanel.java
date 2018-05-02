@@ -19,7 +19,9 @@ public class StackPanel extends JScrollPane {
 	}
 	public void update(ForthStack fs) {
 		list.removeAllElements();
-		list.addElement(fs.toString());
+		for(String s : fs.asList()) {
+			list.addElement(s);
+		}
 		// TODO
 	}
 }
