@@ -1,5 +1,6 @@
 package edu.mccc.cos210.ds.fp.javaforth.machineModel;
 
+import java.util.ArrayList;
 import java.util.EmptyStackException;
 import java.util.List;
 import java.util.Stack;
@@ -32,6 +33,13 @@ public class ForthStack {
 			sb.append(b.toString() + ", ");
 		}
 		return sb.toString();
+	}
+	public List<String> asList() {
+		ArrayList<String> strings = new ArrayList<>();
+		for(Byte b : stack) {
+			strings.add(Integer.toHexString(Byte.toUnsignedInt(b)));
+		}
+		return strings;
 	}
 	/**
 	 * This method calculates the height of the stack, which is likely useful for debugging 
