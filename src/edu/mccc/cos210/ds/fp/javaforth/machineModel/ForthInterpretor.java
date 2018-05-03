@@ -75,8 +75,10 @@ public class ForthInterpretor implements Runnable{
 							}
 							break;
 						case RFROM:
-							machine.getDataStack().push(machine.getReturnStack().pop());
-							machine.getDataStack().push(machine.getReturnStack().pop());
+							Byte a = machine.getReturnStack().pop();
+							Byte b = machine.getReturnStack().pop();
+							machine.getDataStack().push(a);
+							machine.getDataStack().push(b);
 							break;
 						default:
 							break;
