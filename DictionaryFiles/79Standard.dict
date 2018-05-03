@@ -9,6 +9,7 @@ ROT : DPUSH 3 ROLL ;
 @ : FETCH ;
 ! : STORE ;
 VARIABLE : ALLOC ;
+. : NUMOUT ;
 +1 : DPUSH 1 + ;
 +2 : DPUSH 2 + ;
 -1 : DPUSH 1 + ;

@@ -1,5 +1,6 @@
 package edu.mccc.cos210.ds.fp.javaforth.machineModel;
 
+import java.util.ArrayList;
 import java.util.EmptyStackException;
 
 public class ForthInterpretor implements Runnable{
@@ -56,13 +57,15 @@ public class ForthInterpretor implements Runnable{
 			machine.getReturnStack().push(addrToBytes(instPointer));
 			instPointer = machine.getDictionary().findAddr(token);
 			try {
+				ArrayList<Byte> temp = new ArrayList<>();
 				while (!haltFlag && instPointer != 0) {
 					Byte byteCode = machine.getFromAddr(instPointer);
+					Byte[] ans;
 					switch(Forth79InstructionSet.convert(byteCode)) {
 						case ADD:
 							int n1 = bytesToInt(machine.getDataStack().pop(), machine.getDataStack().pop());
 							int n2 = bytesToInt(machine.getDataStack().pop(), machine.getDataStack().pop());
-							Byte[] ans = intToBytes(n1+n2);
+							ans = intToBytes(n1+n2);
 							machine.getDataStack().push(ans);
 							break;
 						case JMP:
@@ -79,6 +82,11 @@ public class ForthInterpretor implements Runnable{
 							Byte b = machine.getReturnStack().pop();
 							machine.getDataStack().push(a);
 							machine.getDataStack().push(b);
+							break;
+						case NUMOUT:
+							temp.add(machine.getDataStack().pop());
+							temp.add(machine.getDataStack().pop());
+							machine.appendOutput(bytesToInt(temp.get(0), temp.get(1)).toString());
 							break;
 						default:
 							break;
@@ -133,7 +141,7 @@ public class ForthInterpretor implements Runnable{
 	 * @param byte a is the leading half of the integer
 	 * @param byte b is the trailing half of the integer
 	 */
-	private int bytesToInt(byte b, byte a) {
+	private Integer bytesToInt(byte b, byte a) {
 		int leadingDigits = 0;
 		if(a<0) {
 			leadingDigits = (int) (-Math.pow(2, 16) + (a%128)*256);
