@@ -175,6 +175,7 @@ public class ForthMachine implements ISubject {
 			}
 		}
 		changed = false;
+		output = "";
 	}
 	public void setChanged() {
 		changed = true;
