@@ -90,7 +90,7 @@ public class ForthInterpretor implements Runnable{
 						case NUMOUT:
 							temp.add(machine.getDataStack().pop());
 							temp.add(machine.getDataStack().pop());
-							machine.appendOutput(ByteUtils.bytesToInt(temp.get(0), temp.get(1)).toString());
+							machine.appendOutput(ByteUtils.bytesToInt(temp.get(0), temp.get(1)).toString()+ " ");
 							break;
 						default:
 							break;
