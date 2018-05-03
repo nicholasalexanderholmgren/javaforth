@@ -3,6 +3,7 @@ package edu.mccc.cos210.ds.fp.javaforth.machineModel;
 import java.util.HashSet;
 import java.util.Map;
 import java.util.Set;
+
 import edu.mccc.cos210.ds.fp.javaforth.util.IObserver;
 import edu.mccc.cos210.ds.fp.javaforth.util.ISubject;
 
@@ -25,16 +26,17 @@ public class ForthMachine implements ISubject {
 	private int nextAddr;
 	private String output;
 	public ForthMachine() {
+		output = "";
 		nextAddr = 1;
 		input = new InputStream();
 		memory = new Byte[(int)Math.pow(2,16)];
 		dict = new LookUpTable(this);
 		vars = new LookUpTable(this);
-		initDictToForth79();
 		dataStack = new ForthStack();
 		returnStack = new ForthStack();
 		listeners = new HashSet<>();
 		changed = false;
+		initDictToForth79();
 	}
 	public InputStream getInputStream() {
 		return input;
@@ -174,32 +176,18 @@ public class ForthMachine implements ISubject {
 			}
 		}
 		changed = false;
+		output = "";
 	}
 	public void setChanged() {
 		changed = true;
 	}
-	private void putReturn() {
-		putAtNextAddr(Forth79InstructionSet.convert(Instruction.RFROM));
-		putAtNextAddr(Forth79InstructionSet.convert(Instruction.JMP));
-	}
-	private Byte convert(Instruction i) {
-		return Forth79InstructionSet.convert(i);
-	}
 	private void initDictToForth79() {
-		dict.allocate("+");
-		putAtNextAddr(convert(Instruction.ADD));
-		putReturn();
-		dict.allocate("-");
-		putAtNextAddr(convert(Instruction.SUB));
-		putReturn();
-		dict.allocate("!");
-		putAtNextAddr(convert(Instruction.STORE));
-		putReturn();
-		dict.allocate("VARIABLE");
-		putAtNextAddr(convert(Instruction.ALLOC));
-		putReturn();
-		dict.allocate("@");
-		putAtNextAddr(convert(Instruction.FETCH));
-		putReturn();
+		try {
+			DictionaryLoader.loadDict(this, "79Standard");
+		} catch (Exception e) {
+			this.output = "Dictionary loading error";
+			this.setChanged();
+			this.notifyObservers();
+		}
 	}
 }

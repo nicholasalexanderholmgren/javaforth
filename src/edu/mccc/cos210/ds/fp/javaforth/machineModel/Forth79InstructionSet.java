@@ -55,19 +55,23 @@ public interface Forth79InstructionSet extends InstructionSet{
 			case 0x51:
 				return Instruction.JMP;
 			case 0x52:
-				return Instruction.FETCH;
+				return Instruction.SUBJMP;
 			case 0x53:
-				return Instruction.STORE;
+				return Instruction.FETCH;
 			case 0x54:
-				return Instruction.ALLOC;
+				return Instruction.STORE;
 			case 0x55:
-				return Instruction.ALLOCSTRING;
+				return Instruction.ALLOC;
 			case 0x56:
+				return Instruction.ALLOCSTRING;
+			case 0x57:
 				return Instruction.ALLOCVAR;
 			case 0x60:
 				return Instruction.COMPILE;
 			case 0x61:
 				return Instruction.INTERP;
+			case 0x70:
+				return Instruction.NUMOUT;
 			default:
 				return null;
 		}
@@ -118,20 +122,24 @@ public interface Forth79InstructionSet extends InstructionSet{
 				return 0x50;
 			case JMP:
 				return 0x51;
-			case FETCH:
+			case SUBJMP:
 				return 0x52;
-			case STORE:
+			case FETCH:
 				return 0x53;
-			case ALLOC:
+			case STORE:
 				return 0x54;
-			case ALLOCSTRING:
+			case ALLOC:
 				return 0x55;
-			case ALLOCVAR:
+			case ALLOCSTRING:
 				return 0x56;
+			case ALLOCVAR:
+				return 0x57;
 			case COMPILE:
 				return 0x60;
 			case INTERP:
 				return 0x61;
+			case NUMOUT:
+				return 0x70;
 			default:
 				return 0;
 		}
