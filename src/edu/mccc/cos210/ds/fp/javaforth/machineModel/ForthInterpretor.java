@@ -3,6 +3,8 @@ package edu.mccc.cos210.ds.fp.javaforth.machineModel;
 import java.util.ArrayList;
 import java.util.EmptyStackException;
 
+import edu.mccc.cos210.ds.fp.javaforth.util.ByteUtils;
+
 public class ForthInterpretor implements Runnable{
 	private int debugStackheight;
 	private String debugWord;
@@ -54,7 +56,7 @@ public class ForthInterpretor implements Runnable{
 			return;
 		}
 		if(machine.getDictionary().contains(token)) {
-			machine.getReturnStack().push(addrToBytes(instPointer));
+			machine.getReturnStack().push(ByteUtils.addrToBytes(instPointer));
 			instPointer = machine.getDictionary().findAddr(token);
 			try {
 				ArrayList<Byte> temp = new ArrayList<>();
@@ -63,18 +65,20 @@ public class ForthInterpretor implements Runnable{
 					Byte[] ans;
 					switch(Forth79InstructionSet.convert(byteCode)) {
 						case ADD:
-							int n1 = bytesToInt(machine.getDataStack().pop(), machine.getDataStack().pop());
-							int n2 = bytesToInt(machine.getDataStack().pop(), machine.getDataStack().pop());
-							ans = intToBytes(n1+n2);
+							int n1 = ByteUtils.bytesToInt(machine.getDataStack().pop(), machine.getDataStack().pop());
+							int n2 = ByteUtils.bytesToInt(machine.getDataStack().pop(), machine.getDataStack().pop());
+							ans = ByteUtils.intToBytes(n1+n2);
 							machine.getDataStack().push(ans);
 							break;
 						case JMP:
-							instPointer = bytesToAddr(machine.getDataStack().pop(), machine.getDataStack().pop());
+							instPointer = ByteUtils.bytesToAddr(
+									machine.getDataStack().pop(), machine.getDataStack().pop());
 							break;
 						case CJMP:
-							if((bytesToInt(machine.getDataStack().pop(),machine.getDataStack().pop()) != 0)){
+							if((ByteUtils.bytesToInt(machine.getDataStack().pop(),machine.getDataStack().pop()) != 0)){
 								instPointer = 
-										bytesToAddr(machine.getDataStack().pop(), machine.getDataStack().pop());
+										ByteUtils.bytesToAddr(machine.getDataStack().pop(), 
+												machine.getDataStack().pop());
 							}
 							break;
 						case RFROM:
@@ -86,7 +90,7 @@ public class ForthInterpretor implements Runnable{
 						case NUMOUT:
 							temp.add(machine.getDataStack().pop());
 							temp.add(machine.getDataStack().pop());
-							machine.appendOutput(bytesToInt(temp.get(0), temp.get(1)).toString());
+							machine.appendOutput(ByteUtils.bytesToInt(temp.get(0), temp.get(1)).toString());
 							break;
 						default:
 							break;
@@ -103,14 +107,14 @@ public class ForthInterpretor implements Runnable{
 			return;
 		}
 		if(machine.getVariables().contains(token)) {
-			Byte[] addr = intToBytes(machine.getVariables().findAddr(token));
+			Byte[] addr = ByteUtils.intToBytes(machine.getVariables().findAddr(token));
 			machine.getDataStack().push(addr[0]);
 			machine.getDataStack().push(addr[1]);
 			return;
 		}
 		try {
 			int i = Integer.parseInt(token);
-			machine.getDataStack().push(intToBytes(i));
+			machine.getDataStack().push(ByteUtils.intToBytes(i));
 			return;
 		}catch(NumberFormatException e) {
 			
@@ -141,49 +145,5 @@ public class ForthInterpretor implements Runnable{
 	 * @param byte a is the leading half of the integer
 	 * @param byte b is the trailing half of the integer
 	 */
-	private Integer bytesToInt(byte b, byte a) {
-		int leadingDigits = 0;
-		if(a<0) {
-			leadingDigits = (int) (-Math.pow(2, 16) + (a%128)*256);
-		}else {
-			leadingDigits = a*256;
-		}
-		int trailingDigits = unsignByte(b);
-
-		return leadingDigits + trailingDigits;
-	}
-	private Byte[] intToBytes(Integer n) {
-		Byte[] ans = new Byte[2];
-		if(n > Math.pow(2, 16)) {
-			n = n%((int)Math.pow(2, 16));
-		}
-		Integer nA = n/256;
-		Integer nB = n%256;
-		ans[0] = nA.byteValue();
-		ans[1] = nB.byteValue();
-		return ans;
-	}
-	/**
-	 * @param byte addra is the leading half of the address
-	 * @param byte addrb is the trailing half of the address
-	 */
-	private int bytesToAddr(byte addra,byte addrb) {
-		int leadingDigits = unsignByte(addra)*256;
-		int trailingDigits = unsignByte(addrb);
-		return leadingDigits + trailingDigits;
-	}
-	private Byte[] addrToBytes(int addr) {
-		addr = (int) (addr%Math.pow(2, 16));
-		Byte[] ans = new Byte[2];
-		ans[0] = (byte) (addr%256);
-		ans[1] = (byte) (addr/256);
-		return ans;
-	}
-	private int unsignByte(byte b) {
-		if (b>=0) {
-			return b;
-		}else {
-			return 256 +b;
-		}
-	}
+	
 }
