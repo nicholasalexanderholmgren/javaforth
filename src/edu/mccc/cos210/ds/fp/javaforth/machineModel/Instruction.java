@@ -12,7 +12,7 @@ public enum Instruction {
 	//data stack operations 40-4F
 	DPUSH, ROLL, DPOP,
 	//memory operations 50-5F
-	CJMP, JMP,  FETCH, STORE, ALLOC, ALLOCSTRING, ALLOCVAR,
+	CJMP, JMP, SUBJMP, FETCH, STORE, ALLOC, ALLOCSTRING, ALLOCVAR,
 	//mode change 60-6F
 	COMPILE, INTERP, 
 	//output operations 70-7F
