@@ -16,4 +16,5 @@ public enum Instruction {
 	//mode change 60-6F
 	COMPILE, INTERP, 
 	//output operations 70-7F
+	NUMOUT, CR, SPACE, CHAROUT,
 }
