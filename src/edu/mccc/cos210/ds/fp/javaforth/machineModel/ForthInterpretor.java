@@ -63,11 +63,36 @@ public class ForthInterpretor implements Runnable{
 				while (!haltFlag && instPointer != 0) {
 					Byte byteCode = machine.getFromAddr(instPointer);
 					Byte[] ans;
+					int n1, n2;
 					switch(Forth79InstructionSet.convert(byteCode)) {
 						case ADD:
-							int n1 = ByteUtils.bytesToInt(machine.getDataStack().pop(), machine.getDataStack().pop());
-							int n2 = ByteUtils.bytesToInt(machine.getDataStack().pop(), machine.getDataStack().pop());
+							n1 = ByteUtils.bytesToInt(machine.getDataStack().pop(), machine.getDataStack().pop());
+							n2 = ByteUtils.bytesToInt(machine.getDataStack().pop(), machine.getDataStack().pop());
 							ans = ByteUtils.intToBytes(n1+n2);
+							machine.getDataStack().push(ans);
+							break;
+						case SUB:
+							n1 = ByteUtils.bytesToInt(machine.getDataStack().pop(), machine.getDataStack().pop());
+							n2 = ByteUtils.bytesToInt(machine.getDataStack().pop(), machine.getDataStack().pop());
+							ans = ByteUtils.intToBytes(n1-n2);
+							machine.getDataStack().push(ans);
+							break;
+						case MULT:
+							n1 = ByteUtils.bytesToInt(machine.getDataStack().pop(), machine.getDataStack().pop());
+							n2 = ByteUtils.bytesToInt(machine.getDataStack().pop(), machine.getDataStack().pop());
+							ans = ByteUtils.intToBytes(n1*n2);
+							machine.getDataStack().push(ans);
+							break;
+						case DIV:
+							n1 = ByteUtils.bytesToInt(machine.getDataStack().pop(), machine.getDataStack().pop());
+							n2 = ByteUtils.bytesToInt(machine.getDataStack().pop(), machine.getDataStack().pop());
+							ans = ByteUtils.intToBytes(n1/n2);
+							machine.getDataStack().push(ans);
+							break;
+						case MOD:
+							n1 = ByteUtils.bytesToInt(machine.getDataStack().pop(), machine.getDataStack().pop());
+							n2 = ByteUtils.bytesToInt(machine.getDataStack().pop(), machine.getDataStack().pop());
+							ans = ByteUtils.intToBytes(n1%n2);
 							machine.getDataStack().push(ans);
 							break;
 						case JMP:
@@ -91,6 +116,10 @@ public class ForthInterpretor implements Runnable{
 							temp.add(machine.getDataStack().pop());
 							temp.add(machine.getDataStack().pop());
 							machine.appendOutput(ByteUtils.bytesToInt(temp.get(0), temp.get(1)).toString()+ " ");
+							break;
+						case FETCH:
+							temp.add(machine.getDataStack().pop());
+							temp.add(machine.getDataStack().pop());
 							break;
 						default:
 							break;
