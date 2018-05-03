@@ -106,11 +106,24 @@ public class ForthInterpretor implements Runnable{
 												machine.getDataStack().pop());
 							}
 							break;
+						case RFETCH:
+							temp.add(machine.getReturnStack().pop());
+							temp.add(machine.getReturnStack().pop());
+							machine.getReturnStack().push(temp.get(1));
+							machine.getReturnStack().push(temp.get(0));
+							machine.getDataStack().push(temp.get(1));
+							machine.getDataStack().push(temp.get(0));
+							break;
+						case RPUSH:
+							temp.add(machine.getDataStack().pop());
+							temp.add(machine.getDataStack().pop());
+							machine.getReturnStack().push(temp.get(1));
+							machine.getReturnStack().push(temp.get(0));
 						case RFROM:
-							Byte a = machine.getReturnStack().pop();
-							Byte b = machine.getReturnStack().pop();
-							machine.getDataStack().push(a);
-							machine.getDataStack().push(b);
+							temp.add(machine.getReturnStack().pop());
+							temp.add(machine.getReturnStack().pop());
+							machine.getDataStack().push(temp.get(1));
+							machine.getDataStack().push(temp.get(0));
 							break;
 						case NUMOUT:
 							temp.add(machine.getDataStack().pop());
