@@ -25,6 +25,7 @@ public class ForthMachine implements ISubject {
 	private int nextAddr;
 	private String output;
 	public ForthMachine() {
+		output = "";
 		nextAddr = 1;
 		input = new InputStream();
 		memory = new Byte[(int)Math.pow(2,16)];
