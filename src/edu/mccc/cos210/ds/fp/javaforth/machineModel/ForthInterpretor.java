@@ -38,10 +38,14 @@ public class ForthInterpretor implements Runnable{
 	public void run() {
 		synchronized(inputStream) {
 			while(! (inputStream.isEmpty() || haltFlag)){
+				machine.setChanged();
 				interpret(inputStream.pull());
 			}
 		}
-		machine.appendOutput("ok");
+		if(! haltFlag) {
+			machine.appendOutput("ok");
+		}
+		machine.notifyObservers();
 		System.out.println(machine.getDataStack());
 	}
 	private void interpret(String token) {
@@ -52,7 +56,7 @@ public class ForthInterpretor implements Runnable{
 			machine.getReturnStack().push(addrToBytes(instPointer));
 			instPointer = machine.getDictionary().findAddr(token);
 			try {
-				while (instPointer != 0) {
+				while (!haltFlag && instPointer != 0) {
 					Byte byteCode = machine.getFromAddr(instPointer);
 					switch(Forth79InstructionSet.convert(byteCode)) {
 						case ADD:
