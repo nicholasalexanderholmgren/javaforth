@@ -12,7 +12,8 @@ public class TextEditorPanel extends JPanel {
 	public TextEditorPanel(ForthMachine machine) {
 		int lineHeight = 16;
 		final JTextPane textPane = new JTextPane();
-		JScrollPane textScrollPane = new JScrollPane(textPane, JScrollPane.VERTICAL_SCROLLBAR_ALWAYS, JScrollPane.HORIZONTAL_SCROLLBAR_ALWAYS);
+		JScrollPane textScrollPane = new JScrollPane(textPane, JScrollPane.VERTICAL_SCROLLBAR_ALWAYS, 
+				JScrollPane.HORIZONTAL_SCROLLBAR_ALWAYS);
 		this.setLayout(new BorderLayout());
 		this.add(textScrollPane, BorderLayout.CENTER);
 		BreakPointPanel breakPointPanel = new BreakPointPanel(textPane.getStyledDocument(), lineHeight + 2);
