@@ -118,6 +118,11 @@ public class ForthInterpretor implements Runnable{
 												machine.getDataStack().pop());
 							}
 							break;
+						case SUBJMP:
+							machine.getReturnStack().push(ByteUtils.addrToBytes(instPointer + 3));
+							instPointer = ByteUtils.bytesToAddr(
+									machine.getDataStack().pop(), machine.getDataStack().pop());
+							break;
 						case RFETCH:
 							temp.add(machine.getReturnStack().pop());
 							temp.add(machine.getReturnStack().pop());
@@ -150,7 +155,8 @@ public class ForthInterpretor implements Runnable{
 							break;
 					}
 					if(Forth79InstructionSet.convert(byteCode) != Instruction.JMP &&
-							Forth79InstructionSet.convert(byteCode) != Instruction.CJMP) {
+							Forth79InstructionSet.convert(byteCode) != Instruction.CJMP &&
+							Forth79InstructionSet.convert(byteCode) != Instruction.SUBJMP) {
 						instPointer += 1;
 					}
 				}
