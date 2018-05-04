@@ -13,4 +13,4 @@ VARIABLE : ALLOC ; Word for adding two 16 bit signed integers
 +1 : DPUSH 1 + ; Word for adding two 16 bit signed integers
 +2 : DPUSH 2 + ; Word for adding two 16 bit signed integers
 -1 : DPUSH 1 + ; Word for adding two 16 bit signed integers
--2 : DPUSH 2 - ; Word for adding two 16 bit signed integers
+-2 : DPUSH 2 + ; Word for adding two 16 bit signed integers
