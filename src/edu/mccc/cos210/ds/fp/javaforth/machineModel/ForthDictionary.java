@@ -9,7 +9,7 @@ public class ForthDictionary extends LookUpTable {
 	List<DefinitionHolder> sourceHolder;
 	public ForthDictionary(ForthMachine parent) {
 		super(parent);
-		List<DefinitionHolder> sourceHolder = new Vector<>();
+		sourceHolder = new Vector<>();
 	}
 	public void addDefinition(String name, String definition) {
 		sourceHolder.add(new DefinitionHolder(name, definition));
