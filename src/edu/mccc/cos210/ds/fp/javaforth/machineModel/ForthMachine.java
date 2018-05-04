@@ -11,7 +11,7 @@ import edu.mccc.cos210.ds.fp.javaforth.util.ISubject;
 public class ForthMachine implements ISubject {
 	private Set<IObserver> listeners;
 	Byte[] memory;
-	private LookUpTable dict;
+	private ForthDictionary dict;
 	private LookUpTable vars;
 	//private Map<String, String> dictMap = new HashMap<String, String>();
 	private boolean changed;
@@ -30,7 +30,7 @@ public class ForthMachine implements ISubject {
 		nextAddr = 1;
 		input = new InputStream();
 		memory = new Byte[(int)Math.pow(2,16)];
-		dict = new LookUpTable(this);
+		dict = new ForthDictionary(this);
 		vars = new LookUpTable(this);
 		dataStack = new ForthStack();
 		returnStack = new ForthStack();
@@ -47,9 +47,9 @@ public class ForthMachine implements ISubject {
 	public ForthStack getReturnStack() {
 		return this.returnStack;
 	}
-	public LookUpTable getDictionary() {
+	public ForthDictionary getDictionary() {
 		if(dict == null) {
-			dict = new LookUpTable(this);
+			dict = new ForthDictionary(this);
 		}
 		return this.dict;
 	}
