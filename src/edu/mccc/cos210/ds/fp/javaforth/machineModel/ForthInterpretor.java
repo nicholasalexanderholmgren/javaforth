@@ -60,6 +60,11 @@ public class ForthInterpretor implements Runnable{
 		if(token == null) {
 			return;
 		}
+		if(token.equals(":")) {
+			ICompiler.compile(machine);
+			return;
+		}
+		instPointer = 0;
 		if(machine.getDictionary().contains(token)) {
 			machine.getReturnStack().push((byte) 0);
 			machine.getReturnStack().push((byte) 0);
