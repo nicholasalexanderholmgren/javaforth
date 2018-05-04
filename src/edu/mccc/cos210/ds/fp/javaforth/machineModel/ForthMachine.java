@@ -68,6 +68,9 @@ public class ForthMachine implements ISubject {
 	 * @param String - input the string of input data to be passed into the inputStream.
 	 */
 	public void interpret(String input) {
+		if(interp != null && interp.isRunning()) {
+			return;
+		}
 		this.input.add(input);
 		if(input.length() > 0) {
 			interp = new ForthInterpretor(this);

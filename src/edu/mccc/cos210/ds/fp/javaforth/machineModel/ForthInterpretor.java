@@ -14,10 +14,12 @@ public class ForthInterpretor implements Runnable{
 //	private boolean debugMode;
 	// The pointer for where the interpreter currently is getting instruction from in memory
 	// is 0 when the interpreter is just moving data from the input stream to the data stack
+	boolean running;
 	int instPointer;
 	private InputStream inputStream;
 	boolean haltFlag;
 	public ForthInterpretor(ForthMachine parent) {
+		running = false;
 		machine = parent;
 		inputStream = machine.getInputStream();
 		haltFlag = false;
@@ -39,6 +41,7 @@ public class ForthInterpretor implements Runnable{
 	 * Other machine parts include data stack, return stack, instruction set look up, name lookup table, 
 	 */
 	public void run() {
+		running = true;
 		synchronized(inputStream) {
 			while(! (inputStream.isEmpty() || haltFlag)){
 				machine.setChanged();
@@ -50,6 +53,7 @@ public class ForthInterpretor implements Runnable{
 		}
 		machine.notifyObservers();
 		System.out.println(machine.getDataStack());
+		running = false;
 	}
 	private void interpret(String token) {
 		if(token == null) {
@@ -184,8 +188,10 @@ public class ForthInterpretor implements Runnable{
 
 	}
 	/**
-	 * @param byte a is the leading half of the integer
-	 * @param byte b is the trailing half of the integer
+	 * Method for determining if the current interpreter instance is running, used to prevent conflicting interpreter
+	 * states.
 	 */
-	
+	public boolean isRunning() {
+		return false;
+	}
 }
