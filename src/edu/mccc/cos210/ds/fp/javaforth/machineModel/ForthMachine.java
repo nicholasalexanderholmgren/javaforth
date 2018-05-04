@@ -92,8 +92,9 @@ public class ForthMachine implements ISubject {
 	 */
 	public int putAtNextAddr(Byte entry) {
 		putAtAddr(nextAddr, entry);
+		int temp = nextAddr;
 		nextAddr+=1;
-		return nextAddr;
+		return temp;
 	}
 	public int getNextAddr() {
 		return nextAddr;
