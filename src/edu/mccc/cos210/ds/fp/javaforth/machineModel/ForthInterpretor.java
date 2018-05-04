@@ -56,19 +56,22 @@ public class ForthInterpretor implements Runnable{
 		running = false;
 	}
 	private void interpret(String token) {
+		instPointer = 0;
 		if(token == null) {
 			return;
 		}
 		if(machine.getDictionary().contains(token)) {
-			machine.getReturnStack().push(ByteUtils.addrToBytes(instPointer));
+			machine.getReturnStack().push((byte) 0);
+			machine.getReturnStack().push((byte) 0);
 			instPointer = machine.getDictionary().findAddr(token);
 			try {
-				ArrayList<Byte> temp = new ArrayList<>();
 				while (!haltFlag && instPointer != 0) {
+					ArrayList<Byte> temp = new ArrayList<>();
 					Byte byteCode = machine.getFromAddr(instPointer);
 					Byte[] ans;
 					int n1, n2;
-					switch(Forth79InstructionSet.convert(byteCode)) {
+					Instruction i = Forth79InstructionSet.convert(byteCode);
+					switch(i) {
 						case ADD:
 							n1 = ByteUtils.bytesToInt(machine.getDataStack().pop(), machine.getDataStack().pop());
 							n2 = ByteUtils.bytesToInt(machine.getDataStack().pop(), machine.getDataStack().pop());
