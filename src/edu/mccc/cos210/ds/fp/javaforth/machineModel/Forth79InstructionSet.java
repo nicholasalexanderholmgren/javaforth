@@ -47,8 +47,10 @@ public interface Forth79InstructionSet extends InstructionSet{
 			case 0x40:
 				return Instruction.DPUSH;
 			case 0x41:
-				return Instruction.ROLL;
+				return Instruction.DPUSHC;
 			case 0x42:
+				return Instruction.ROLL;
+			case 0x43:
 				return Instruction.DPOP;
 			case 0x50:
 				return Instruction.CJMP;
@@ -114,10 +116,12 @@ public interface Forth79InstructionSet extends InstructionSet{
 				return 0x32;
 			case DPUSH:
 				return 0x40;
-			case ROLL:
+			case DPUSHC:
 				return 0x41;
-			case DPOP:
+			case ROLL:
 				return 0x42;
+			case DPOP:
+				return 0x43;
 			case CJMP:
 				return 0x50;
 			case JMP:
