@@ -42,6 +42,8 @@ public class ForthDictionary extends LookUpTable {
 		public void setDefinition(String definition) {
 			this.definition = definition;
 		}
-		
+		public String toString() {
+			return name + ": " +definition; 
+		}
 	}
 }
