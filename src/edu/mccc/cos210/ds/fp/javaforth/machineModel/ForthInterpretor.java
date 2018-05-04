@@ -52,7 +52,6 @@ public class ForthInterpretor implements Runnable{
 			machine.appendOutput("ok");
 		}
 		machine.notifyObservers();
-		System.out.println(machine.getDataStack());
 		running = false;
 	}
 	private void interpret(String token) {
