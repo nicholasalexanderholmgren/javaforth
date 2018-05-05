@@ -1,16 +1,16 @@
-+ : ADD ;
-- : SUB ;
-* : MULT ;
-/ : DIV ;
-MOD : MOD ;
-DUP : RPUSH RFROM RFETCH ;
-ROLL : ROLL ;
-ROT : DPUSH 3 ROLL ;
-@ : FETCH ;
-! : STORE ;
-VARIABLE : ALLOC ;
-. : NUMOUT ;
-+1 : DPUSH 1 + ;
-+2 : DPUSH 2 + ;
--1 : DPUSH 1 + ;
--2 : DPUSH 2 - ;
++ : ADD ; Word for adding two 16 bit signed integers.
+- : SUB ; Word for subtracting two 16 bit signed integers.
+* : MULT ; Word for multiplying two 16 bit signed integers.
+/ : DIV ; Word for dividing two 16 bit signed integers.
+MOD : MOD ; Word for modulo two 16 bit signed integers.
+DUP : RPUSH RFROM RFETCH ; Word for duplicating the top of the stack.
+ROLL : ROLL ; Rolls the first item of the stack to the nth position.
+ROT : DPUSH 3 ROLL ; Rolls the first item of the stack to the third position.
+@ : FETCH ; Word for adding two 16 bit signed integers
+! : STORE ; Word for adding two 16 bit signed integers
+VARIABLE : ALLOC ; Word for adding two 16 bit signed integers
+. : NUMOUT ; Word for adding two 16 bit signed integers
++1 : DPUSH 1 + ; Word for adding two 16 bit signed integers
++2 : DPUSH 2 + ; Word for adding two 16 bit signed integers
+-1 : DPUSH 1 + ; Word for adding two 16 bit signed integers
+-2 : DPUSH 2 + ; Word for adding two 16 bit signed integers

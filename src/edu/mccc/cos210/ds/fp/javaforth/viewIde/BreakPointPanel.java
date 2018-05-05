@@ -54,16 +54,19 @@ public class BreakPointPanel extends JPanel implements DocumentListener, MouseLi
 	}
 	@Override
 	public void mousePressed(MouseEvent arg0) {
-		int lineNumber = (((arg0.getY() + this.currentScrollBarValue) - topMargin) / (this.lineHeight + this.margin * 2)) + 1;
+		int lineNumber = (((arg0.getY() + this.currentScrollBarValue) - topMargin) 
+				/ (this.lineHeight + this.margin * 2)) + 1;
 		int currentLine = 1;
 		for (int i = 0; i < this.document.getLength(); i++) {
 			int nextLineStartIndex = DocumentUtilities.getNextLineStartIndex(this.document, i);
 			if (currentLine == lineNumber) {
 				if (DocumentUtilities.isBreakPoint(this.document, i)) {
-					this.document.setCharacterAttributes(i, nextLineStartIndex - 1 - i, DocumentUtilities.DisableBreakPointAttribute, false);
+					this.document.setCharacterAttributes(i, nextLineStartIndex - 1 - i, 
+							DocumentUtilities.DisableBreakPointAttribute, false);
 				}
 				else {
-					this.document.setCharacterAttributes(i, nextLineStartIndex - 1 - i, DocumentUtilities.BreakPointAttribute, false);					
+					this.document.setCharacterAttributes(i, nextLineStartIndex - 1 - i, 
+							DocumentUtilities.BreakPointAttribute, false);					
 				}
 				break;
 			}
@@ -83,7 +86,8 @@ public class BreakPointPanel extends JPanel implements DocumentListener, MouseLi
 		for (int i = 0; i < this.document.getLength(); i++) {
 			javax.swing.text.AttributeSet attributes = this.document.getCharacterElement(i).getAttributes();
 			Object value = attributes.getAttribute(DocumentUtilities.BreakpointAttributeName);
-			if (attributes != null && value != null && (int) value == DocumentUtilities.BreakpointEnabledAttributeValue) {
+			if (attributes != null && value != null && (int) value == 
+					DocumentUtilities.BreakpointEnabledAttributeValue) {
 				this.paintBreakPoint(currentLine, g2d);
 			}
 			i = DocumentUtilities.getNextLineStartIndex(this.document, i);
@@ -94,7 +98,9 @@ public class BreakPointPanel extends JPanel implements DocumentListener, MouseLi
 	private void paintBreakPoint(int lineNumber, Graphics2D g2d) {
 		int circleSize = this.lineHeight - 2;
 		g2d.setColor(Color.red);
-		g2d.fillOval(this.margin, topMargin + (lineNumber - 1) * (this.lineHeight + this.margin * 2) + this.margin - this.currentScrollBarValue, circleSize, circleSize);
+		g2d.fillOval(this.margin, 
+				topMargin + (lineNumber - 1) * (this.lineHeight + this.margin * 2) + this.margin - this.currentScrollBarValue, 
+				circleSize, circleSize);
 	}
 	@Override
 	public void adjustmentValueChanged(AdjustmentEvent arg0) {

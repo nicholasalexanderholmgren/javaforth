@@ -23,7 +23,8 @@ public interface DictionaryLoader {
 		while(br.ready()) {
 			String currentLine = br.readLine();
 			StringTokenizer tokens = new StringTokenizer(currentLine);
-			destination.getDictionary().allocate(tokens.nextToken());
+			String name = tokens.nextToken();
+			destination.getDictionary().allocate(name);
 			tokens.nextToken();
 			String token = "";
 			try {
@@ -37,6 +38,7 @@ public interface DictionaryLoader {
 						if (token.equals(";")) {
 							destination.putAtNextAddr(Forth79InstructionSet.convert(Instruction.valueOf("RFROM")));
 							destination.putAtNextAddr(Forth79InstructionSet.convert(Instruction.valueOf("JMP")));
+							break;
 						}
 						if(token.equals("DPUSH")) {
 							destination.putAtNextAddr(Forth79InstructionSet.convert(Instruction.valueOf("DPUSH")));
@@ -50,6 +52,11 @@ public interface DictionaryLoader {
 						}
 					}
 				}
+				StringBuilder definition = new StringBuilder();
+				while(tokens.hasMoreTokens()) {
+					definition.append(tokens.nextToken()+" ");
+				}
+				destination.getDictionary().addDefinition(name, definition.toString());
 			}catch(IllegalArgumentException e) {
 				if(destination.getDictionary().contains(token)) {
 					destination.putAtNextAddr(Forth79InstructionSet.convert(Instruction.SUBJMP));
