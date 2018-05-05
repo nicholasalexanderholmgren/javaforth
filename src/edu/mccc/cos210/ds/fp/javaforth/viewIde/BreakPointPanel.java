@@ -91,9 +91,15 @@ public class BreakPointPanel extends JPanel implements DocumentListener, MouseLi
 				this.paintBreakPoint(currentLine, g2d);
 			}
 			i = DocumentUtilities.getNextLineStartIndex(this.document, i);
+			paintLineNumber(currentLine, g2d);
 			currentLine++;
 		}
 		g2d.dispose();
+	}
+	//Added to pain line numbers in the text panel
+	private void paintLineNumber(int lineNumber , Graphics g2d) {
+		g2d.setColor(Color.RED);
+		g2d.drawString(Integer.toString(lineNumber) , this.margin + 5 , topMargin + (lineNumber - 1) * (this.lineHeight + this.margin * 2) + this.margin - this.currentScrollBarValue + 13);
 	}
 	private void paintBreakPoint(int lineNumber, Graphics2D g2d) {
 		int circleSize = this.lineHeight - 2;
