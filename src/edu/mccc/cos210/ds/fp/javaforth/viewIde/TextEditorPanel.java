@@ -1,6 +1,7 @@
 package edu.mccc.cos210.ds.fp.javaforth.viewIde;
 
 import java.awt.BorderLayout;
+import java.awt.Dimension;
 import java.awt.Font;
 import javax.swing.JPanel;
 import javax.swing.JScrollPane;
@@ -17,6 +18,7 @@ public class TextEditorPanel extends JPanel {
 		this.setLayout(new BorderLayout());
 		this.add(textScrollPane, BorderLayout.CENTER);
 		BreakPointPanel breakPointPanel = new BreakPointPanel(textPane.getStyledDocument(), lineHeight + 2);
+		breakPointPanel.setPreferredSize(new Dimension(35, 50));
 		this.add(breakPointPanel, BorderLayout.LINE_START);
 		textScrollPane.getVerticalScrollBar().addAdjustmentListener(breakPointPanel);
 		StatusPanel statusPanel = new StatusPanel();
