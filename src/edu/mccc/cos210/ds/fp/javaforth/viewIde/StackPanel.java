@@ -1,5 +1,7 @@
 package edu.mccc.cos210.ds.fp.javaforth.viewIde;
 
+import java.awt.Color;
+import java.awt.Font;
 import java.awt.Graphics;
 import java.util.ArrayList;
 import java.util.List;
@@ -16,16 +18,18 @@ import edu.mccc.cos210.ds.fp.javaforth.util.ByteUtils;
 @SuppressWarnings("serial")
 public class StackPanel extends JScrollPane {
 	private DefaultListModel<String> list = new DefaultListModel<String>();
+	private JList<String> myjList = new JList<String>(list);
 	private List<Byte> rawData;
 	private DisplayMode mode;
 	public StackPanel(ForthMachine fm) {
 		super(JScrollPane.VERTICAL_SCROLLBAR_ALWAYS, JScrollPane.HORIZONTAL_SCROLLBAR_NEVER);
 		rawData = new ArrayList<>();
 		mode = DisplayMode.signedInts;
+		myjList.setFont(new Font(Font.DIALOG_INPUT, Font.BOLD, 22));
+		myjList.setBackground(new Color(0,255,128));
 		JViewport jvp = new JViewport();
-		jvp.setView(new JList<String>(list));
+		jvp.setView(myjList);
 		this.setViewport(jvp);
-		
 	}
 	public void update(ForthStack fs) {
 		rawData.removeAll(rawData);
@@ -42,7 +46,7 @@ public class StackPanel extends JScrollPane {
 		switch(mode) {
 		case signedInts:
 			for(int i = 0; i<rawData.size(); i+=2) {
-				list.addElement(ByteUtils.bytesToInt(rawData.get(i), rawData.get(i + 1)).toString());
+				list.addElement(ByteUtils.bytesToInt(rawData.get(i + 1), rawData.get(i)).toString());
 			}
 			break;
 		default:
