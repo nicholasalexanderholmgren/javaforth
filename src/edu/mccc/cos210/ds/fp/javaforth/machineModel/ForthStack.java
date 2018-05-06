@@ -4,7 +4,6 @@ import java.util.ArrayList;
 import java.util.EmptyStackException;
 import java.util.List;
 import java.util.Stack;
-
 import edu.mccc.cos210.ds.fp.javaforth.util.ByteUtils;
 
 /**
@@ -63,7 +62,9 @@ public class ForthStack {
 	 * @param n - the value being put on the stack as an integers, should be <2^16 or will be modulod into that range.
 	 */
 	public void push(Integer n) {
-		
+		Byte[] bs = ByteUtils.intToBytes(n);
+		push(bs[1]);
+		push(bs[0]);
 	}
 	public Byte popByte() throws EmptyStackException {
 		return stack.pop();
