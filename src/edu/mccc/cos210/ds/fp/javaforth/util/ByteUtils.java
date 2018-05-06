@@ -5,7 +5,7 @@ package edu.mccc.cos210.ds.fp.javaforth.util;
  *
  */
 public interface ByteUtils {
-	public static Integer bytesToInt(byte b, byte a) {
+	public static Integer bytesToInt(byte a, byte b) {
 		int leadingDigits = 0;
 		if(a<0) {
 			leadingDigits = (int) (-Math.pow(2, 16) + (a%128)*256);
