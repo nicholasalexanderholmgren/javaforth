@@ -21,7 +21,7 @@ instructions stored at that address.
 
 Words stored in a .dict file should take the following format:
 
-<name of word> : [instruction for word execution] ; <word source code>
+[name of word] : [instruction for word execution] ; [word source code]
 
 Words that are given in the required word set do not have proper 
 source code and instead have their definitions from the standard
