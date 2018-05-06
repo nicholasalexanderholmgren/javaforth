@@ -44,7 +44,7 @@ public class ForthStack {
 	 * and preventing errors that could happen when a word
 	 * requires more arguments than there are elements on the stack.
 	 * The stack's height means the number of bytes on the stack, not the number of integers.
-	 *  If a word needs multiple integers then make sure
+	 * If a word needs multiple integers then make sure
 	 * the stack has two times the number of needed integers in height.
 	 * @return int the number of bytes on the stack.
 	 */
@@ -68,6 +68,11 @@ public class ForthStack {
 	public Byte popByte() throws EmptyStackException {
 		return stack.pop();
 	}
+	/**
+	 * Method for getting the top 16 bit signed integer from the stack.
+	 * @return Signed integer value of the top two elements of the stack.
+	 * @throws EmptyStackException
+	 */
 	public Integer popInteger() throws EmptyStackException {
 		Byte leading = this.popByte();
 		Byte trailing = this.popByte();
