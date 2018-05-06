@@ -103,7 +103,7 @@ public class BreakPointPanel extends JPanel implements DocumentListener, MouseLi
 	}
 	private void paintBreakPoint(int lineNumber, Graphics2D g2d) {
 		int circleSize = this.lineHeight - 2;
-		g2d.setColor(Color.red);
+		g2d.setColor(Color.ORANGE);
 		g2d.fillOval(this.margin, 
 				topMargin + (lineNumber - 1) * (this.lineHeight + this.margin * 2) + this.margin - this.currentScrollBarValue, 
 				circleSize, circleSize);
