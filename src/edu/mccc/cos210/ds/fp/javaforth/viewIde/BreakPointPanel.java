@@ -61,11 +61,11 @@ public class BreakPointPanel extends JPanel implements DocumentListener, MouseLi
 			int nextLineStartIndex = DocumentUtilities.getNextLineStartIndex(this.document, i);
 			if (currentLine == lineNumber) {
 				if (DocumentUtilities.isBreakPoint(this.document, i)) {
-					this.document.setCharacterAttributes(i, nextLineStartIndex - i, 
+					this.document.setCharacterAttributes(i, nextLineStartIndex - 1 - i, 
 							DocumentUtilities.DisableBreakPointAttribute, false);
 				}
 				else {
-					this.document.setCharacterAttributes(i, nextLineStartIndex - i, 
+					this.document.setCharacterAttributes(i, nextLineStartIndex - 1 - i, 
 							DocumentUtilities.BreakPointAttribute, false);					
 				}
 				break;
