@@ -27,7 +27,7 @@ public enum Instruction {
 	Instruction(int hexValue){
 		this.byteCode = hexValue;
 	}
-	public int getByteCode() {
-		return byteCode;
+	public Byte getByteCode() {
+		return (byte) byteCode;
 	}
 }
