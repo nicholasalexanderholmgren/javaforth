@@ -1,6 +1,8 @@
 package edu.mccc.cos210.ds.fp.javaforth.machineModel;
 
+import java.util.HashMap;
 import java.util.List;
+import java.util.Map;
 import java.util.Vector;
 /*
  * Definition 
@@ -22,6 +24,13 @@ public class ForthDictionary extends LookUpTable {
 			}
 		}
 		return s;
+	}
+	public Map<String, String> getDictionaryMap(){
+		Map<String, String> map = new HashMap<>();
+		for(DefinitionHolder d : sourceHolder) {
+			map.put(d.getName(), d.getDefinition());
+		}
+		return map;
 	}
 	private class DefinitionHolder{
 		private String name;

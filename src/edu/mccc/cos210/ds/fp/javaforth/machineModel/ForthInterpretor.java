@@ -173,6 +173,7 @@ public class ForthInterpretor implements Runnable{
 		}
 		if(token.matches("'[\\x00-\\x7F]'")) {
 			machine.getDataStack().push((byte) token.charAt(1));
+			machine.getDataStack().push((byte) 0);
 			return;
 		}
 		machine.appendOutput("ERROR on word "+token);

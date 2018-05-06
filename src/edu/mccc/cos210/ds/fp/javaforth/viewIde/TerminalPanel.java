@@ -1,5 +1,6 @@
 package edu.mccc.cos210.ds.fp.javaforth.viewIde;
 
+import java.awt.Color;
 import java.awt.Dimension;
 import java.awt.Font;
 import java.awt.event.KeyAdapter;
@@ -37,40 +38,56 @@ public class TerminalPanel extends JScrollPane {
 	 * Helper method for creating the input text and output text area and wrapping them in a JPanel;
 	 */
 	private JPanel createInputAndOutput() {
+		//CHANGES
+		String arrow = ">";
+		
 		JPanel ioRegion;
 		JTextArea inputArea;
 		inputArea = new JTextArea();
 		inputArea.setPreferredSize(this.getSize());
 		inputArea.setTabSize(4);
-		inputArea.setFont(new Font(Font.SERIF,Font.PLAIN, 16));
-		inputArea.append("-->");
+		//CHANGES
+		inputArea.setFont(new Font(Font.DIALOG_INPUT,Font.PLAIN, 22));
+		inputArea.setBackground(new Color(0,100,0));
+		inputArea.setCaretColor(new Color(255,51,51));
+		inputArea.setSelectedTextColor(new Color(0,255,0));
+		inputArea.setForeground(new Color(0, 255 , 0));
+		inputArea.append(arrow);
+		
 		inputArea.addKeyListener(new KeyAdapter() {
 			@Override
 			public void keyReleased(KeyEvent ke) {
 				if (ke.getKeyCode() == KeyEvent.VK_ENTER && inputArea.hasFocus()) {
-					if(inputArea.getText().length() > 4) {
+					//CHANGED TO 2
+					if(inputArea.getText().length() > 2) {
 						String input = inputArea.getText().substring(inputArea.getText().indexOf(">")+1);
 						outputTextArea.append(input.trim() + "\t");
 						machine.interpret(input);
-						inputArea.setText("-->");
-						inputArea.moveCaretPosition(3);
+						inputArea.setText(arrow);
+						inputArea.moveCaretPosition(1);
 					}
 				}
 			}
 			@Override
 			public void keyTyped(KeyEvent ke) {
-				if(inputArea.getText().length() < 3) {
-					inputArea.setText("-->");
-					inputArea.moveCaretPosition(3);
+				//CHANGED
+				if(inputArea.getText().length() < 2) {
+					inputArea.setText(arrow);
+					inputArea.moveCaretPosition(1);
 				}
 			}
 		});
 		outputTextArea = new JTextArea();
 		outputTextArea.setEditable(false);
 		outputTextArea.setTabSize(4);
-		outputTextArea.setFont(new Font(Font.SERIF, Font.PLAIN, 16));
+		//CHANGED
+		outputTextArea.setFont(new Font(Font.DIALOG_INPUT, Font.PLAIN, 22));
 		outputTextArea.setWrapStyleWord(true);
 		outputTextArea.setMaximumSize(new Dimension(Integer.MAX_VALUE, 0));
+		outputTextArea.setBackground(new Color(0,100,0));
+		outputTextArea.setCaretColor(new Color(255,51,51));
+		outputTextArea.setSelectedTextColor(new Color(50,205,50));
+		outputTextArea.setForeground(new Color(0, 255, 0));
 		ioRegion = new JPanel();
 		ioRegion.setLayout(new BoxLayout(ioRegion, BoxLayout.Y_AXIS));
 		ioRegion.add(outputTextArea);

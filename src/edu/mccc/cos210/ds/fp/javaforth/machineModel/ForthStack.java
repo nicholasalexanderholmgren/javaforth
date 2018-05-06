@@ -31,12 +31,12 @@ public class ForthStack {
 	public String toString() {
 		return stack.toString();
 	}
-	public List<String> asList() {
-		ArrayList<String> strings = new ArrayList<>();
+	public List<Byte> asList() {
+		ArrayList<Byte> bytes = new ArrayList<>();
 		for(Byte b : stack) {
-			strings.add(Integer.toHexString(Byte.toUnsignedInt(b)));
+			bytes.add(b);
 		}
-		return strings;
+		return bytes;
 	}
 	/**
 	 * This method calculates the height of the stack, which is likely useful for debugging 
