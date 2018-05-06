@@ -60,7 +60,10 @@ public class ForthInterpretor implements Runnable{
 			return;
 		}
 		if(token.equals(":")) {
-			for(Byte b : ICompiler.compile(machine, ";")) {
+			ForthWord fw = ICompiler.compile(machine, ";");
+			machine.getDictionary().allocate(fw.getName());
+			machine.getDictionary().addDefinition(fw.getName(), fw.getSourceCode());
+			for(Byte b : fw.getCompiledCode()) {
 				machine.putAtNextAddr(b);
 			}
 			return;
