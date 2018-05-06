@@ -50,15 +50,18 @@ public class ForthStack {
 		return stack.size();
 	}
 	/**
-	 * Method for pushing bytes on to the stack. 
+	 * 
+	 * @param byt
 	 */
 	public void push(Byte byt) {
 		stack.push(byt);
 	}
-	public void push(Byte[] bytes) {
-		for(Byte byt : bytes) {
-			push(byt);
-		}
+	/**
+	 * Method for pushing integers on to the stack. This method handles 
+	 * @param n - the value being put on the stack as an integers, should be <2^16 or will be modulod into that range.
+	 */
+	public void push(Integer n) {
+		
 	}
 	public Byte pop() throws EmptyStackException {
 		return stack.pop();

@@ -72,39 +72,33 @@ public class ForthInterpretor implements Runnable{
 				while (!haltFlag && instPointer != 0) {
 					ArrayList<Byte> temp = new ArrayList<>();
 					Byte byteCode = machine.getFromAddr(instPointer);
-					Byte[] ans;
 					int n1, n2;
 					Instruction i = Forth79InstructionSet.convert(byteCode);
 					switch(i) {
 						case ADD:
 							n1 = ByteUtils.bytesToInt(machine.getDataStack().pop(), machine.getDataStack().pop());
 							n2 = ByteUtils.bytesToInt(machine.getDataStack().pop(), machine.getDataStack().pop());
-							ans = ByteUtils.intToBytes(n1+n2);
-							machine.getDataStack().push(ans);
+							machine.getDataStack().push(n1+n2);
 							break;
 						case SUB:
 							n1 = ByteUtils.bytesToInt(machine.getDataStack().pop(), machine.getDataStack().pop());
 							n2 = ByteUtils.bytesToInt(machine.getDataStack().pop(), machine.getDataStack().pop());
-							ans = ByteUtils.intToBytes(n1-n2);
-							machine.getDataStack().push(ans);
+							machine.getDataStack().push(n1-n2);
 							break;
 						case MULT:
 							n1 = ByteUtils.bytesToInt(machine.getDataStack().pop(), machine.getDataStack().pop());
 							n2 = ByteUtils.bytesToInt(machine.getDataStack().pop(), machine.getDataStack().pop());
-							ans = ByteUtils.intToBytes(n1*n2);
-							machine.getDataStack().push(ans);
+							machine.getDataStack().push(n1*n2);
 							break;
 						case DIV:
 							n1 = ByteUtils.bytesToInt(machine.getDataStack().pop(), machine.getDataStack().pop());
 							n2 = ByteUtils.bytesToInt(machine.getDataStack().pop(), machine.getDataStack().pop());
-							ans = ByteUtils.intToBytes(n1/n2);
-							machine.getDataStack().push(ans);
+							machine.getDataStack().push(n1/n2);
 							break;
 						case MOD:
 							n1 = ByteUtils.bytesToInt(machine.getDataStack().pop(), machine.getDataStack().pop());
 							n2 = ByteUtils.bytesToInt(machine.getDataStack().pop(), machine.getDataStack().pop());
-							ans = ByteUtils.intToBytes(n1%n2);
-							machine.getDataStack().push(ans);
+							machine.getDataStack().push(n1%n2);
 							break;
 						case JMP:
 							instPointer = ByteUtils.bytesToAddr(
@@ -118,7 +112,7 @@ public class ForthInterpretor implements Runnable{
 							}
 							break;
 						case SUBJMP:
-							machine.getReturnStack().push(ByteUtils.addrToBytes(instPointer + 3));
+							machine.getReturnStack().push(instPointer + 3);
 							instPointer = ByteUtils.bytesToAddr(
 									machine.getDataStack().pop(), machine.getDataStack().pop());
 							break;
@@ -173,7 +167,7 @@ public class ForthInterpretor implements Runnable{
 		}
 		try {
 			int i = Integer.parseInt(token);
-			machine.getDataStack().push(ByteUtils.intToBytes(i));
+			machine.getDataStack().push(i);
 			return;
 		}catch(NumberFormatException e) {
 			
