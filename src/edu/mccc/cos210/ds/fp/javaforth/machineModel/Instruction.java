@@ -8,7 +8,7 @@ public enum Instruction {
 	//logical operations 20-2F
 	GREATER, LESS, EQL, AND, XOR,
 	//return stack operations 30-3F
-	RFETCH, RPUSH,  RFROM, 
+	RFETCH, RPUSH, RFROM, RETURN,
 	//data stack operations 40-4F
 	//Data Stack Push
 	//Data Stack Push character

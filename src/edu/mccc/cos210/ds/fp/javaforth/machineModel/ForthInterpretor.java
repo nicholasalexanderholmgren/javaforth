@@ -72,83 +72,76 @@ public class ForthInterpretor implements Runnable{
 				while (!haltFlag && instPointer != 0) {
 					ArrayList<Byte> temp = new ArrayList<>();
 					Byte byteCode = machine.getFromAddr(instPointer);
-					Byte[] ans;
 					int n1, n2;
 					Instruction i = Forth79InstructionSet.convert(byteCode);
 					switch(i) {
 						case ADD:
-							n1 = ByteUtils.bytesToInt(machine.getDataStack().pop(), machine.getDataStack().pop());
-							n2 = ByteUtils.bytesToInt(machine.getDataStack().pop(), machine.getDataStack().pop());
-							ans = ByteUtils.intToBytes(n1+n2);
-							machine.getDataStack().push(ans);
+							n1 = machine.getDataStack().popInteger();
+							n2 = machine.getDataStack().popInteger();
+							machine.getDataStack().push(n1+n2);
 							break;
 						case SUB:
-							n1 = ByteUtils.bytesToInt(machine.getDataStack().pop(), machine.getDataStack().pop());
-							n2 = ByteUtils.bytesToInt(machine.getDataStack().pop(), machine.getDataStack().pop());
-							ans = ByteUtils.intToBytes(n1-n2);
-							machine.getDataStack().push(ans);
+							n1 = machine.getDataStack().popInteger();
+							n2 = machine.getDataStack().popInteger();
+							machine.getDataStack().push(n1-n2);
 							break;
 						case MULT:
-							n1 = ByteUtils.bytesToInt(machine.getDataStack().pop(), machine.getDataStack().pop());
-							n2 = ByteUtils.bytesToInt(machine.getDataStack().pop(), machine.getDataStack().pop());
-							ans = ByteUtils.intToBytes(n1*n2);
-							machine.getDataStack().push(ans);
+							n1 = machine.getDataStack().popInteger();
+							n2 = machine.getDataStack().popInteger();
+							machine.getDataStack().push(n1*n2);
 							break;
 						case DIV:
-							n1 = ByteUtils.bytesToInt(machine.getDataStack().pop(), machine.getDataStack().pop());
-							n2 = ByteUtils.bytesToInt(machine.getDataStack().pop(), machine.getDataStack().pop());
-							ans = ByteUtils.intToBytes(n1/n2);
-							machine.getDataStack().push(ans);
+							n1 = machine.getDataStack().popInteger();
+							n2 = machine.getDataStack().popInteger();
+							machine.getDataStack().push(n1/n2);
 							break;
 						case MOD:
-							n1 = ByteUtils.bytesToInt(machine.getDataStack().pop(), machine.getDataStack().pop());
-							n2 = ByteUtils.bytesToInt(machine.getDataStack().pop(), machine.getDataStack().pop());
-							ans = ByteUtils.intToBytes(n1%n2);
-							machine.getDataStack().push(ans);
+							n1 = machine.getDataStack().popInteger();
+							n2 = machine.getDataStack().popInteger();
+							machine.getDataStack().push(n1%n2);
 							break;
 						case JMP:
-							instPointer = ByteUtils.bytesToAddr(
-									machine.getDataStack().pop(), machine.getDataStack().pop());
+							instPointer += ByteUtils.bytesToAddr(
+									machine.getDataStack().popByte(), machine.getDataStack().popByte());
 							break;
 						case CJMP:
-							if((ByteUtils.bytesToInt(machine.getDataStack().pop(),machine.getDataStack().pop()) != 0)){
-								instPointer = 
-										ByteUtils.bytesToAddr(machine.getDataStack().pop(), 
-												machine.getDataStack().pop());
+							if(machine.getDataStack().popInteger()!= 0){
+								instPointer += 
+										ByteUtils.bytesToAddr(machine.getDataStack().popByte(), 
+												machine.getDataStack().popByte());
 							}
 							break;
 						case SUBJMP:
-							machine.getReturnStack().push(ByteUtils.addrToBytes(instPointer + 3));
+							machine.getReturnStack().push(instPointer + 3);
 							instPointer = ByteUtils.bytesToAddr(
-									machine.getDataStack().pop(), machine.getDataStack().pop());
+									machine.getDataStack().popByte(), machine.getDataStack().popByte());
 							break;
 						case RFETCH:
-							temp.add(machine.getReturnStack().pop());
-							temp.add(machine.getReturnStack().pop());
+							temp.add(machine.getReturnStack().popByte());
+							temp.add(machine.getReturnStack().popByte());
 							machine.getReturnStack().push(temp.get(1));
 							machine.getReturnStack().push(temp.get(0));
 							machine.getDataStack().push(temp.get(1));
 							machine.getDataStack().push(temp.get(0));
 							break;
 						case RPUSH:
-							temp.add(machine.getDataStack().pop());
-							temp.add(machine.getDataStack().pop());
+							temp.add(machine.getDataStack().popByte());
+							temp.add(machine.getDataStack().popByte());
 							machine.getReturnStack().push(temp.get(1));
 							machine.getReturnStack().push(temp.get(0));
 						case RFROM:
-							temp.add(machine.getReturnStack().pop());
-							temp.add(machine.getReturnStack().pop());
+							temp.add(machine.getReturnStack().popByte());
+							temp.add(machine.getReturnStack().popByte());
 							machine.getDataStack().push(temp.get(1));
 							machine.getDataStack().push(temp.get(0));
 							break;
 						case NUMOUT:
-							temp.add(machine.getDataStack().pop());
-							temp.add(machine.getDataStack().pop());
-							machine.appendOutput(ByteUtils.bytesToInt(temp.get(0), temp.get(1)).toString()+ " ");
+							n1 = machine.getDataStack().popInteger();
+							machine.appendOutput(n1+ " ");
 							break;
 						case FETCH:
-							temp.add(machine.getDataStack().pop());
-							temp.add(machine.getDataStack().pop());
+							temp.add(machine.getDataStack().popByte());
+							temp.add(machine.getDataStack().popByte());
 							break;
 						default:
 							break;
@@ -173,7 +166,7 @@ public class ForthInterpretor implements Runnable{
 		}
 		try {
 			int i = Integer.parseInt(token);
-			machine.getDataStack().push(ByteUtils.intToBytes(i));
+			machine.getDataStack().push(i);
 			return;
 		}catch(NumberFormatException e) {
 			
