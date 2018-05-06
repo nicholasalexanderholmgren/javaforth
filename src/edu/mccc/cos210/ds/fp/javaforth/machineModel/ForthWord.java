@@ -4,15 +4,10 @@ import java.util.List;
 
 public class ForthWord {
 	private List<Byte> compiledCode;
-	private String name;
 	private String source;
-	public ForthWord(String name, List<Byte> compiledCode, String sourceCode) {
-		this.name = name;
+	public ForthWord(List<Byte> compiledCode, String sourceCode) {
 		this.compiledCode = compiledCode;
 		this.source = sourceCode;
-	}
-	public String getName() {
-		return name;
 	}
 	public String getSourceCode() {
 		return source;

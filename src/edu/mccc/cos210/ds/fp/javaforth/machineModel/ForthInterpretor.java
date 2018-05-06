@@ -60,12 +60,13 @@ public class ForthInterpretor implements Runnable{
 			return;
 		}
 		if(token.equals(":")) {
+			String name = machine.getInputStream().pull();
+			machine.getDictionary().allocate(name);
 			ForthWord fw = ICompiler.compile(machine, ";");
-			machine.getDictionary().allocate(fw.getName());
-			machine.getDictionary().addDefinition(fw.getName(), fw.getSourceCode());
 			for(Byte b : fw.getCompiledCode()) {
 				machine.putAtNextAddr(b);
 			}
+			machine.getDictionary().addDefinition(name, fw.getSourceCode());
 			return;
 		}
 		instPointer = 0;
