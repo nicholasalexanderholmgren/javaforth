@@ -5,6 +5,8 @@ import java.util.EmptyStackException;
 import java.util.List;
 import java.util.Stack;
 
+import edu.mccc.cos210.ds.fp.javaforth.util.ByteUtils;
+
 /**
  * Forthstack is a memory segment implementation that is further specialized to aid in managing the stack
  * region of the ForthMachine's memory.
@@ -63,7 +65,13 @@ public class ForthStack {
 	public void push(Integer n) {
 		
 	}
-	public Byte pop() throws EmptyStackException {
+	public Byte popByte() throws EmptyStackException {
 		return stack.pop();
+	}
+	public Integer popInteger() throws EmptyStackException {
+		Byte leading = this.popByte();
+		Byte trailing = this.popByte();
+		int ans = ByteUtils.bytesToInt(leading, trailing);
+		return ans;
 	}
 }
