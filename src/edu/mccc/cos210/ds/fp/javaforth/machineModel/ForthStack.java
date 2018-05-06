@@ -30,10 +30,10 @@ public class ForthStack {
 	public String toString() {
 		return stack.toString();
 	}
-	public List<String> asList() {
-		ArrayList<String> strings = new ArrayList<>();
+	public List<Byte> asList() {
+		ArrayList<Byte> strings = new ArrayList<>();
 		for(Byte b : stack) {
-			strings.add(Integer.toHexString(Byte.toUnsignedInt(b)));
+			strings.add(b);
 		}
 		return strings;
 	}

@@ -18,8 +18,8 @@ public class StackPanel extends JScrollPane {
 	}
 	public void update(ForthStack fs) {
 		list.removeAllElements();
-		for(String s : fs.asList()) {
-			list.addElement(s);
+		for(Byte b : fs.asList()) {
+			list.addElement(b.toString());
 		}
 		// TODO
 	}
