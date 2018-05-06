@@ -21,7 +21,8 @@ instructions stored at that address.
 
 Words stored in a .dict file should take the following format:
 
-[name of word] : [instruction for word execution] ; [word source code]
+[name of word] : [instruction for word execution] ; 
+[word source code]
 
 Words that are given in the required word set do not have proper 
 source code and instead have their definitions from the standard
@@ -97,18 +98,39 @@ Move the instruction pointer to the top address of the return
 stack.
 ### Data stack Instructions
 #### DPUSH 
-#### DPUSHC  
-#### ROLL 
+Push the next two bytes in instruction memory to the data stack.
+Effectively makes the next two bytes be literal values.
+#### ROLL
+Takes the top integer of the stack as an argument, then moves the
+item after that to the Nth place in the stack, where N is the
+argument value.
 #### DPOP
+Remove the top item of the stack and do nothing with it.
 ### Memory operations 50-5F
-#### CJMP 
 #### JMP
+Move the instruction pointer the integer that follows this
+relative to its current position. 
+#### CJMP 
+Pop the top item of the stack. If it was not 0, as JMP, otherwise
+move the instruction pointer past the following integer.
 #### SUBJMP 
-#### FETCH 
-#### STORE 
+Put the current instruction pointer address, plus 3, on the
+ return stack.
+Then jump to address that follows this instruction.
+#### FETCH
+Pop the top address off the data stack, then push the integer
+value found at that address to the data stack
+#### STORE
+Pop the top address off the data stack, then pop the top integer
+value from the data stack. Store the integer value at the 
+specified address.  
 #### ALLOC
+Allocate two bytes in the memory.
 #### ALLOCSTRING 
+Store the next token from the input stream in memory as a 
+packed string.
 #### ALLOCVAR
+
 	//mode change 60-6F
 	COMPILE, INTERP, 
 	//output operations 70-7F
