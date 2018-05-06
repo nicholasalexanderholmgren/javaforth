@@ -80,4 +80,15 @@ public class ForthStack {
 		int ans = ByteUtils.bytesToInt(leading, trailing);
 		return ans;
 	}
+	/**
+	 * Method for getting the top 16 bit unsigned integer from the stack.
+	 * @return Unsigned integer value of the top two elements of the stack.
+	 * @throws EmptyStackException
+	 */
+	public Integer popAddr() throws EmptyStackException {
+		Byte leading = this.popByte();
+		Byte trailing = this.popByte();
+		int ans = ByteUtils.bytesToAddr(leading, trailing);
+		return ans;
+	}
 }
