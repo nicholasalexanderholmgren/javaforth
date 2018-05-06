@@ -150,7 +150,7 @@ public class ForthMachine implements ISubject {
 	 * @return Map<String,String>
 	 */
 	public Map<String, String> getDictionaryAsMap(){
-		return null;
+		return dict.getDictionaryMap();
 	}
 	public void appendOutput(String output) {
 		this.output += output;
