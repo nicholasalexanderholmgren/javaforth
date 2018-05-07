@@ -25,7 +25,20 @@ public interface ICompiler {
 				compiledCode.addAll(jumpToCompiledWord(token ,machine));
 			} else {
 				if(token.equalsIgnoreCase("if")) {
-					ForthWord prefix = compile(machine, "else");
+					ForthWord clause = compile(machine, "else");
+					source.append(clause.getSourceCode());
+					machine.putAtNextAddr(Instruction.CJMP.getByteCode());
+					int clauseLength = clause.getCompiledCode().size()+3;
+					machine.putAtNextAddr(ByteUtils.intToBytes(clauseLength)[0]);
+					machine.putAtNextAddr(ByteUtils.intToBytes(clauseLength)[1]);
+					for(Byte b : clause.getCompiledCode()) {
+						machine.putAtNextAddr(b);
+					}
+					clause = compile(machine,"then");
+					machine.putAtNextAddr(Instruction.JMP.getByteCode());
+					clauseLength = clause.getCompiledCode().size()+3;
+					machine.putAtNextAddr(ByteUtils.intToBytes(clauseLength)[0]);
+					machine.putAtNextAddr(ByteUtils.intToBytes(clauseLength)[1]);
 				}
 				try {
 					compiledCode.addAll(integerLiteral(Integer.parseInt(token)));
