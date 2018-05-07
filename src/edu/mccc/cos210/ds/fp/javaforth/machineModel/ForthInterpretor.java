@@ -60,7 +60,7 @@ public class ForthInterpretor implements Runnable{
 		}
 		if(token.equals(":")) {
 			String name = machine.getInputStream().pull();
-			machine.getDictionary().allocate(name);
+			machine.getDictionary().allocate(name.toUpperCase());
 			ForthWord fw = ICompiler.compile(machine, ";");
 			for(Byte b : fw.getCompiledCode()) {
 				machine.putAtNextAddr(b);
@@ -69,7 +69,8 @@ public class ForthInterpretor implements Runnable{
 			return;
 		}
 		instPointer = 0;
-		if(machine.getDictionary().contains(token)) {
+		if(machine.getDictionary().contains(token.toUpperCase())) {
+			token = token.toUpperCase();
 			machine.getReturnStack().push(0);
 			instPointer = machine.getDictionary().findAddr(token);
 			try {
