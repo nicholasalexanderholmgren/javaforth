@@ -59,11 +59,18 @@ public class ForthInterpretor implements Runnable{
 			return;
 		}
 		if(token.equals(":")) {
-			//ICompiler.compile(machine);
+			String name = machine.getInputStream().pull();
+			machine.getDictionary().allocate(name.toUpperCase());
+			ForthWord fw = ICompiler.compile(machine, ";");
+			for(Byte b : fw.getCompiledCode()) {
+				machine.putAtNextAddr(b);
+			}
+			machine.getDictionary().addDefinition(name, fw.getSourceCode());
 			return;
 		}
 		instPointer = 0;
-		if(machine.getDictionary().contains(token)) {
+		if(machine.getDictionary().contains(token.toUpperCase())) {
+			token = token.toUpperCase();
 			machine.getReturnStack().push(0);
 			instPointer = machine.getDictionary().findAddr(token);
 			try {
@@ -98,18 +105,24 @@ public class ForthInterpretor implements Runnable{
 							n2 = machine.getDataStack().popInteger();
 							machine.getDataStack().push(n1%n2);
 							break;
+						case DPUSH:
+							machine.getDataStack().push(ByteUtils.bytesToInt(
+									machine.getFromAddr(instPointer + 1),
+									machine.getFromAddr(instPointer + 2)));
+							instPointer += 2;
+							break;
 						case JMP:
-							instPointer += ByteUtils.bytesToAddr(
-									machine.getDataStack().popByte(), machine.getDataStack().popByte());
+							instPointer += ByteUtils.bytesToAddr(machine.getFromAddr(instPointer + 1), 
+									machine.getFromAddr(instPointer + 2));
+							instPointer += 3;
 							break;
 						case CJMP:
-							if(machine.getDataStack().popInteger()!= 0){
+							if(machine.getDataStack().popInteger() == 0){
 								instPointer += 
-										ByteUtils.bytesToAddr(machine.getDataStack().popByte(), 
-												machine.getDataStack().popByte());
-							} else {
-								instPointer += 1;
+										ByteUtils.bytesToAddr(machine.getFromAddr(instPointer + 1), 
+												machine.getFromAddr(instPointer + 2));
 							}
+							instPointer += 3;
 							break;
 						case SUBJMP:
 							machine.getReturnStack().push(instPointer + 3);
@@ -203,6 +216,6 @@ public class ForthInterpretor implements Runnable{
 	 * states.
 	 */
 	public boolean isRunning() {
-		return false;
+		return running;
 	}
 }
