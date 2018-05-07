@@ -31,14 +31,13 @@ public interface ICompiler {
 					int clauseLength = clause.getCompiledCode().size()+3;
 					machine.putAtNextAddr(ByteUtils.intToBytes(clauseLength)[0]);
 					machine.putAtNextAddr(ByteUtils.intToBytes(clauseLength)[1]);
-					for(Byte b : clause.getCompiledCode()) {
-						machine.putAtNextAddr(b);
-					}
+					compiledCode.addAll(clause.getCompiledCode());
 					clause = compile(machine,"then");
 					machine.putAtNextAddr(Instruction.JMP.getByteCode());
 					clauseLength = clause.getCompiledCode().size()+3;
 					machine.putAtNextAddr(ByteUtils.intToBytes(clauseLength)[0]);
 					machine.putAtNextAddr(ByteUtils.intToBytes(clauseLength)[1]);
+					compiledCode.addAll(clause.getCompiledCode());
 				}
 				try {
 					compiledCode.addAll(integerLiteral(Integer.parseInt(token)));
@@ -48,7 +47,9 @@ public interface ICompiler {
 			}
 			token = input.pull();
 		}
-		compiledCode.add(Instruction.RETURN.getByteCode());
+		if (terminator.equals(";")) {
+			compiledCode.add(Instruction.RETURN.getByteCode());
+		}
 		ForthWord word = new ForthWord(compiledCode, source.toString());
 		return word;
 	}
