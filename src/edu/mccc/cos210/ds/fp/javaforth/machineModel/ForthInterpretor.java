@@ -60,13 +60,12 @@ public class ForthInterpretor implements Runnable{
 			return;
 		}
 		if(token.equals(":")) {
-			ICompiler.compile(machine);
+			//ICompiler.compile(machine);
 			return;
 		}
 		instPointer = 0;
 		if(machine.getDictionary().contains(token)) {
-			machine.getReturnStack().push((byte) 0);
-			machine.getReturnStack().push((byte) 0);
+			machine.getReturnStack().push(0);
 			instPointer = machine.getDictionary().findAddr(token);
 			try {
 				while (!haltFlag && instPointer != 0) {
@@ -135,6 +134,9 @@ public class ForthInterpretor implements Runnable{
 							machine.getDataStack().push(temp.get(1));
 							machine.getDataStack().push(temp.get(0));
 							break;
+						case RETURN:
+							instPointer = machine.getReturnStack().popAddr();
+							break;
 						case NUMOUT:
 							n1 = machine.getDataStack().popInteger();
 							machine.appendOutput(n1+ " ");
@@ -148,7 +150,8 @@ public class ForthInterpretor implements Runnable{
 					}
 					if(Forth79InstructionSet.convert(byteCode) != Instruction.JMP &&
 							Forth79InstructionSet.convert(byteCode) != Instruction.CJMP &&
-							Forth79InstructionSet.convert(byteCode) != Instruction.SUBJMP) {
+							Forth79InstructionSet.convert(byteCode) != Instruction.SUBJMP &&
+							Forth79InstructionSet.convert(byteCode) != Instruction.RETURN) {
 						instPointer += 1;
 					}
 				}

@@ -42,7 +42,7 @@ public class StackPanel extends JScrollPane {
 		switch(mode) {
 		case signedInts:
 			for(int i = 0; i<rawData.size(); i+=2) {
-				list.addElement(ByteUtils.bytesToInt(rawData.get(i), rawData.get(i + 1)).toString());
+				list.addElement(ByteUtils.bytesToInt(rawData.get(i + 1), rawData.get(i)).toString());
 			}
 			break;
 		default:
