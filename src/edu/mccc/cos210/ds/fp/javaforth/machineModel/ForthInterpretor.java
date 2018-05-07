@@ -114,7 +114,7 @@ public class ForthInterpretor implements Runnable{
 										ByteUtils.bytesToAddr(machine.getDataStack().popByte(), 
 												machine.getDataStack().popByte());
 							} else {
-								instPointer += 1;
+								instPointer += 3;
 							}
 							break;
 						case SUBJMP:
