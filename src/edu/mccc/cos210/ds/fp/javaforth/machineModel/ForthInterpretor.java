@@ -135,6 +135,9 @@ public class ForthInterpretor implements Runnable{
 							machine.getDataStack().push(temp.get(1));
 							machine.getDataStack().push(temp.get(0));
 							break;
+						case RETURN:
+							instPointer = machine.getReturnStack().popAddr();
+							break;
 						case NUMOUT:
 							n1 = machine.getDataStack().popInteger();
 							machine.appendOutput(n1+ " ");
