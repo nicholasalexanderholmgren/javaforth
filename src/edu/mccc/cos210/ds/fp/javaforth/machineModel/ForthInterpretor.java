@@ -109,7 +109,7 @@ public class ForthInterpretor implements Runnable{
 									machine.getDataStack().popByte(), machine.getDataStack().popByte());
 							break;
 						case CJMP:
-							if(machine.getDataStack().popInteger()!= 0){
+							if(machine.getDataStack().popInteger() == 0){
 								instPointer += 
 										ByteUtils.bytesToAddr(machine.getDataStack().popByte(), 
 												machine.getDataStack().popByte());
