@@ -209,6 +209,6 @@ public class ForthInterpretor implements Runnable{
 	 * states.
 	 */
 	public boolean isRunning() {
-		return false;
+		return running;
 	}
 }
