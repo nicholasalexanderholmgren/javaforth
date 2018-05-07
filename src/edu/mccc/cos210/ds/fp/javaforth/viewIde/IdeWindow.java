@@ -70,7 +70,7 @@ public class IdeWindow extends JFrame implements IObserver {
 		c.weighty = 0.33;
 		c.gridx = 2;
     	c.gridy = 1;
-		this.dictPanel = new DictionaryPanel();
+		this.dictPanel = new DictionaryPanel(machine);
 		dictPanel.setBorder(
 			new CompoundBorder(
 				new BevelBorder(BevelBorder.RAISED),

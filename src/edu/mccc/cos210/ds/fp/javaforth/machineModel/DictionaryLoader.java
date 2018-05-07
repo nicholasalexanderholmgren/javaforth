@@ -36,8 +36,7 @@ public interface DictionaryLoader {
 						continue;
 					}else {
 						if (token.equals(";")) {
-							destination.putAtNextAddr(Forth79InstructionSet.convert(Instruction.valueOf("RFROM")));
-							destination.putAtNextAddr(Forth79InstructionSet.convert(Instruction.valueOf("JMP")));
+							destination.putAtNextAddr(Forth79InstructionSet.convert(Instruction.valueOf("RETURN")));
 							break;
 						}
 						if(token.equals("DPUSH")) {

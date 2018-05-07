@@ -55,7 +55,6 @@ public class ForthInterpretor implements Runnable{
 		running = false;
 	}
 	private void interpret(String token) {
-		instPointer = 0;
 		if(token == null) {
 			return;
 		}
@@ -71,8 +70,7 @@ public class ForthInterpretor implements Runnable{
 		}
 		instPointer = 0;
 		if(machine.getDictionary().contains(token)) {
-			machine.getReturnStack().push((byte) 0);
-			machine.getReturnStack().push((byte) 0);
+			machine.getReturnStack().push(0);
 			instPointer = machine.getDictionary().findAddr(token);
 			try {
 				while (!haltFlag && instPointer != 0) {
@@ -115,12 +113,14 @@ public class ForthInterpretor implements Runnable{
 								instPointer += 
 										ByteUtils.bytesToAddr(machine.getDataStack().popByte(), 
 												machine.getDataStack().popByte());
+							} else {
+								instPointer += 1;
 							}
 							break;
 						case SUBJMP:
 							machine.getReturnStack().push(instPointer + 3);
 							instPointer = ByteUtils.bytesToAddr(
-									machine.getDataStack().popByte(), machine.getDataStack().popByte());
+									machine.getFromAddr(instPointer + 1), machine.getFromAddr(instPointer + 2));
 							break;
 						case RFETCH:
 							temp.add(machine.getReturnStack().popByte());
@@ -141,6 +141,9 @@ public class ForthInterpretor implements Runnable{
 							machine.getDataStack().push(temp.get(1));
 							machine.getDataStack().push(temp.get(0));
 							break;
+						case RETURN:
+							instPointer = machine.getReturnStack().popAddr();
+							break;
 						case NUMOUT:
 							n1 = machine.getDataStack().popInteger();
 							machine.appendOutput(n1+ " ");
@@ -154,7 +157,8 @@ public class ForthInterpretor implements Runnable{
 					}
 					if(Forth79InstructionSet.convert(byteCode) != Instruction.JMP &&
 							Forth79InstructionSet.convert(byteCode) != Instruction.CJMP &&
-							Forth79InstructionSet.convert(byteCode) != Instruction.SUBJMP) {
+							Forth79InstructionSet.convert(byteCode) != Instruction.SUBJMP &&
+							Forth79InstructionSet.convert(byteCode) != Instruction.RETURN) {
 						instPointer += 1;
 					}
 				}
