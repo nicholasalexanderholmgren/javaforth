@@ -44,6 +44,8 @@ public interface Forth79InstructionSet extends InstructionSet{
 				return Instruction.RPUSH;
 			case 0x32:
 				return Instruction.RFROM;
+			case 0x33:
+				return Instruction.RETURN;
 			case 0x40:
 				return Instruction.DPUSH;
 			case 0x41:
@@ -114,6 +116,8 @@ public interface Forth79InstructionSet extends InstructionSet{
 				return 0x31;
 			case RFROM:
 				return 0x32;
+			case RETURN:
+				return 0x33;
 			case DPUSH:
 				return 0x40;
 			case DPUSHC:

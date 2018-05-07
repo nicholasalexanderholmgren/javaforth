@@ -150,7 +150,8 @@ public class ForthInterpretor implements Runnable{
 					}
 					if(Forth79InstructionSet.convert(byteCode) != Instruction.JMP &&
 							Forth79InstructionSet.convert(byteCode) != Instruction.CJMP &&
-							Forth79InstructionSet.convert(byteCode) != Instruction.SUBJMP) {
+							Forth79InstructionSet.convert(byteCode) != Instruction.SUBJMP &&
+							Forth79InstructionSet.convert(byteCode) != Instruction.RETURN) {
 						instPointer += 1;
 					}
 				}
