@@ -27,16 +27,16 @@ public interface ICompiler {
 				if(token.equalsIgnoreCase("if")) {
 					ForthWord clause = compile(machine, "else");
 					source.append(clause.getSourceCode());
-					machine.putAtNextAddr(Instruction.CJMP.getByteCode());
+					compiledCode.add(Instruction.CJMP.getByteCode());
 					int clauseLength = clause.getCompiledCode().size()+3;
-					machine.putAtNextAddr(ByteUtils.intToBytes(clauseLength)[0]);
-					machine.putAtNextAddr(ByteUtils.intToBytes(clauseLength)[1]);
+					compiledCode.add((ByteUtils.intToBytes(clauseLength)[0]));
+					compiledCode.add((ByteUtils.intToBytes(clauseLength)[1]));
 					compiledCode.addAll(clause.getCompiledCode());
 					clause = compile(machine,"then");
-					machine.putAtNextAddr(Instruction.JMP.getByteCode());
+					compiledCode.add(Instruction.JMP.getByteCode());
 					clauseLength = clause.getCompiledCode().size()+3;
-					machine.putAtNextAddr(ByteUtils.intToBytes(clauseLength)[0]);
-					machine.putAtNextAddr(ByteUtils.intToBytes(clauseLength)[1]);
+					compiledCode.add((ByteUtils.intToBytes(clauseLength)[0]));
+					compiledCode.add((ByteUtils.intToBytes(clauseLength)[1]));
 					compiledCode.addAll(clause.getCompiledCode());
 				}
 				try {
