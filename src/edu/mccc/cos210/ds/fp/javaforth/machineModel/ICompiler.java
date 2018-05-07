@@ -19,11 +19,14 @@ public interface ICompiler {
 		String token = input.pull();
 		StringBuilder source = new StringBuilder();
 		List<Byte> compiledCode = new ArrayList<>();
-		while(!token.equals(terminator)) {
+		while(!token.equalsIgnoreCase(terminator)) {
 			source.append(token+" ");
 			if(machine.getDictionary().contains(token)) {
 				compiledCode.addAll(jumpToCompiledWord(token ,machine));
 			} else {
+				if(token.equalsIgnoreCase("if")) {
+					ForthWord prefix = compile(machine, "else");
+				}
 				try {
 					compiledCode.addAll(integerLiteral(Integer.parseInt(token)));
 				}catch(Exception e) {
