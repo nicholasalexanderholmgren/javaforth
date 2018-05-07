@@ -60,7 +60,7 @@ public class ForthInterpretor implements Runnable{
 			return;
 		}
 		if(token.equals(":")) {
-			ICompiler.compile(machine);
+			//ICompiler.compile(machine);
 			return;
 		}
 		instPointer = 0;
