@@ -114,15 +114,15 @@ public class ForthInterpretor implements Runnable{
 						case JMP:
 							instPointer += ByteUtils.bytesToAddr(machine.getFromAddr(instPointer + 1), 
 									machine.getFromAddr(instPointer + 2));
+							instPointer += 3;
 							break;
 						case CJMP:
 							if(machine.getDataStack().popInteger() == 0){
 								instPointer += 
 										ByteUtils.bytesToAddr(machine.getFromAddr(instPointer + 1), 
 												machine.getFromAddr(instPointer + 2));
-							} else {
-								instPointer += 3;
 							}
+							instPointer += 3;
 							break;
 						case SUBJMP:
 							machine.getReturnStack().push(instPointer + 3);
