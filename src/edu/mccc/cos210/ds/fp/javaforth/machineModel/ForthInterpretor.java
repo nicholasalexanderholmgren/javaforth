@@ -104,6 +104,12 @@ public class ForthInterpretor implements Runnable{
 							n2 = machine.getDataStack().popInteger();
 							machine.getDataStack().push(n1%n2);
 							break;
+						case DPUSH:
+							machine.getDataStack().push(ByteUtils.bytesToInt(
+									machine.getFromAddr(instPointer + 1),
+									machine.getFromAddr(instPointer + 2)));
+							instPointer += 2;
+							break;
 						case JMP:
 							instPointer += ByteUtils.bytesToAddr(
 									machine.getDataStack().popByte(), machine.getDataStack().popByte());
