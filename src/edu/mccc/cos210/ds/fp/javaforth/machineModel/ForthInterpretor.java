@@ -107,12 +107,14 @@ public class ForthInterpretor implements Runnable{
 								instPointer += 
 										ByteUtils.bytesToAddr(machine.getDataStack().popByte(), 
 												machine.getDataStack().popByte());
+							} else {
+								instPointer += 1;
 							}
 							break;
 						case SUBJMP:
 							machine.getReturnStack().push(instPointer + 3);
 							instPointer = ByteUtils.bytesToAddr(
-									machine.getDataStack().popByte(), machine.getDataStack().popByte());
+									machine.getFromAddr(instPointer + 1), machine.getFromAddr(instPointer + 2));
 							break;
 						case RFETCH:
 							temp.add(machine.getReturnStack().popByte());
