@@ -65,8 +65,7 @@ public class ForthInterpretor implements Runnable{
 		}
 		instPointer = 0;
 		if(machine.getDictionary().contains(token)) {
-			machine.getReturnStack().push((byte) 0);
-			machine.getReturnStack().push((byte) 0);
+			machine.getReturnStack().push(0);
 			instPointer = machine.getDictionary().findAddr(token);
 			try {
 				while (!haltFlag && instPointer != 0) {
