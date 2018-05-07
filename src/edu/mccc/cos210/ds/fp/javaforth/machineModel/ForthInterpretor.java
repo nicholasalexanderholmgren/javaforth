@@ -55,7 +55,6 @@ public class ForthInterpretor implements Runnable{
 		running = false;
 	}
 	private void interpret(String token) {
-		instPointer = 0;
 		if(token == null) {
 			return;
 		}
