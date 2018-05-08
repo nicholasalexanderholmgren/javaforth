@@ -10,5 +10,16 @@ public class Equals extends ForthWordBase {
 	}
 	@Override
 	public void execute(IStack<Object> stack, ForthDictionary dict) {
+		try {
+			Object n1 = stack.pop();
+			Object n2 = stack.pop();
+			if(n1.equals(n2)) {
+				stack.push(1);
+			}else {
+				stack.push(0);
+			}
+		}catch(Exception e) {
+			throw new RuntimeException("Error on word =");
+		}
 	}
 }
