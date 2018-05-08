@@ -28,7 +28,7 @@ public class ConDup extends ForthWordBase {
 				new Dup().execute(stack, dict);
 			}
 		}catch(NoSuchElementException e) {
-			throw new RuntimeException("Stack underflow error on word /");
+			throw new RuntimeException("Stack underflow error on word ?Dup");
 		}catch(Exception e) {
 			throw new RuntimeException("Error on word ?Dup");
 		}
