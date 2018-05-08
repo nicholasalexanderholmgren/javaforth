@@ -23,5 +23,5 @@ public abstract class ForthWordBase {
 		return immediate;
 	}
 	private boolean immediate;
-	public abstract void execute(IStack<Object> stack);
+	public abstract void execute(IStack<Object> stack, ForthDictionary dictionary);
 }
