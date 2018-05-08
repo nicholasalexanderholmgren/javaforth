@@ -28,6 +28,7 @@ public class DictionaryPanel extends JScrollPane implements IDictionaryUpdatedEv
 		table.setFont(new Font(Font.DIALOG_INPUT, Font.PLAIN, 18));
 		table.setGridColor(new Color(0,255,128));
 		this.setViewportView(table);
+		fm.AddDictionaryUpdatedEventListener(this);
 	}
 	public JTextArea getTextArea() {
 		return this.textArea;
