@@ -1,5 +1,7 @@
 package edu.mccc.cos210.ds.fp.javaforth.words;
 
+import java.util.NoSuchElementException;
+
 import edu.mccc.cos210.ds.IStack;
 import edu.mccc.cos210.ds.fp.javaforth.machineModel.ForthDictionary;
 import edu.mccc.cos210.ds.fp.javaforth.machineModel.ForthWordBase;
@@ -25,6 +27,8 @@ public class ConDup extends ForthWordBase {
 			if(flag != 0.0) {
 				new Dup().execute(stack, dict);
 			}
+		}catch(NoSuchElementException e) {
+			throw new RuntimeException("Stack underflow error on word /");
 		}catch(Exception e) {
 			throw new RuntimeException("Error on word ?Dup");
 		}
