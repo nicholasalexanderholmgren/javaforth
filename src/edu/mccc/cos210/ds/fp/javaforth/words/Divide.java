@@ -18,8 +18,10 @@ public class Divide extends ForthWordBase {
 			stack.push(Integer.valueOf((n1/n2)));
 		}catch(NoSuchElementException e) {
 			throw new RuntimeException("Stack underflow error on word /");
+		}catch(ClassCastException e) {
+			throw new RuntimeException("Typing error on /");
 		}catch(Exception e) {
-			throw new RuntimeException("Error on word /");
+			throw new RuntimeException("Unknown error on /");
 		}
 	}
 }
