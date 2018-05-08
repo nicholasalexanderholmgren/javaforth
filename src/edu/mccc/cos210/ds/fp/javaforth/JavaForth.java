@@ -10,7 +10,6 @@ public class JavaForth {
 	JavaForth() {
 		this.machine = createForthMachine();
 		this.view = createViewIDE(machine);
-		this.machine.registerObserver(this.view);
 	}
 	public static IdeWindow createViewIDE(ForthMachine machine) {
 		return new IdeWindow(machine);

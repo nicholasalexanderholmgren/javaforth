@@ -14,11 +14,8 @@ import javax.swing.border.BevelBorder;
 import javax.swing.border.CompoundBorder;
 import javax.swing.border.EtchedBorder;
 import edu.mccc.cos210.ds.fp.javaforth.machineModel.ForthMachine;
-import edu.mccc.cos210.ds.fp.javaforth.util.IObserver;
-import edu.mccc.cos210.ds.fp.javaforth.util.ISubject;
 
-
-public class IdeWindow extends JFrame implements IObserver {
+public class IdeWindow extends JFrame {
 	private static final long serialVersionUID = 1L;
 	private DictionaryPanel dictPanel;
 	private TextEditorPanel textPanel;
@@ -31,7 +28,6 @@ public class IdeWindow extends JFrame implements IObserver {
 		this.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
 		this.setSize(1280, 720);
 		JPanel rootPanel = createRootPanel();
-		machine.registerObserver(this);
 		this.add(rootPanel);
 		this.setLocationRelativeTo(null);
 		this.setVisible(true);
@@ -43,43 +39,19 @@ public class IdeWindow extends JFrame implements IObserver {
 		this.textPanel = new TextEditorPanel(machine);
 		this.stackPanel = new StackPanel(machine);
 		this.dictPanel = new DictionaryPanel(machine);
-		this.terminalPanel = new TerminalPanel(machine , stackPanel);
-    	terminalPanel.setBorder(
-			new CompoundBorder(
-				new BevelBorder(BevelBorder.RAISED),
-				new EtchedBorder()
-			)
-		);
-    	JSplitPane stackAndDictionarySplitPane = new JSplitPane(JSplitPane.VERTICAL_SPLIT,
-                this.stackPanel, this.dictPanel);
-    	JSplitPane editorAndStackDictionarySplitPane = new JSplitPane(JSplitPane.HORIZONTAL_SPLIT,
-                this.textPanel, stackAndDictionarySplitPane);
-    	editorAndStackDictionarySplitPane.setDividerLocation(0.75);
-		JSplitPane editorStackDictionaryAndTerminalSplitPane = new JSplitPane(JSplitPane.VERTICAL_SPLIT,
-				editorAndStackDictionarySplitPane, this.terminalPanel);
+		this.terminalPanel = new TerminalPanel(machine, stackPanel);
+		terminalPanel.setBorder(new CompoundBorder(new BevelBorder(BevelBorder.RAISED), new EtchedBorder()));
+		JSplitPane stackAndDictionarySplitPane = new JSplitPane(JSplitPane.VERTICAL_SPLIT, this.stackPanel, this.dictPanel);
+		JSplitPane editorAndStackDictionarySplitPane = new JSplitPane(JSplitPane.HORIZONTAL_SPLIT, this.textPanel, stackAndDictionarySplitPane);
+		editorAndStackDictionarySplitPane.setDividerLocation(0.75);
+		JSplitPane editorStackDictionaryAndTerminalSplitPane = new JSplitPane(JSplitPane.VERTICAL_SPLIT, editorAndStackDictionarySplitPane, this.terminalPanel);
 		editorStackDictionaryAndTerminalSplitPane.setDividerLocation(0.75);
-		
 		panel.add(editorStackDictionaryAndTerminalSplitPane, BorderLayout.CENTER);
 		EventQueue.invokeLater(() -> {
-	    	editorAndStackDictionarySplitPane.setDividerLocation(0.75);
+			editorAndStackDictionarySplitPane.setDividerLocation(0.75);
 			editorStackDictionaryAndTerminalSplitPane.setDividerLocation(0.75);
 		});
 		return panel;
-	}
-	@Override
-	public void update(ISubject s) {
-		ForthMachine m = (ForthMachine) s;
-		try {
-			EventQueue.invokeAndWait(() -> {
-				dictPanel.update(m.getDictionaryAsMap());
-				stackPanel.update(m.getDataStack());
-				terminalPanel.update(m.getStatus());
-			});
-		} catch (InvocationTargetException e) {
-			e.printStackTrace();
-		} catch (InterruptedException e) {
-			e.printStackTrace();
-		}
 	}
 	public ForthMachine getMachine() {
 		return machine;

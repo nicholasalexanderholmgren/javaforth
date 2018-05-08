@@ -1,58 +1,24 @@
 package edu.mccc.cos210.ds.fp.javaforth.machineModel;
 
-import java.util.HashMap;
-import java.util.List;
-import java.util.Map;
-import java.util.Vector;
-/*
- * Definition 
- */
-public class ForthDictionary extends LookUpTable {
-	List<DefinitionHolder> sourceHolder;
-	public ForthDictionary(ForthMachine parent) {
-		super(parent);
-		sourceHolder = new Vector<>();
+import javax.swing.JPanel;
+import edu.mccc.cos210.ds.Map;
+import edu.mccc.cos210.ds.fp.javaforth.words.*;
+
+public class ForthDictionary {
+	Map<String, ForthWordBase> dictionary = new Map<String, ForthWordBase>();
+	public ForthWordBase getWord(String name) {
+		return this.dictionary.get(name);
 	}
-	public void addDefinition(String name, String definition) {
-		sourceHolder.add(new DefinitionHolder(name, definition));
+	public void initRequiredWords() {
+		ForthWordBase[] words = new ForthWordBase[] {
+			new Store(),
+		};
+		for (ForthWordBase word : words) {
+			this.dictionary.put(word.getName(), word);
+		}
 	}
-	public String getDefinition(String name) {
-		String s = null;
-		for(DefinitionHolder d : sourceHolder) {
-			if (d.getName().equals(name)) {
-				return d.getDefinition();
-			}
-		}
-		return s;
-	}
-	public Map<String, String> getDictionaryMap(){
-		Map<String, String> map = new HashMap<>();
-		for(DefinitionHolder d : sourceHolder) {
-			map.put(d.getName(), d.getDefinition());
-		}
-		return map;
-	}
-	private class DefinitionHolder{
-		private String name;
-		private String definition;
-		public DefinitionHolder(String name, String definition) {
-			this.setName(name);
-			this.setDefinition(definition);
-		}
-		public String getName() {
-			return name;
-		}
-		public void setName(String name) {
-			this.name = name;
-		}
-		public String getDefinition() {
-			return definition;
-		}
-		public void setDefinition(String definition) {
-			this.definition = definition;
-		}
-		public String toString() {
-			return name + ": " +definition; 
-		}
+	public void initGraphicsWords() {
+		JPanel panel = new JPanel();// TODO...
+		
 	}
 }

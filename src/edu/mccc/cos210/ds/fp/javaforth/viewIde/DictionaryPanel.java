@@ -3,59 +3,48 @@ package edu.mccc.cos210.ds.fp.javaforth.viewIde;
 import java.awt.Color;
 import java.awt.Dimension;
 import java.awt.Font;
-import java.util.Map;
 import javax.swing.DefaultListModel;
 import javax.swing.JLabel;
 import javax.swing.JScrollPane;
 import javax.swing.JTable;
 import javax.swing.JTextArea;
 import javax.swing.table.TableCellRenderer;
-
-
+import edu.mccc.cos210.ds.IMap;
+import edu.mccc.cos210.ds.Map;
 import edu.mccc.cos210.ds.fp.javaforth.machineModel.ForthMachine;
+import edu.mccc.cos210.ds.fp.javaforth.machineModel.IDictionaryUpdatedEventListener;
 
 
-public class DictionaryPanel extends JScrollPane {
+public class DictionaryPanel extends JScrollPane implements IDictionaryUpdatedEventListener {
 	private static final long serialVersionUID = 1L;
 	private DefaultListModel<String> list = new DefaultListModel<String>();
 
-	Map<String,String> dictMap;
+	Map<String,String> dictMap = new edu.mccc.cos210.ds.Map<>();
 	JTextArea textArea;
 	JTable table;
 	public DictionaryPanel(ForthMachine fm) {
 		super(new JScrollPane(), JScrollPane.VERTICAL_SCROLLBAR_ALWAYS, JScrollPane.HORIZONTAL_SCROLLBAR_ALWAYS);
-		dictMap = fm.getDictionaryAsMap();
-//		this.fillDict(dictMap);
 		table = buildTable(dictMap);
 		table.setFont(new Font(Font.DIALOG_INPUT, Font.PLAIN, 18));
 		table.setGridColor(new Color(0,255,128));
 		this.setViewportView(table);
-//		JViewport jvp = new JViewport();
-//		jvp.setView(new JList<String>(list));
-//		jvp.setView(table);
-//		this.setViewport(jvp);
 	}
 	public JTextArea getTextArea() {
 		return this.textArea;
 	}
 	public void fillDict(Map<String, String> dictMap) {
-		for (Map.Entry<String, String> entry : dictMap.entrySet())
+		for (IMap.Entry<String, String> entry : dictMap)
 		{	
 			list.addElement(entry.getKey() + " : " + entry.getValue());
 		}
 	}
-	
-	public void update(Map< String, String> dictMap) {
-		list.removeAllElements();
-		fillDict(dictMap);
-	}
-	
+		
 	private JTable buildTable(Map<String, String> dict){
 		dict = this.dictMap;
 		String columnNames[] = { "WORD", "DEFINITION" };
-		Object[][] data = new Object[dict.size()][2];
+		Object[][] data = new Object[dict.getSize()][2];
 		int counter = 0;
-		for(Map.Entry<String, String> entry : dict.entrySet()) {
+		for(IMap.Entry<String, String> entry : dict) {
 		  data[counter][0] = entry.getKey();
 		  data[counter][1] = entry.getValue();
 		  counter++;
@@ -71,5 +60,10 @@ public class DictionaryPanel extends JScrollPane {
 		headerLabel.setHorizontalAlignment(JLabel.LEFT);	
 		table.setAutoResizeMode(JTable.AUTO_RESIZE_OFF);
 		return table;
+	}
+	@Override
+	public void onDictionaryUpdated(edu.mccc.cos210.ds.Map<String, String> entries) {
+		list.removeAllElements();
+		fillDict(dictMap);
 	}
 }
