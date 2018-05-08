@@ -2,6 +2,7 @@ package edu.mccc.cos210.ds.fp.javaforth.viewIde;
 
 import java.awt.Color;
 import java.awt.Dimension;
+import java.awt.EventQueue;
 import java.awt.Font;
 import java.awt.event.KeyAdapter;
 import java.awt.event.KeyEvent;
@@ -34,10 +35,9 @@ public class TerminalPanel extends JScrollPane {
 		
 	}
 	public void update(String status) {
-		outputTextArea.append(status+"\n");
-//		outputTextArea.setMaximumSize(new Dimension(Integer.MAX_VALUE, 
-//				outputTextArea.getFont().getSize()*outputTextArea.getLineCount()));
-		
+		if(status != null && !status.isEmpty()) {
+		    appendOutput(status.trim());	
+		}
 		vertical.setValue(vertical.getMaximum());
 	}
 	public String getTerminalInput() {
@@ -53,7 +53,6 @@ public class TerminalPanel extends JScrollPane {
 		JPanel ioRegion;
 		JTextArea inputArea;
 		inputArea = new JTextArea();
-		inputArea.setPreferredSize(this.getSize());
 		inputArea.setTabSize(4);
 		//CHANGES
 		inputArea.setFont(new Font(Font.DIALOG_INPUT,Font.PLAIN, 22));
@@ -63,15 +62,13 @@ public class TerminalPanel extends JScrollPane {
 		inputArea.setForeground(new Color(0, 255 , 0));
 		inputArea.append(arrow);
 		
-		
 		inputArea.addKeyListener(new KeyAdapter() {
 			@Override
 			public void keyReleased(KeyEvent ke) {
 				if (ke.getKeyCode() == KeyEvent.VK_ENTER && inputArea.hasFocus()) {
-					//CHANGED TO 2
 					if(inputArea.getText().length() > 2) {
 						String input = inputArea.getText().substring(inputArea.getText().indexOf(">")+1);
-						outputTextArea.append(input.trim() + "\t");
+						appendOutput(input);
 						machine.interpret(input);
 						inputArea.setText(arrow);
 						inputArea.moveCaretPosition(1);
@@ -80,7 +77,6 @@ public class TerminalPanel extends JScrollPane {
 			}
 			@Override
 			public void keyTyped(KeyEvent ke) {
-				//CHANGED
 				if(inputArea.getText().length() < 2) {
 					inputArea.setText(arrow);
 					inputArea.moveCaretPosition(1);
@@ -106,10 +102,12 @@ public class TerminalPanel extends JScrollPane {
 		ioRegion.setLayout(new BoxLayout(ioRegion, BoxLayout.Y_AXIS));
 		ioRegion.add(outputTextArea);
 		ioRegion.add(inputArea);
-		ioRegion.doLayout();
-		
-		
+		ioRegion.doLayout();		
 		
 		return ioRegion;
+	}
+	private void appendOutput(String message) {
+		outputTextArea.append(message.trim() + "\n");
+	    EventQueue.invokeLater(()->vertical.setValue(vertical.getMaximum()));
 	}
 }
