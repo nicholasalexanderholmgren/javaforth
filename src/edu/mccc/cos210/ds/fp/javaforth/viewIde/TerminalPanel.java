@@ -13,8 +13,9 @@ import javax.swing.JScrollBar;
 import javax.swing.JScrollPane;
 import javax.swing.JTextArea;
 import edu.mccc.cos210.ds.fp.javaforth.machineModel.ForthMachine;
+import edu.mccc.cos210.ds.fp.javaforth.machineModel.ITerminalUpdatedEventListener;
 
-public class TerminalPanel extends JScrollPane {
+public class TerminalPanel extends JScrollPane implements ITerminalUpdatedEventListener {
 	private static final long serialVersionUID = 1L;
 	ForthMachine machine;
 	String input;
@@ -30,6 +31,7 @@ public class TerminalPanel extends JScrollPane {
 		this.setViewportView(fullText);
 		vertical = this.getVerticalScrollBar();
 		this.machine = machine;
+		machine.AddTerminalUpdatedEventListener(this);
 	}
 	public void getStatus() {
 		
@@ -109,5 +111,13 @@ public class TerminalPanel extends JScrollPane {
 	private void appendOutput(String message) {
 		outputTextArea.append(message.trim() + "\n");
 	    EventQueue.invokeLater(()->vertical.setValue(vertical.getMaximum()));
+	}
+	@Override
+	public void onTerminalUpdated(boolean clear, String message) {
+		if(clear) {
+			this.outputTextArea.setText("");
+		}
+		this.outputTextArea.append(message);
+		
 	}
 }

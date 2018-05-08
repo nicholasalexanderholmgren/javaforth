@@ -3,14 +3,14 @@ package edu.mccc.cos210.ds.fp.javaforth.viewIde;
 import java.awt.Color;
 import java.awt.EventQueue;
 import java.awt.Font;
-import java.util.List;
+
 import javax.swing.DefaultListModel;
 import javax.swing.JList;
 import javax.swing.JScrollBar;
 import javax.swing.JScrollPane;
 import javax.swing.JViewport;
+
 import edu.mccc.cos210.ds.fp.javaforth.machineModel.ForthMachine;
-import edu.mccc.cos210.ds.fp.javaforth.util.ByteUtils;
 import edu.mccc.cos210.ds.fp.javaforth.util.IStackUpdatedEventListener;
 
 @SuppressWarnings("serial")
@@ -24,10 +24,14 @@ public class StackPanel extends JScrollPane implements IStackUpdatedEventListene
 		JViewport jvp = new JViewport();
 		jvp.setView(myjList);
 		this.setViewport(jvp);
+		fm.AddStackUpdatedEventListener(this);
 	}
 	@Override
 	public void onStackUpdated(Iterable<Object> stack) {
 		list.removeAllElements();
+		for(Object o : stack) {
+			list.addElement(o.toString());
+		}
 		// TODO
 		EventQueue.invokeLater(() -> {
 			JScrollBar verticalScrollBar = this.getVerticalScrollBar();

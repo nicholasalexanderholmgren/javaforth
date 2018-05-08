@@ -1,14 +1,17 @@
 package edu.mccc.cos210.ds.fp.javaforth.viewIde;
 
 import java.awt.Color;
+
 import javax.swing.JButton;
 import javax.swing.text.BadLocationException;
 import javax.swing.text.SimpleAttributeSet;
 import javax.swing.text.StyleConstants;
 import javax.swing.text.StyledDocument;
-import edu.mccc.cos210.ds.fp.javaforth.machineModel.ForthMachine;
 
-public class StatusPanelController {
+import edu.mccc.cos210.ds.fp.javaforth.machineModel.ForthMachine;
+import edu.mccc.cos210.ds.fp.javaforth.machineModel.ICanExecuteChangedEventListener;
+
+public class StatusPanelController implements ICanExecuteChangedEventListener{
 	private final SimpleAttributeSet highlightAttribute;
 	private final SimpleAttributeSet disableHighlightAttribute;
 	private int currentLineNumber = 1;
@@ -83,5 +86,11 @@ public class StatusPanelController {
 		this.currentLineNumber = 1;
 		this.clearHighlight(document);
 		this.statusPanel.getStartButton().setText("Start");
+	}
+	@Override
+	public void onCanExecuteChanged(boolean canExecute) {
+		statusPanel.getStartButton().setEnabled(canExecute);
+		statusPanel.getStepButton().setEnabled(canExecute);
+		statusPanel.repaint();
 	}
 }
