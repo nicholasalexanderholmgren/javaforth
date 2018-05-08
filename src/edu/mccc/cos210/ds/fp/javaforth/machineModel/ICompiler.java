@@ -53,14 +53,14 @@ public interface ICompiler {
 		ForthWord word = new ForthWord(compiledCode, source.toString());
 		return word;
 	}
-	private static List<Byte> jumpToCompiledWord(String word , ForthMachine machine){
+	static List<Byte> jumpToCompiledWord(String word , ForthMachine machine){
 		List<Byte> compiledCode = new ArrayList<>();
 		compiledCode.add(Instruction.SUBJMP.getByteCode());
 		compiledCode.add((byte) (machine.getDictionary().findAddr(word)/256));
 		compiledCode.add((byte) (machine.getDictionary().findAddr(word)%256));
 		return compiledCode;
 	}
-	private static List<Byte> integerLiteral(Integer number){ 
+	static List<Byte> integerLiteral(Integer number){ 
 		List<Byte> literal = new ArrayList<>();
 		literal.add(Instruction.DPUSH.getByteCode());
 		Byte[] intAsBytes = ByteUtils.intToBytes(number);

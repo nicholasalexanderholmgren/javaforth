@@ -32,12 +32,13 @@ public class StackPanel extends JScrollPane {
 		this.setViewport(jvp);
 	}
 	public void update(ForthStack fs) {
+		
 		rawData.removeAll(rawData);
 		for(Byte b : fs.asList()) {
 			rawData.add(b);
 		}
+		
 		this.repaint();
-		// TODO
 	}
 	@Override
 	protected void paintComponent(Graphics g) {
@@ -48,6 +49,7 @@ public class StackPanel extends JScrollPane {
 			for(int i = 0; i<rawData.size(); i+=2) {
 				list.addElement(ByteUtils.bytesToInt(rawData.get(i + 1), rawData.get(i)).toString());
 			}
+			myjList.ensureIndexIsVisible(myjList.getModel().getSize() - 1);
 			break;
 		default:
 			break;

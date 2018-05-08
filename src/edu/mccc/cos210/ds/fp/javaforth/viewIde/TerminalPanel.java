@@ -8,6 +8,7 @@ import java.awt.event.KeyEvent;
 import javax.swing.BoxLayout;
 import javax.swing.JComponent;
 import javax.swing.JPanel;
+import javax.swing.JScrollBar;
 import javax.swing.JScrollPane;
 import javax.swing.JTextArea;
 import edu.mccc.cos210.ds.fp.javaforth.machineModel.ForthMachine;
@@ -18,9 +19,15 @@ public class TerminalPanel extends JScrollPane {
 	String input;
 	JComponent contents;
 	JTextArea outputTextArea;
+	JScrollBar vertical; 
+	JPanel fullText;
+	
+	
 	public TerminalPanel(ForthMachine machine , StackPanel sp) {
 		super(null, JScrollPane.VERTICAL_SCROLLBAR_ALWAYS, JScrollPane.HORIZONTAL_SCROLLBAR_AS_NEEDED);
-		this.setViewportView(createInputAndOutput());
+		fullText = createInputAndOutput();
+		this.setViewportView(fullText);
+		vertical = this.getVerticalScrollBar();
 		this.machine = machine;
 	}
 	public void getStatus() {
@@ -28,8 +35,10 @@ public class TerminalPanel extends JScrollPane {
 	}
 	public void update(String status) {
 		outputTextArea.append(status+"\n");
-		outputTextArea.setMaximumSize(new Dimension(Integer.MAX_VALUE, 
-				outputTextArea.getFont().getSize()*outputTextArea.getLineCount()));
+//		outputTextArea.setMaximumSize(new Dimension(Integer.MAX_VALUE, 
+//				outputTextArea.getFont().getSize()*outputTextArea.getLineCount()));
+		
+		vertical.setValue(vertical.getMaximum());
 	}
 	public String getTerminalInput() {
 		return input;
@@ -54,6 +63,7 @@ public class TerminalPanel extends JScrollPane {
 		inputArea.setForeground(new Color(0, 255 , 0));
 		inputArea.append(arrow);
 		
+		
 		inputArea.addKeyListener(new KeyAdapter() {
 			@Override
 			public void keyReleased(KeyEvent ke) {
@@ -77,6 +87,9 @@ public class TerminalPanel extends JScrollPane {
 				}
 			}
 		});
+		
+		inputArea.setWrapStyleWord(true);
+		
 		outputTextArea = new JTextArea();
 		outputTextArea.setEditable(false);
 		outputTextArea.setTabSize(4);
@@ -88,11 +101,15 @@ public class TerminalPanel extends JScrollPane {
 		outputTextArea.setCaretColor(new Color(255,51,51));
 		outputTextArea.setSelectedTextColor(new Color(50,205,50));
 		outputTextArea.setForeground(new Color(0, 255, 0));
+		
 		ioRegion = new JPanel();
 		ioRegion.setLayout(new BoxLayout(ioRegion, BoxLayout.Y_AXIS));
 		ioRegion.add(outputTextArea);
 		ioRegion.add(inputArea);
 		ioRegion.doLayout();
+		
+		
+		
 		return ioRegion;
 	}
 }
