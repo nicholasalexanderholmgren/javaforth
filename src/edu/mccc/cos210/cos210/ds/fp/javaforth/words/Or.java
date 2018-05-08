@@ -1,6 +1,7 @@
 package edu.mccc.cos210.ds.fp.javaforth.words;
 
 import edu.mccc.cos210.ds.IStack;
+import edu.mccc.cos210.ds.fp.javaforth.machineModel.ForthDictionary;
 import edu.mccc.cos210.ds.fp.javaforth.machineModel.ForthWordBase;
 
 public class Or extends ForthWordBase {
@@ -8,6 +9,6 @@ public class Or extends ForthWordBase {
 		super("OR", "n1 n2 -- n3 Leave the bitwise inclusive-or of two numbers." , false);
 	}
 	@Override
-	public void execute(IStack<Object> stack) {
+	public void execute(IStack<Object> stack, ForthDictionary dict) {
 	}
 }

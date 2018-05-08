@@ -1,0 +1,23 @@
+package edu.mccc.cos210.ds.fp.javaforth.words;
+
+import edu.mccc.cos210.ds.IStack;
+import edu.mccc.cos210.ds.fp.javaforth.machineModel.ForthDictionary;
+import edu.mccc.cos210.ds.fp.javaforth.machineModel.ForthWordBase;
+
+public class Dup extends ForthWordBase {
+	public Dup() {
+		super("dup", "(n1 -- n1 n1) Copies the top number of the stack and "+
+	"", false);
+	}
+	@Override
+	public void execute(IStack<Object> stack, ForthDictionary dict){
+		try {
+		Object temp = stack.pop();
+		stack.push(temp);
+		stack.push(temp);
+		}catch(Exception e ) {
+			throw (new RuntimeException("Error on word dup."));
+		}
+	}
+
+}
