@@ -45,10 +45,10 @@ public class ForthMachine {
 				try {
 					int next = tokenizer.nextToken();
 					while (next != StreamTokenizer.TT_EOF) {
-						while(this.pauseRequested) {
+						while (this.pauseRequested) {
 							Thread.sleep(0);
 						}
-						if(this.stopRequested) {
+						if (this.stopRequested) {
 							return;
 						}
 						if (next == '\"') {
@@ -59,7 +59,7 @@ public class ForthMachine {
 						} else {
 							// Has to be a word.
 							ForthWordBase word = this.dictionary.getWord(tokenizer.sval);
-							word.execute(stack);
+							word.execute(stack, dictionary);
 						}
 					}
 				} catch (Exception ex) {

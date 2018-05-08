@@ -66,6 +66,6 @@ public class DictionaryPanel extends JScrollPane implements IDictionaryUpdatedEv
 	@Override
 	public void onDictionaryUpdated(edu.mccc.cos210.ds.Map<String, ForthWordBase> entries) {
 		list.removeAllElements();
-		fillDict(dictMap);
+//		fillDict(dictMap);
 	}
 }
