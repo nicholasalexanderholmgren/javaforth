@@ -12,6 +12,7 @@ import javax.swing.table.TableCellRenderer;
 import edu.mccc.cos210.ds.IMap;
 import edu.mccc.cos210.ds.Map;
 import edu.mccc.cos210.ds.fp.javaforth.machineModel.ForthMachine;
+import edu.mccc.cos210.ds.fp.javaforth.machineModel.ForthWordBase;
 import edu.mccc.cos210.ds.fp.javaforth.machineModel.IDictionaryUpdatedEventListener;
 
 
@@ -33,10 +34,10 @@ public class DictionaryPanel extends JScrollPane implements IDictionaryUpdatedEv
 	public JTextArea getTextArea() {
 		return this.textArea;
 	}
-	public void fillDict(Map<String, String> dictMap) {
-		for (IMap.Entry<String, String> entry : dictMap)
+	public void fillDict(Map<String, ForthWordBase> dictMap) {
+		for (IMap.Entry<String, ForthWordBase> entry : dictMap)
 		{	
-			list.addElement(entry.getKey() + " : " + entry.getValue());
+			list.addElement(entry.getKey() + " : " + entry.getValue().getDescription());
 		}
 	}
 		
@@ -63,7 +64,7 @@ public class DictionaryPanel extends JScrollPane implements IDictionaryUpdatedEv
 		return table;
 	}
 	@Override
-	public void onDictionaryUpdated(edu.mccc.cos210.ds.Map<String, String> entries) {
+	public void onDictionaryUpdated(edu.mccc.cos210.ds.Map<String, ForthWordBase> entries) {
 		list.removeAllElements();
 		fillDict(dictMap);
 	}
