@@ -1,5 +1,7 @@
 package edu.mccc.cos210.ds;
 
+import java.util.Iterator;
+
 public class Map<K, V> implements IMap<K, V>, Iterable<IMap.Entry<K, V>> {
 	private IResizableArray<IOrderedList<IMap.Entry<K, V>>> theVector = new ResizableArray<>(1);
 	private int size = 0;
@@ -52,6 +54,15 @@ public class Map<K, V> implements IMap<K, V>, Iterable<IMap.Entry<K, V>> {
 		if (!theVector.get(index).contains(entry)) {
 			list.add(entry);
 			size++;
+		}
+		Iterator<edu.mccc.cos210.ds.IMap.Entry<K, V>> iterator = list.iterator();
+		while (iterator.hasNext()) {
+			edu.mccc.cos210.ds.IMap.Entry<K, V> e = iterator.next();
+			if(e.getKey().equals(key)) {
+				iterator.remove();
+				list.add(entry);
+				break;
+			}
 		}
 	}
 	@Override
