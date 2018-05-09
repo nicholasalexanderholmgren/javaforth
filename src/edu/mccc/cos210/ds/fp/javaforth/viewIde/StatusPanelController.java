@@ -91,7 +91,7 @@ public class StatusPanelController implements ICanExecuteChangedEventListener {
 		if (lineEnd != -1) {
 			try {
 				String forthCode = document.getText(i, lineEnd - i);
-				sb.append(forthCode);
+				sb.append(forthCode + "\r\n");
 			} catch (BadLocationException e) {
 				e.printStackTrace();
 			}
