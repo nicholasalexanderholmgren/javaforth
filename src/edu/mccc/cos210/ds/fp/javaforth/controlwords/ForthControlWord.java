@@ -11,4 +11,7 @@ public abstract class ForthControlWord extends ForthWordBase {
 		super(name, description, immediate);
 	}
 	abstract ForthControlWord build(StreamTokenizer tokenizer, ForthDictionary dictionary) throws IOException;
+	protected void throwCompileModeOnly() {
+		throw new RuntimeException(super.getName() + " can only be called during compile mode.");
+	}
 }

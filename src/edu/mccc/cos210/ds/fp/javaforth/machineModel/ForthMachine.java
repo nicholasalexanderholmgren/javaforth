@@ -8,6 +8,7 @@ import java.util.StringTokenizer;
 import edu.mccc.cos210.ds.SinglyLinkedList;
 import edu.mccc.cos210.ds.fp.javaforth.util.IStackUpdatedEventListener;
 import edu.mccc.cos210.ds.fp.javaforth.util.ObservableStack;
+import edu.mccc.cos210.ds.fp.javaforth.words.Minus;
 
 public class ForthMachine {
 	SinglyLinkedList<IDictionaryUpdatedEventListener> dictionaryUpdatedEventListeners = new SinglyLinkedList<>();
@@ -42,6 +43,9 @@ public class ForthMachine {
 		StreamTokenizer tokenizer = new StreamTokenizer(new StringReader(input));
 		tokenizer.resetSyntax();
 		tokenizer.wordChars('!', 'z');
+//		for (int i = '!'; i <= 'z'; i++) {
+//			System.out.println(String.valueOf((char)i));
+//		}
 		new Thread(() -> {
 			synchronized (executingLock) {
 				try {
@@ -71,12 +75,17 @@ public class ForthMachine {
 									if (tokenizer.sval.equals(".\"")) {
 										dotQuoteContent = new StringBuilder();
 									} else {
-										ForthWordBase word = this.dictionary.getWord(tokenizer.sval);
-										if(word == null) {
-											throw new RuntimeException("Word not found. " + tokenizer.sval);
+										if(tokenizer.sval.equals("-")) {
+											new Minus().execute(stack, dictionary);
 										}
-										word.execute(stack, dictionary);
-										word.execute(stack, dictionary, s -> updateTerminal(s));
+										else {
+											ForthWordBase word = this.dictionary.getWord(tokenizer.sval);
+											if(word == null) {
+												throw new RuntimeException("Word not found. " + tokenizer.sval);
+											}
+											word.execute(stack, dictionary);
+											word.execute(stack, dictionary, s -> updateTerminal(s));											
+										}
 									}
 								}
 							}

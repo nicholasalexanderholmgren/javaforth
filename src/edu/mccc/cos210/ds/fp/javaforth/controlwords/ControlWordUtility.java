@@ -6,17 +6,14 @@ import edu.mccc.cos210.ds.fp.javaforth.machineModel.ForthDictionary;
 import edu.mccc.cos210.ds.fp.javaforth.machineModel.ForthWordBase;
 
 class ControlWordUtility {
-	public static Object buildNext(StreamTokenizer tokenizer, ForthDictionary dictionary) throws IOException {
+	public static ForthWordBase buildNext(StreamTokenizer tokenizer, ForthDictionary dictionary) throws IOException {
 		int next = tokenizer.nextToken();
 		boolean buildingFalse = false;
 		if (next == StreamTokenizer.TT_EOF) {
 			return null;
 		}
-		if (next == '\"') {
-			// A string in "".
-			return tokenizer.sval;
-		} else if (next == StreamTokenizer.TT_NUMBER) {
-			return tokenizer.nval;
+		if (next == StreamTokenizer.TT_NUMBER) {
+//			return tokenizer.nval;
 		} else {
 			// Has to be a word.
 			ForthWordBase word = dictionary.getWord(tokenizer.sval);
