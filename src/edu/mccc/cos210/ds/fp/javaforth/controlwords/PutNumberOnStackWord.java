@@ -12,7 +12,7 @@ public class PutNumberOnStackWord extends ForthWordBase {
 		this.number = number;
 	}
 	@Override
-	public void execute(IStack<Object> stack, ForthDictionary dict, edu.mccc.cos210.ds.fp.javaforth.machineModel.ITerminalOutput)ionary) {
+	public void execute(IStack<Object> stack, ForthDictionary dictionary, ITerminalOutput terminalOutput) {
 		stack.push(number);
 	}
 }

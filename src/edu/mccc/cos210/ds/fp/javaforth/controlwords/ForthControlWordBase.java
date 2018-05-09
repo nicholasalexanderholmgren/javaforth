@@ -6,8 +6,8 @@ import edu.mccc.cos210.ds.fp.javaforth.machineModel.ForthDictionary;
 import edu.mccc.cos210.ds.fp.javaforth.machineModel.ForthWordBase;
 import edu.mccc.cos210.ds.fp.javaforth.machineModel.ITerminalOutput;
 
-public abstract class ForthControlWord extends ForthWordBase {
-	public ForthControlWord(String name, String description) {
+public abstract class ForthControlWordBase extends ForthWordBase {
+	public ForthControlWordBase(String name, String description) {
 		super(name, description);
 	}
 	abstract ForthWordBase build(StreamTokenizer tokenizer, ForthDictionary dictionary) throws IOException;

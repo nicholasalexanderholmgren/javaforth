@@ -8,7 +8,7 @@ import edu.mccc.cos210.ds.fp.javaforth.machineModel.ForthDictionary;
 import edu.mccc.cos210.ds.fp.javaforth.machineModel.ForthWordBase;
 import edu.mccc.cos210.ds.fp.javaforth.machineModel.ITerminalOutput;
 
-public class If extends ForthControlWord {
+public class If extends ForthControlWordBase {
 	private DoublyLinkedList<ForthWordBase> codes = new DoublyLinkedList<>();
 	private Else _else;
 	// Contains only ForthWordBase, double and string.

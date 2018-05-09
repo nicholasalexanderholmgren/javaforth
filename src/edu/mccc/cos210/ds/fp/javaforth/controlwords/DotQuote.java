@@ -5,9 +5,10 @@ import java.io.StreamTokenizer;
 import edu.mccc.cos210.ds.IStack;
 import edu.mccc.cos210.ds.fp.javaforth.machineModel.ForthDictionary;
 import edu.mccc.cos210.ds.fp.javaforth.machineModel.ForthWordBase;
+import edu.mccc.cos210.ds.fp.javaforth.machineModel.ITerminalOutput;
 import edu.mccc.cos210.ds.fp.javaforth.words.Minus;
 
-public class DotQuote extends ForthControlWord {
+public class DotQuote extends ForthControlWordBase {
 	private StringBuilder content;
 	public DotQuote() {
 		super(".\"", "TODO");
@@ -28,6 +29,10 @@ public class DotQuote extends ForthControlWord {
 		throw new RuntimeException("dot-quote .\" not properly closed");
 	}
 	@Override
-	public void execute(IStack<Object> stack, ForthDictionary dict, edu.mccc.cos210.ds.fp.javaforth.machineModel.ITerminalOutput)ionary) {
+	public void execute(IStack<Object> stack, ForthDictionary dictionary, ITerminalOutput terminalOutput) {
+		if (content == null) {
+			super.throwCompileModeOnly();
+		}
+		terminalOutput.writeLine(content.toString());
 	}
 }
