@@ -15,13 +15,23 @@ import edu.mccc.cos210.ds.Map;
 import edu.mccc.cos210.ds.fp.javaforth.machineModel.ForthMachine;
 import edu.mccc.cos210.ds.fp.javaforth.machineModel.ForthWordBase;
 import edu.mccc.cos210.ds.fp.javaforth.machineModel.IDictionaryUpdatedEventListener;
-
+/**
+ * Class for managing the display of a table containing the dictionary element names as the first element of each row and the 
+ * descriptions of those dictionary elements in the second element of that row.
+ * @author Jing-Chao Feng, Nicholas Holmgren, Ryan Hammound
+ *
+ */
 public class DictionaryPanel extends JScrollPane implements IDictionaryUpdatedEventListener {
 	private static final long serialVersionUID = 1L;
 	private DefaultListModel<String> list = new DefaultListModel<String>();
 	Map<String, String> dictMap = new edu.mccc.cos210.ds.Map<>();
 	JTextArea textArea;
 	JTable table;
+	/**
+	 * Constructor method. Initializes the contents of the panel and subscribes the the given forth machine's dictionary update
+	 * events.
+	 * @param fm - the machine to subscribe to.
+	 */
 	public DictionaryPanel(ForthMachine fm) {
 		super(new JScrollPane(), JScrollPane.VERTICAL_SCROLLBAR_ALWAYS, JScrollPane.HORIZONTAL_SCROLLBAR_ALWAYS);
 		table = buildTable(dictMap);
@@ -30,10 +40,10 @@ public class DictionaryPanel extends JScrollPane implements IDictionaryUpdatedEv
 		this.setViewportView(table);
 		fm.AddDictionaryUpdatedEventListener(this);
 	}
-	public JTextArea getTextArea() {
+	private JTextArea getTextArea() {
 		return this.textArea;
 	}
-	public void fillDict(Map<String, ForthWordBase> dictMap) {
+	private void fillDict(Map<String, ForthWordBase> dictMap) {
 		this.dictMap = new Map<>();
 		for (String s : dictMap.keySet()) {
 			this.dictMap.put(s, dictMap.get(s).getDescription());
@@ -62,6 +72,9 @@ public class DictionaryPanel extends JScrollPane implements IDictionaryUpdatedEv
 		return table;
 	}
 	private final Object updateOperationLock = new Object();
+	/**
+	 * {@inheritDoc}
+	 */
 	@Override
 	public void onDictionaryUpdated(edu.mccc.cos210.ds.Map<String, ForthWordBase> entries) {
 		// Cannot call invokeAndWait because it might come from the UI thread.

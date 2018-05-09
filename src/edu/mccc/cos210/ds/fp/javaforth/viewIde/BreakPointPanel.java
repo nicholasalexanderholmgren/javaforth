@@ -12,7 +12,11 @@ import javax.swing.JPanel;
 import javax.swing.event.DocumentEvent;
 import javax.swing.event.DocumentListener;
 import javax.swing.text.StyledDocument;
-
+/**
+ * Class for containing and updating the region where breakpoints are held. 
+ * @author Jing-Chao Feng, Nicholas Holmgren, Ryan Hammound
+ *
+ */
 @SuppressWarnings("serial")
 public class BreakPointPanel extends JPanel implements DocumentListener, MouseListener, AdjustmentListener {
 	// AdjustmentListener Added to scroll bar of text editor.

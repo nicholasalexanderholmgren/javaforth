@@ -21,7 +21,12 @@ import javax.swing.border.CompoundBorder;
 import javax.swing.border.EtchedBorder;
 import javax.swing.filechooser.FileFilter;
 import edu.mccc.cos210.ds.fp.javaforth.machineModel.ForthMachine;
-
+/**
+ * Class for creating and maintaining the various elements of the ide UI.
+ * Also handles the saving of information from the text editor and loading files into that editor.
+ * @author Jing-chao Feng
+ *
+ */
 public class IdeWindow extends JFrame {
 	private static final long serialVersionUID = 1L;
 	private DictionaryPanel dictPanel;
