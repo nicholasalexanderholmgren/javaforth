@@ -5,7 +5,8 @@ import edu.mccc.cos210.ds.IStack;
 import edu.mccc.cos210.ds.fp.javaforth.machineModel.ForthDictionary;
 import edu.mccc.cos210.ds.fp.javaforth.machineModel.ForthWordBase;
 /**
- * Forth word for <. Puts 1 on the stack if true, otherwise puts 0.
+ * Forth word for <. Pops the top two items of the stack as integers. Pushes 1 if the first is less than the second, 
+ * others pushes 0.
  * @author Jing-Chao Feng, Nicholas Holmgren, Ryan Hammound
  *
  */
@@ -16,8 +17,8 @@ public class LessThan extends ForthWordBase {
 	@Override
 	public void execute(IStack<Object> stack, ForthDictionary dict, edu.mccc.cos210.ds.fp.javaforth.machineModel.ITerminalOutput terminalOutput) {
 		try {
-			Double n2 = (Double) stack.pop();
-			Double n1 = (Double) stack.pop();
+			int n1 = ((Double) stack.pop()).intValue();
+			int n2 = ((Double) stack.pop()).intValue();
 			if (n1 < n2) {
 				stack.push(1.0);
 			} else {
