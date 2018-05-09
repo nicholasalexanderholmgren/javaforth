@@ -8,7 +8,7 @@ import edu.mccc.cos210.ds.fp.javaforth.machineModel.ITerminalOutput;
 
 public class BitwiseOr extends ForthWordBase {
 	public BitwiseOr() {
-		super("OR", "n1 n2 -- n3 Leave the bitwise inclusive-or of two numbers.", false);
+		super("OR", "n1 n2 -- n3 Leave the bitwise inclusive-or of two numbers.");
 	}
 	@Override
 	public void execute(IStack<Object> stack, ForthDictionary dict, ITerminalOutput terminalOutput) {

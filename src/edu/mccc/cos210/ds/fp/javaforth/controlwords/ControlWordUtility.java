@@ -7,7 +7,7 @@ import edu.mccc.cos210.ds.fp.javaforth.machineModel.ForthWordBase;
 import edu.mccc.cos210.ds.fp.javaforth.words.Minus;
 
 class ControlWordUtility {
-	public static ForthWordBase buildNext(StreamTokenizer tokenizer, ForthDictionary dictionary) throws IOException {
+	public static ForthWordBase buildNext(StreamTokenizer tokenizer, ForthDictionary dictionary, boolean compiling) throws IOException {
 		int next = tokenizer.nextToken();
 		while (next != StreamTokenizer.TT_EOF && tokenizer.sval == null) {
 			next = tokenizer.nextToken();
@@ -28,8 +28,11 @@ class ControlWordUtility {
 				if (word == null) {
 					throw new RuntimeException("Word not found. " + tokenizer.sval);
 				} else {
+					if (word.isCompileModeOnly() && !compiling) {
+						throw new RuntimeException(word.getName() + " is only available in compile mode.");
+					}
 					if (word instanceof ForthControlWordBase) {
-						word = ((ForthControlWordBase) word).build(tokenizer, dictionary);
+						word = ((ForthControlWordBase) word).build(tokenizer, dictionary, compiling);
 					}
 					return word;
 				}

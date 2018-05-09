@@ -7,7 +7,7 @@ import edu.mccc.cos210.ds.fp.javaforth.machineModel.ForthWordBase;
 
 public class Mod extends ForthWordBase {
 	public Mod() {
-		super("MOD", "n1 n2 -- n3 Divide n1 by n2,  leaving the remainder n3, with the same sign as n1", false);
+		super("MOD", "n1 n2 -- n3 Divide n1 by n2,  leaving the remainder n3, with the same sign as n1");
 	}
 	@Override
 	public void execute(IStack<Object> stack, ForthDictionary dict, edu.mccc.cos210.ds.fp.javaforth.machineModel.ITerminalOutput terminalOutput) {

@@ -7,7 +7,7 @@ import edu.mccc.cos210.ds.fp.javaforth.machineModel.ForthWordBase;
 
 public class GreaterThan extends ForthWordBase {
 	public GreaterThan() {
-		super(">", "n1 n2 -- flag True if n1 is greater than n2.", false);
+		super(">", "n1 n2 -- flag True if n1 is greater than n2.");
 	}
 	@Override
 	public void execute(IStack<Object> stack, ForthDictionary dict, edu.mccc.cos210.ds.fp.javaforth.machineModel.ITerminalOutput terminalOutput) {

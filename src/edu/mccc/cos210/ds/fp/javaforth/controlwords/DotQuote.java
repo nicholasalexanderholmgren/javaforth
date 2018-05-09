@@ -14,7 +14,7 @@ public class DotQuote extends ForthControlWordBase {
 		super(".\"", "TODO");
 	}
 	@Override
-	ForthWordBase build(StreamTokenizer tokenizer, ForthDictionary dictionary) throws IOException {
+	ForthWordBase build(StreamTokenizer tokenizer, ForthDictionary dictionary, boolean compiling) throws IOException {
 		DotQuote word = new DotQuote();
 		word.content = new StringBuilder();
 		int next = tokenizer.nextToken();

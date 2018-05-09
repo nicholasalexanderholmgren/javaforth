@@ -13,7 +13,7 @@ import edu.mccc.cos210.ds.fp.javaforth.machineModel.ITerminalOutput;
  */
 public class ConDup extends ForthWordBase {
 	public ConDup() {
-		super("?dup", "(flag n1 -- n1 n1) Conditionally duplicates the second from the top element of the stack", false);
+		super("?dup", "(flag n1 -- n1 n1) Conditionally duplicates the second from the top element of the stack");
 	}
 	@Override
 	public void execute(IStack<Object> stack, ForthDictionary dictionary, ITerminalOutput terminalOutput) {

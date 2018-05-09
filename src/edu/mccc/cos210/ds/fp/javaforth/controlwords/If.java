@@ -13,11 +13,11 @@ public class If extends ForthControlWordBase {
 	private Else _else;
 	// Contains only ForthWordBase, double and string.
 	public If() {
-		super("IF", "TODO");
+		super("IF", "flag -- Used in a colon-definition in the form: flag  IF ... ELSE ... THEN   or flag  IF ... THEN If  flag is true,  the words following IF are executed and the words following ELSE are skipped.   The ELSE part is optional. If flag is false, words between IF and ELSE, or between IF and THEN  (when  no  ELSE is  used),  are  skipped.   IF-ELSE-THEN conditionals may be nested.", true);
 	}
-	public If build(StreamTokenizer tokenizer, ForthDictionary dictionary) throws IOException {
+	public If build(StreamTokenizer tokenizer, ForthDictionary dictionary, boolean compiling) throws IOException {
 		If word = new If();
-		ForthWordBase nextWord = ControlWordUtility.buildNext(tokenizer, dictionary);
+		ForthWordBase nextWord = ControlWordUtility.buildNext(tokenizer, dictionary, compiling);
 		while (nextWord != null) {
 			if (nextWord instanceof Else) {
 				if(word._else != null) {
@@ -30,7 +30,7 @@ public class If extends ForthControlWordBase {
 				return word;
 			}
 			word.codes.addLast(nextWord);
-			nextWord = ControlWordUtility.buildNext(tokenizer, dictionary);
+			nextWord = ControlWordUtility.buildNext(tokenizer, dictionary, compiling);
 		}
 		return word;
 	}

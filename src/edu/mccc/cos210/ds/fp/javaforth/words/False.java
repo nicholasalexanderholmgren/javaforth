@@ -7,7 +7,7 @@ import edu.mccc.cos210.ds.fp.javaforth.machineModel.ITerminalOutput;
 
 public class False extends ForthWordBase {
 	public False() {
-		super("FALSE", "flag A zero value represents the false condition flag.", false);
+		super("FALSE", "flag A zero value represents the false condition flag.");
 	}
 	@Override
 	public void execute(IStack<Object> stack, ForthDictionary dictionary, ITerminalOutput terminalOutput) {

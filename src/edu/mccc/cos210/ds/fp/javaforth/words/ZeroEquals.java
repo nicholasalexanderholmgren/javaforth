@@ -7,7 +7,7 @@ import edu.mccc.cos210.ds.fp.javaforth.machineModel.ForthWordBase;
 
 public class ZeroEquals extends ForthWordBase {
 	public ZeroEquals() {
-		super("0=", "n -- flag True if n is zero (negative)", false);
+		super("0=", "n -- flag True if n is zero (negative)");
 	}
 	@Override
 	public void execute(IStack<Object> stack, ForthDictionary dict, edu.mccc.cos210.ds.fp.javaforth.machineModel.ITerminalOutput terminalOutput) {

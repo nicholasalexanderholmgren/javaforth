@@ -7,7 +7,7 @@ import edu.mccc.cos210.ds.fp.javaforth.machineModel.ForthWordBase;
 public final class IntegerWord extends ForthWordBase {
 	private int value;
 	public IntegerWord(String name, int value) {
-		super(name, name, false);
+		super(name, name);
 		this.value = value;
 	}
 	public void execute(IStack<Object> stack, ForthDictionary dict, edu.mccc.cos210.ds.fp.javaforth.machineModel.ITerminalOutput terminalOutput) {

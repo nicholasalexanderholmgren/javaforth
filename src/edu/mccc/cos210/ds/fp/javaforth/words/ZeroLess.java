@@ -7,7 +7,7 @@ import edu.mccc.cos210.ds.fp.javaforth.machineModel.ForthWordBase;
 
 public class ZeroLess extends ForthWordBase {
 	public ZeroLess() {
-		super("0<", "n -- flag True if n is less than zero (negative)", false);
+		super("0<", "n -- flag True if n is less than zero (negative)");
 	}
 	@Override
 	public void execute(IStack<Object> stack, ForthDictionary dict, edu.mccc.cos210.ds.fp.javaforth.machineModel.ITerminalOutput terminalOutput) {

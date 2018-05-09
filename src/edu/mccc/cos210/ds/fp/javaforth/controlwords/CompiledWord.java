@@ -16,11 +16,11 @@ public class CompiledWord extends ForthWordBase {
 	public CompiledWord() {
 		super(null, null);
 	}
-	public void build(StreamTokenizer tokenizer, ForthDictionary dictionary) throws IOException {
-		ForthWordBase nextWord = ControlWordUtility.buildNext(tokenizer, dictionary);
+	public void build(StreamTokenizer tokenizer, ForthDictionary dictionary, boolean compiling) throws IOException {
+		ForthWordBase nextWord = ControlWordUtility.buildNext(tokenizer, dictionary, compiling);
 		while (nextWord != null) {
 			this.words.addLast(nextWord);
-			nextWord = ControlWordUtility.buildNext(tokenizer, dictionary);
+			nextWord = ControlWordUtility.buildNext(tokenizer, dictionary, compiling);
 		}
 	}
 	@Override

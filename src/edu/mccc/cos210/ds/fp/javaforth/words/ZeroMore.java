@@ -7,7 +7,7 @@ import edu.mccc.cos210.ds.fp.javaforth.machineModel.ForthWordBase;
 
 public class ZeroMore extends ForthWordBase {
 	public ZeroMore() {
-		super("0>", "n -- flag True if n is more than zero (positive)", false);
+		super("0>", "n -- flag True if n is more than zero (positive)");
 	}
 	@Override
 	public void execute(IStack<Object> stack, ForthDictionary dict, edu.mccc.cos210.ds.fp.javaforth.machineModel.ITerminalOutput terminalOutput) {

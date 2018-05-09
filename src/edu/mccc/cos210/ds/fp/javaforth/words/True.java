@@ -6,7 +6,7 @@ import edu.mccc.cos210.ds.fp.javaforth.machineModel.ForthWordBase;
 
 public class True extends ForthWordBase {
 	public True() {
-		super("TRUE", "flag A non-zero value represents the true condition flag.", false);
+		super("TRUE", "flag A non-zero value represents the true condition flag.");
 	}
 	@Override
 	public void execute(IStack<Object> stack, ForthDictionary dict, edu.mccc.cos210.ds.fp.javaforth.machineModel.ITerminalOutput terminalOutput) {

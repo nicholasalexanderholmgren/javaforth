@@ -6,7 +6,7 @@ import edu.mccc.cos210.ds.fp.javaforth.machineModel.ForthWordBase;
 
 public class Store extends ForthWordBase {
 	public Store() {
-		super("!", "n addr -- Store n at addr.", false);
+		super("!", "n addr -- Store n at addr.");
 	}
 	@Override
 	public void execute(IStack<Object> stack, ForthDictionary dict, edu.mccc.cos210.ds.fp.javaforth.machineModel.ITerminalOutput terminalOutput) {

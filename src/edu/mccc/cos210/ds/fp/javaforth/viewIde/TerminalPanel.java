@@ -58,7 +58,7 @@ public class TerminalPanel extends JScrollPane implements ITerminalUpdatedEventL
 					if (inputArea.getText().length() > 2) {
 						String input = inputArea.getText().substring(inputArea.getText().indexOf(">") + 1);
 						appendOutput(input);
-						machine.interpret(input);
+						machine.interpret(input, false);
 						inputArea.setText(arrow);
 						inputArea.moveCaretPosition(1);
 					}
@@ -92,8 +92,10 @@ public class TerminalPanel extends JScrollPane implements ITerminalUpdatedEventL
 		return ioRegion;
 	}
 	private void appendOutput(String message) {
-		outputTextArea.append(message.trim() + "\n");
-		EventQueue.invokeLater(() -> vertical.setValue(vertical.getMaximum()));
+		if (message != null) {
+			outputTextArea.append(message.trim() + "\n");
+			EventQueue.invokeLater(() -> vertical.setValue(vertical.getMaximum()));
+		}
 	}
 	@Override
 	public void onTerminalUpdated(boolean clear, String message) {

@@ -34,7 +34,7 @@ public class ForthMachine {
 	 * was paused.
 	 * @param String - input the string of input data to be passed into the inputStream.
 	 */
-	public void interpret(String input) {
+	public void interpret(String input, boolean isInCompileMode) {
 		input = input.trim();
 		StreamTokenizer tokenizer = new StreamTokenizer(new StringReader(input));
 		tokenizer.resetSyntax();
@@ -43,7 +43,7 @@ public class ForthMachine {
 			synchronized (executingLock) {
 				try {
 					CompiledWord word = new CompiledWord();
-					word.build(tokenizer, dictionary);
+					word.build(tokenizer, dictionary, isInCompileMode);
 					word.execute(stack, dictionary, s -> this.updateTerminal(s));
 				} catch (Exception ex) {
 					this.terminalUpdatedEventListener.iterator().forEachRemaining(l -> l.onTerminalUpdated(false, ex.getMessage()));

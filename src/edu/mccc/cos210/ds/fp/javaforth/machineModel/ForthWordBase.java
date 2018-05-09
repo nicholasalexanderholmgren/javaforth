@@ -6,21 +6,26 @@ import edu.mccc.cos210.ds.fp.javaforth.machineModel.ITerminalOutput;
 public abstract class ForthWordBase {
 	private String name;
 	private String description;
+	private boolean compileModeOnly;
 	public String getDescription() {
 		return description;
 	}
-	public ForthWordBase(String name, String description, boolean immediate) {
-		super();
-		this.name = name.toUpperCase();
-		this.description = description;
+	public ForthWordBase(String name, String description, boolean compileModeOnly) {
+		this(name, description);
+		this.compileModeOnly = compileModeOnly;
 	}
 	public ForthWordBase(String name, String description) {
 		super();
-		this.name = name;
+		if (name != null) {
+			this.name = name.toUpperCase();
+		}
 		this.description = description;
 	}
 	public String getName() {
 		return name;
 	}
 	public abstract void execute(IStack<Object> stack, ForthDictionary dictionary, ITerminalOutput terminalOutput);
+	public boolean isCompileModeOnly() {
+		return compileModeOnly;
+	}
 }
