@@ -41,9 +41,6 @@ public class Do extends ForthLoopWordBase {
 		while (super.getN2() < super.getN1()) {
 			boolean loopWordHit = false;
 			for (ForthWordBase forthWordBase : codes) {
-				if (forthWordBase instanceof Do) {
-					((Do) forthWordBase).setParentLoop(this);
-				}
 				if (forthWordBase instanceof Loop) {
 					super.setN2(super.getN2() + 1);
 					loopWordHit = true;
@@ -54,7 +51,17 @@ public class Do extends ForthLoopWordBase {
 					loopWordHit = true;
 					break;
 				}
-				forthWordBase.execute(stack, dictionary, terminalOutput);
+				if (forthWordBase instanceof ForthLoopWordBase) {
+					((ForthLoopWordBase) forthWordBase).setParentLoop(this);
+				}
+				if (forthWordBase instanceof Leave) {
+					return;
+				}
+				try {
+					forthWordBase.execute(stack, dictionary, terminalOutput);
+				} catch (LeaveLoopException ex) {
+					return;
+				}
 			}
 			if (!loopWordHit) {
 				throw new RuntimeException("Unexpected end of DO.");

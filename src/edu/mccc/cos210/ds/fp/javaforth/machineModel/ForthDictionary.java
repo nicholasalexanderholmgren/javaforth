@@ -18,6 +18,7 @@ public class ForthDictionary {
 		ForthWordBase[] words = new ForthWordBase[] 
 		{ 
 			new ConDup(), 
+			new Depth(),
 			new Divide(), 
 			new Dot(), 
 			new Dup(), 
@@ -25,7 +26,7 @@ public class ForthDictionary {
 			new Emit(),
 			new False(), 
 			new Fetch(), 
-			new GreaterThan(), 
+			new GreaterThan(),
 			new LessThan(), 
 			new Minus(), 
 			new Mod(), 
@@ -54,6 +55,7 @@ public class ForthDictionary {
 			new I(),
 			new J(),
 			new K(),
+			new Leave(),
 		};
 		for (ForthWordBase word : words) {
 			this.dictionary.put(word.getName(), word);

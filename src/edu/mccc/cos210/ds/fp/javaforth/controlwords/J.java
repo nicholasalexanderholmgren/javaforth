@@ -17,7 +17,7 @@ public class J extends ForthLoopWordBase {
 		if (parent == null) {
 			super.throwUnexpectedWord();
 		}
-		parent = super.getParentLoop();
+		parent = parent.getParentLoop();
 		if (parent == null) {
 			super.throwUnexpectedWord();
 		}

@@ -19,6 +19,9 @@ public class DotQuote extends ForthControlWordBase {
 		int next = tokenizer.nextToken();
 		while (next != StreamTokenizer.TT_EOF) {
 			if (tokenizer.sval != null) {
+				if (word.content.length() != 0) {
+					word.content.append(" ");
+				}
 				if (tokenizer.sval.endsWith("\"")) {
 					word.content.append(tokenizer.sval.substring(0, tokenizer.sval.length() - 1));
 					return word;

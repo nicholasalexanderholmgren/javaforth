@@ -49,4 +49,7 @@ public class ObservableStack implements IStack<Object>, Iterable<Object> {
 	public Iterator<Object> iterator() {
 		return this.theList.iterator();
 	}
+	public int getHeight() {
+		return this.theList.getSize();
+	}
 }

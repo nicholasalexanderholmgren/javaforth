@@ -20,13 +20,13 @@ public class If extends ForthControlWordBase {
 		ForthWordBase nextWord = ControlWordUtility.buildNext(tokenizer, dictionary, compiling);
 		while (nextWord != null) {
 			if (nextWord instanceof Else) {
-				if(word._else != null) {
+				if (word._else != null) {
 					throw new RuntimeException("Unexpected word ELSE.");
 				}
 				word._else = (Else) nextWord;
 				return word;
 			}
-			if(nextWord instanceof Then) {
+			if (nextWord instanceof Then) {
 				return word;
 			}
 			word.codes.addLast(nextWord);
@@ -40,7 +40,9 @@ public class If extends ForthControlWordBase {
 		} else {
 			double flag = (double) stack.pop();
 			if (flag == 0) {
-				this._else.execute(stack, dictionary, terminalOutput);
+				if (this._else != null) {
+					this._else.execute(stack, dictionary, terminalOutput);
+				}
 			} else {
 				for (ForthWordBase word : codes) {
 					word.execute(stack, dictionary, terminalOutput);
