@@ -10,9 +10,9 @@ import edu.mccc.cos210.ds.fp.javaforth.machineModel.ForthMachine;
 
 public class TextEditorPanel extends JPanel {
 	private static final long serialVersionUID = 1L;
+	private final JTextPane textPane = new JTextPane();
 	public TextEditorPanel(ForthMachine machine) {
 		int lineHeight = 16;
-		final JTextPane textPane = new JTextPane();
 		JScrollPane textScrollPane = new JScrollPane(textPane, JScrollPane.VERTICAL_SCROLLBAR_ALWAYS, 
 				JScrollPane.HORIZONTAL_SCROLLBAR_ALWAYS);
 		this.setLayout(new BorderLayout());
@@ -26,5 +26,18 @@ public class TextEditorPanel extends JPanel {
 		this.add(statusPanel, BorderLayout.PAGE_START);
 		textPane.setFont(new Font(Font.SERIF, Font.PLAIN, lineHeight));
 	}
-	
+	/**
+	 * 
+	 * @return String - the contents of the text area of this panel. Useful for saving.
+	 */
+	public String getTextContents() {
+		return textPane.getText();
+	}
+	/**
+	 * Method for loading text into the text editor. Useful for loading files.
+	 * @param s - the new text to load into the text area
+	 */
+	public void setTextContents(String s) {
+		textPane.setText(s);
+	}
 }
