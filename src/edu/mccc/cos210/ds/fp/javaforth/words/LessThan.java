@@ -4,7 +4,11 @@ import java.util.NoSuchElementException;
 import edu.mccc.cos210.ds.IStack;
 import edu.mccc.cos210.ds.fp.javaforth.machineModel.ForthDictionary;
 import edu.mccc.cos210.ds.fp.javaforth.machineModel.ForthWordBase;
-
+/**
+ * Forth word for <. Puts 1 on the stack if true, otherwise puts 0.
+ * @author Jing-Chao Feng, Nicholas Holmgren, Ryan Hammound
+ *
+ */
 public class LessThan extends ForthWordBase {
 	public LessThan() {
 		super("<", "n1 n2 -- flag True if n1 is less than n2.");

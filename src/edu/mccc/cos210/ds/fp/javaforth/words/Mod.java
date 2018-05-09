@@ -4,7 +4,11 @@ import java.util.NoSuchElementException;
 import edu.mccc.cos210.ds.IStack;
 import edu.mccc.cos210.ds.fp.javaforth.machineModel.ForthDictionary;
 import edu.mccc.cos210.ds.fp.javaforth.machineModel.ForthWordBase;
-
+/**
+ * Forth word for %. Performs the modulo operation using the top two elements of the stack.
+ * @author Jing-Chao Feng, Nicholas Holmgren, Ryan Hammound
+ *
+ */
 public class Mod extends ForthWordBase {
 	public Mod() {
 		super("MOD", "n1 n2 -- n3 Divide n1 by n2,  leaving the remainder n3, with the same sign as n1");

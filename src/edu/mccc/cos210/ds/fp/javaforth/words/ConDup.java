@@ -7,14 +7,18 @@ import edu.mccc.cos210.ds.fp.javaforth.machineModel.ForthWordBase;
 import edu.mccc.cos210.ds.fp.javaforth.machineModel.ITerminalOutput;
 
 /**
- * Javacode for the forth word ?dup. pops the top flag from the stack, then if it was true, executes dup.
- * @author Nicholas Holmgren
+ * Forthword for ?dup. Pops the top flag from the stack, then if it was true, executes dup.
+ * @see Dup.java
+ * @author Jing-Chao Feng, Nicholas Holmgren, Ryan Hammound.
  *
  */
 public class ConDup extends ForthWordBase {
 	public ConDup() {
 		super("?dup", "(flag n1 -- n1 n1) Conditionally duplicates the second from the top element of the stack");
 	}
+	/**
+	 * {@inheritDoc}
+	 */
 	@Override
 	public void execute(IStack<Object> stack, ForthDictionary dictionary, ITerminalOutput terminalOutput) {
 		try {
