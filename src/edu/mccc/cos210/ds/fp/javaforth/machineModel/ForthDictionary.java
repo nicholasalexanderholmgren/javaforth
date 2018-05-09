@@ -13,7 +13,7 @@ public class ForthDictionary {
 	}
 	public void initRequiredWords() {
 		ForthWordBase[] words = new ForthWordBase[] {
-			new ConDup(), new Divide(), new Dup(), new Equals(), new False(), new Fetch(), new GreaterThan(),
+			new ConDup(), new Divide(), new Dot(), new Dup(), new Equals(), new False(), new Fetch(), new GreaterThan(),
 			new LessThan(), new Minus(), new Mod(), new Negate(), new Or(), new Plus(), new Sharp(), new Store(), new Times(), new True(),
 			new ZeroEquals(), new ZeroLess(), new ZeroMore(),
 		};

@@ -54,7 +54,6 @@ public class ForthMachine {
 						if (this.stopRequested) {
 							return;
 						}
-						int t = '\"';
 						if (tokenizer.sval != null) {
 							try {
 								double nval = Double.parseDouble(tokenizer.sval);
