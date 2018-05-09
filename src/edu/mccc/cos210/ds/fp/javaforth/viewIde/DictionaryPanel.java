@@ -35,9 +35,9 @@ public class DictionaryPanel extends JScrollPane implements IDictionaryUpdatedEv
 		return this.textArea;
 	}
 	public void fillDict(Map<String, ForthWordBase> dictMap) {
-		for (IMap.Entry<String, ForthWordBase> entry : dictMap)
-		{	
-			list.addElement(entry.getKey() + " : " + entry.getValue().getDescription());
+		this.dictMap = new Map<>();
+		for(String s : dictMap.keySet()) {
+			this.dictMap.put(s, dictMap.get(s).getDescription());
 		}
 	}
 		
@@ -66,6 +66,7 @@ public class DictionaryPanel extends JScrollPane implements IDictionaryUpdatedEv
 	@Override
 	public void onDictionaryUpdated(edu.mccc.cos210.ds.Map<String, ForthWordBase> entries) {
 		list.removeAllElements();
-//		fillDict(dictMap);
+		fillDict(entries);
+//		this.setViewportView(buildTable(dictMap));
 	}
 }
