@@ -19,6 +19,7 @@ public class Do extends ForthLoopWordBase {
 			super.throwCompileModeOnly();
 		}
 		Do word = new Do();
+		word.codes = new DoublyLinkedList<>();
 		ForthWordBase nextWord = ControlWordUtility.buildNext(tokenizer, dictionary, compiling);
 		while (nextWord != null) {
 			if (nextWord instanceof Loop || nextWord instanceof PlusLoop) {
@@ -28,7 +29,7 @@ public class Do extends ForthLoopWordBase {
 			word.codes.addLast(nextWord);
 			nextWord = ControlWordUtility.buildNext(tokenizer, dictionary, compiling);
 		}
-		return word;
+		throw new RuntimeException("DO loop not properly closed with LOOP or +LOOP");
 	}
 	@Override
 	public void execute(IStack<Object> stack, ForthDictionary dictionary, ITerminalOutput terminalOutput) {
