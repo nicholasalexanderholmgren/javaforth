@@ -13,9 +13,9 @@ public class Times extends ForthWordBase {
 	@Override
 	public void execute(IStack<Object> stack, ForthDictionary dict) {
 		try {
-			int n1 = (int) stack.pop();
-			int n2 = (int) stack.pop();
-			stack.push(Integer.valueOf((n1*n2)));
+			int n1 = ((Double) stack.pop()).intValue();
+			int n2 = ((Double) stack.pop()).intValue();
+			stack.push(Double.valueOf((n1*n2)));
 		}catch(NoSuchElementException e) {
 			throw new RuntimeException("Stack underflow error on word *");
 		}catch(ClassCastException e) {
