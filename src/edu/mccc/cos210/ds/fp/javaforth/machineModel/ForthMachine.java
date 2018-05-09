@@ -67,7 +67,9 @@ public class ForthMachine {
 				}
 			}
 		});
+		
 		thread.start();
+		//thread.run();
 		this.thread = thread;
 	}
 	private void updateTerminal(String s) {
