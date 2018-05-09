@@ -11,7 +11,7 @@ public abstract class ForthWordBase {
 	}
 	public ForthWordBase(String name, String description, boolean immediate) {
 		super();
-		this.name = name.toUpperCase();
+		this.name = name;
 		this.description = description;
 	}
 	public ForthWordBase(String name, String description) {

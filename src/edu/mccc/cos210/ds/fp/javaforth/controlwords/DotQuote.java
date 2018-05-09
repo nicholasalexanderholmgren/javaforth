@@ -2,10 +2,10 @@ package edu.mccc.cos210.ds.fp.javaforth.controlwords;
 
 import java.io.IOException;
 import java.io.StreamTokenizer;
+
 import edu.mccc.cos210.ds.IStack;
 import edu.mccc.cos210.ds.fp.javaforth.machineModel.ForthDictionary;
 import edu.mccc.cos210.ds.fp.javaforth.machineModel.ForthWordBase;
-import edu.mccc.cos210.ds.fp.javaforth.words.Minus;
 
 public class DotQuote extends ForthControlWord {
 	private StringBuilder content;
@@ -26,6 +26,7 @@ public class DotQuote extends ForthControlWord {
 			next = tokenizer.nextToken();
 		}
 		throw new RuntimeException("dot-quote .\" not properly closed");
+		return null;
 	}
 	@Override
 	public void execute(IStack<Object> stack, ForthDictionary dictionary) {

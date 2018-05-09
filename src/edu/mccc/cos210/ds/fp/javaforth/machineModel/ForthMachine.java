@@ -1,12 +1,10 @@
 package edu.mccc.cos210.ds.fp.javaforth.machineModel;
 
-import java.awt.EventQueue;
-import java.io.IOException;
 import java.io.StreamTokenizer;
 import java.io.StringReader;
-import java.util.StringTokenizer;
+
+import edu.mccc.cos210.ds.Map;
 import edu.mccc.cos210.ds.SinglyLinkedList;
-import edu.mccc.cos210.ds.fp.javaforth.controlwords.CompiledWord;
 import edu.mccc.cos210.ds.fp.javaforth.util.IStackUpdatedEventListener;
 import edu.mccc.cos210.ds.fp.javaforth.words.Minus;
 
@@ -43,13 +41,58 @@ public class ForthMachine {
 		StreamTokenizer tokenizer = new StreamTokenizer(new StringReader(input));
 		tokenizer.resetSyntax();
 		tokenizer.wordChars('!', 'z');
+//		for (int i = '!'; i <= 'z'; i++) {
+//			System.out.println(String.valueOf((char)i));
+//		}
 		new Thread(() -> {
 			synchronized (executingLock) {
 				try {
-					CompiledWord word = new CompiledWord();
-					word.build(tokenizer, dictionary);
-					word.execute(stack, dictionary);
-					word.execute(stack, dictionary, s -> this.updateTerminal(s));
+					int next = tokenizer.nextToken();
+					StringBuilder dotQuoteContent = null;
+					while (next != StreamTokenizer.TT_EOF) {
+						while (this.pauseRequested) {
+							Thread.sleep(0);
+						}
+						if (this.stopRequested) {
+							return;
+						}
+						if (tokenizer.sval != null) {
+							try {
+								double nval = Double.parseDouble(tokenizer.sval);
+								// Has to be a number.
+								this.stack.push(nval);
+							} catch (NumberFormatException ex) {
+								if (dotQuoteContent != null) {
+									dotQuoteContent.append(tokenizer.sval.substring(0, tokenizer.sval.length() - 2));
+									if (tokenizer.sval.endsWith("\"")) {
+										this.updateTerminal(dotQuoteContent.toString());
+										dotQuoteContent = null;
+									}
+								} else {
+									// Has to be a word.
+									if (tokenizer.sval.equals(".\"")) {
+										dotQuoteContent = new StringBuilder();
+									} else {
+										if(tokenizer.sval.equals("-")) {
+											new Minus().execute(stack, dictionary);
+										}
+										else {
+											ForthWordBase word = this.dictionary.getWord(tokenizer.sval);
+											if(word == null) {
+												throw new RuntimeException("Word not found. " + tokenizer.sval);
+											}
+											word.execute(stack, dictionary);
+											word.execute(stack, dictionary, s -> updateTerminal(s));											
+										}
+									}
+								}
+							}
+						}
+						next = tokenizer.nextToken();
+					}
+					if (dotQuoteContent != null) {
+						throw new RuntimeException("dot-quote .\" not properly closed");
+					}
 				} catch (Exception ex) {
 					this.terminalUpdatedEventListener.iterator().forEachRemaining(l -> l.onTerminalUpdated(false, ex.getMessage()));
 				} finally {
@@ -92,8 +135,13 @@ public class ForthMachine {
 	 * Method retrieves each variable declared in the 
 	 * @return Map<String,String>
 	 */
-	public edu.mccc.cos210.ds.Map<String, String> getDictionaryAsMap() {
-		throw new UnsupportedOperationException();
+	public Map<String, String> getDictionaryAsMap() {
+		Map<String,String> dictDeffs = new Map<String,String>();
+		for (String entry : dictionary.dictionary.keySet()) {
+			dictDeffs.put(entry, dictionary.getWord(entry).getDescription());
+		}
+		return dictDeffs;
+//		throw new UnsupportedOperationException();
 	}
 	private void reset() {
 		this.stopRequested = false;

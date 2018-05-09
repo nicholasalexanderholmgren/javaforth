@@ -25,6 +25,7 @@ public class DictionaryPanel extends JScrollPane implements IDictionaryUpdatedEv
 	JTable table;
 	public DictionaryPanel(ForthMachine fm) {
 		super(new JScrollPane(), JScrollPane.VERTICAL_SCROLLBAR_ALWAYS, JScrollPane.HORIZONTAL_SCROLLBAR_ALWAYS);
+		dictMap = fm.getDictionaryAsMap();
 		table = buildTable(dictMap);
 		table.setFont(new Font(Font.DIALOG_INPUT, Font.PLAIN, 18));
 		table.setGridColor(new Color(0,255,128));
@@ -67,6 +68,6 @@ public class DictionaryPanel extends JScrollPane implements IDictionaryUpdatedEv
 	public void onDictionaryUpdated(edu.mccc.cos210.ds.Map<String, ForthWordBase> entries) {
 		list.removeAllElements();
 		fillDict(entries);
-//		this.setViewportView(buildTable(dictMap));
+		this.setViewportView(buildTable(dictMap));
 	}
 }
