@@ -28,4 +28,7 @@ public abstract class ForthWordBase {
 	public boolean isCompileModeOnly() {
 		return compileModeOnly;
 	}
+	protected void throwUnexpectedWord() {
+		throw new RuntimeException("Unexpected word " + name + " encountered.");
+	}
 }

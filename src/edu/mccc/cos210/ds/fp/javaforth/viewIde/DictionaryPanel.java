@@ -4,7 +4,6 @@ import java.awt.Color;
 import java.awt.Dimension;
 import java.awt.EventQueue;
 import java.awt.Font;
-import java.lang.reflect.InvocationTargetException;
 import javax.swing.DefaultListModel;
 import javax.swing.JLabel;
 import javax.swing.JScrollPane;

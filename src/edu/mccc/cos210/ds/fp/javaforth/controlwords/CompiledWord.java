@@ -19,6 +19,9 @@ public class CompiledWord extends ForthWordBase {
 	public void build(StreamTokenizer tokenizer, ForthDictionary dictionary, boolean compiling) throws IOException {
 		ForthWordBase nextWord = ControlWordUtility.buildNext(tokenizer, dictionary, compiling);
 		while (nextWord != null) {
+			if(nextWord instanceof SemiColon) {
+				return;
+			}
 			this.words.addLast(nextWord);
 			nextWord = ControlWordUtility.buildNext(tokenizer, dictionary, compiling);
 		}

@@ -4,7 +4,6 @@ import java.io.IOException;
 import java.io.StreamTokenizer;
 import edu.mccc.cos210.ds.fp.javaforth.machineModel.ForthDictionary;
 import edu.mccc.cos210.ds.fp.javaforth.machineModel.ForthWordBase;
-import edu.mccc.cos210.ds.fp.javaforth.machineModel.ITerminalOutput;
 
 public abstract class ForthControlWordBase extends ForthWordBase {
 	public ForthControlWordBase(String name, String description) {

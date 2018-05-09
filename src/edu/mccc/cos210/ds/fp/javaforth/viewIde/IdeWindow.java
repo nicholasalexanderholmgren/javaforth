@@ -63,6 +63,7 @@ public class IdeWindow extends JFrame {
 		});
 		return panel;
 	}
+	@SuppressWarnings("serial")
 	private class MyMenuBar extends JMenuBar {
 		JMenu file;
 		Action save, open, saveAs, quit;

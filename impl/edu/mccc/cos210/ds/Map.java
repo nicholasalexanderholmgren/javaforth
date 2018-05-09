@@ -1,7 +1,5 @@
 package edu.mccc.cos210.ds;
 
-import java.util.Iterator;
-
 public class Map<K, V> implements IMap<K, V>, Iterable<IMap.Entry<K, V>> {
 	private IResizableArray<IOrderedList<IMap.Entry<K, V>>> theVector = new ResizableArray<>(1);
 	private int size = 0;
@@ -56,13 +54,14 @@ public class Map<K, V> implements IMap<K, V>, Iterable<IMap.Entry<K, V>> {
 			size++;
 			return;
 		}
-		Iterator<edu.mccc.cos210.ds.IMap.Entry<K, V>> iterator = list.iterator();
-		while (iterator.hasNext()) {
-			edu.mccc.cos210.ds.IMap.Entry<K, V> e = iterator.next();
-			if(e.getKey().equals(key)) {
-				iterator.remove();
-				list.add(entry);
-				break;
+		// TODO: Dirty hack because iterator doesn't work
+		IOrderedList<IMap.Entry<K, V>> newList = new OrderedList<IMap.Entry<K, V>>();
+		for (edu.mccc.cos210.ds.IMap.Entry<K, V> entry2 : list) {
+			if (entry2.getKey().equals(key)) {
+				newList.add(entry);
+			}
+			else {
+				newList.add(entry2);
 			}
 		}
 	}

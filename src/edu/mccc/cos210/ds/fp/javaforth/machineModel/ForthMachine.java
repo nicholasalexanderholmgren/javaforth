@@ -22,8 +22,8 @@ public class ForthMachine {
 	private ObservableStack stack = new ObservableStack();
 	private ForthDictionary dictionary = new ForthDictionary();
 	private Object executingLock = new Object();
-	private volatile boolean stopRequested = false;
 	private boolean pauseRequested;
+	private Thread thread;
 	public ForthMachine() {
 		this.dictionary.initRequiredWords();
 		this.dictionary.initGraphicsWords();
@@ -39,7 +39,7 @@ public class ForthMachine {
 		StreamTokenizer tokenizer = new StreamTokenizer(new StringReader(input));
 		tokenizer.resetSyntax();
 		tokenizer.wordChars('!', 'z');
-		new Thread(() -> {
+		Thread thread = new Thread(() -> {
 			synchronized (executingLock) {
 				try {
 					CompiledWord word = new CompiledWord();
@@ -51,7 +51,9 @@ public class ForthMachine {
 					// TODO: CanExecuteChanged event.
 				}
 			}
-		}).run();
+		});
+		thread.run();
+		this.thread = thread;
 	}
 	private void updateTerminal(String s) {
 		this.terminalUpdatedEventListener.iterator().forEachRemaining(l -> l.onTerminalUpdated(false, s));
@@ -62,6 +64,9 @@ public class ForthMachine {
 	 * @return boolean true when the halt was successful, false when it was not.
 	 */
 	public boolean halt() {
+		while (this.thread.isAlive()) {
+			this.thread.interrupt();
+		}
 		return true;
 	}
 	/**
@@ -91,7 +96,6 @@ public class ForthMachine {
 		throw new UnsupportedOperationException();
 	}
 	private void reset() {
-		this.stopRequested = false;
 		this.pauseRequested = false;
 //		this.stack = new ObservableStack();
 //		for (IStackUpdatedEventListener listener : this.stackUpdatedEventListeners) {

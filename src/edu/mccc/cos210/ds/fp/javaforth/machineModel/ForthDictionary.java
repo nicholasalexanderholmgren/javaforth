@@ -12,7 +12,7 @@ public class ForthDictionary {
 	Map<String, ForthWordBase> dictionary = new Map<String, ForthWordBase>();
 	SinglyLinkedList<IDictionaryUpdatedEventListener> dictionaryUpdatedEventListeners = new SinglyLinkedList<>();
 	public ForthWordBase getWord(String name) {
-		return this.dictionary.get(name);
+		return this.dictionary.get(name.toUpperCase());
 	}
 	public void initRequiredWords() {
 		ForthWordBase[] words = new ForthWordBase[] 
@@ -32,6 +32,7 @@ public class ForthDictionary {
 			new BitwiseOr(), 
 			new Plus(),
 			new Sharp(), 
+			new Sleep(),
 			new Store(), 
 			new Times(), 
 			new True(), 
@@ -45,6 +46,13 @@ public class ForthDictionary {
 			new DotQuote(),
 			new Colon(),
 			new SemiColon(),
+			new Comment(),
+			new Loop(),
+			new PlusLoop(),
+			new Do(),
+			new I(),
+			new J(),
+			new K(),
 		};
 		for (ForthWordBase word : words) {
 			this.dictionary.put(word.getName(), word);
