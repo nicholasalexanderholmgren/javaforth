@@ -13,13 +13,16 @@ public class Divide extends ForthWordBase {
 	@Override
 	public void execute(IStack<Object> stack, ForthDictionary dict) {
 		try {
-			int n1 = ((Double) stack.pop()).intValue();
 			int n2 = ((Double) stack.pop()).intValue();
+			int n1 = ((Double) stack.pop()).intValue();
 			stack.push(Double.valueOf((n1/n2)));
 		}catch(NoSuchElementException e) {
 			throw new RuntimeException("Stack underflow error on word /");
 		}catch(ClassCastException e) {
 			throw new RuntimeException("Typing error on /");
+			
+		}catch(ArithmeticException e) {
+			throw new RuntimeException("Division by zero error");
 		}catch(Exception e) {
 			throw new RuntimeException("Unknown error on /");
 		}
