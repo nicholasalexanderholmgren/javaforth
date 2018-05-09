@@ -1,12 +1,9 @@
 package edu.mccc.cos210.ds.fp.javaforth.graphicswords;
 
 import java.awt.Graphics2D;
-import java.io.IOException;
-import java.io.StreamTokenizer;
-import javax.swing.JFrame;
 import edu.mccc.cos210.ds.IStack;
-import edu.mccc.cos210.ds.fp.javaforth.controlwords.ForthControlWord;
 import edu.mccc.cos210.ds.fp.javaforth.machineModel.ForthDictionary;
+import edu.mccc.cos210.ds.fp.javaforth.machineModel.GraphicsWordBase;
 import edu.mccc.cos210.ds.fp.javaforth.viewIde.GraphicsFrame;
 
 public class LineTo extends GraphicsWordBase {

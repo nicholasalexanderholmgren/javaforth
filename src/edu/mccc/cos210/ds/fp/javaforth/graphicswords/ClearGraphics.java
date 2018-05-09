@@ -3,6 +3,7 @@ package edu.mccc.cos210.ds.fp.javaforth.graphicswords;
 import java.awt.Graphics2D;
 import edu.mccc.cos210.ds.IStack;
 import edu.mccc.cos210.ds.fp.javaforth.machineModel.ForthDictionary;
+import edu.mccc.cos210.ds.fp.javaforth.machineModel.GraphicsWordBase;
 import edu.mccc.cos210.ds.fp.javaforth.viewIde.GraphicsFrame;
 
 public class ClearGraphics extends GraphicsWordBase {
