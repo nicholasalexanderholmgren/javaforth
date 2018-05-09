@@ -3,13 +3,12 @@ package edu.mccc.cos210.ds.fp.javaforth.viewIde;
 import java.awt.Color;
 import java.awt.EventQueue;
 import java.awt.Font;
-
+import java.text.DecimalFormat;
 import javax.swing.DefaultListModel;
 import javax.swing.JList;
 import javax.swing.JScrollBar;
 import javax.swing.JScrollPane;
 import javax.swing.JViewport;
-
 import edu.mccc.cos210.ds.fp.javaforth.machineModel.ForthMachine;
 import edu.mccc.cos210.ds.fp.javaforth.util.IStackUpdatedEventListener;
 
@@ -29,7 +28,13 @@ public class StackPanel extends JScrollPane implements IStackUpdatedEventListene
 	@Override
 	public void onStackUpdated(Iterable<Object> stack) {
 		list.removeAllElements();
-		for(Object o : stack) {
+		for (Object o : stack) {
+			if (o instanceof Double) {
+				if (((double) o % 1) == 0) {
+					list.addElement(new DecimalFormat("0").format((double)o));
+					continue;
+				}
+			}
 			list.addElement(o.toString());
 		}
 		EventQueue.invokeLater(() -> {

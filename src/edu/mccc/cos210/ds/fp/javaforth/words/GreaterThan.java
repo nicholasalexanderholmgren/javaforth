@@ -12,8 +12,8 @@ public class GreaterThan extends ForthWordBase {
 	@Override
 	public void execute(IStack<Object> stack, ForthDictionary dict, edu.mccc.cos210.ds.fp.javaforth.machineModel.ITerminalOutput terminalOutput) {
 		try {
-			Double n1 = (Double) stack.pop();
 			Double n2 = (Double) stack.pop();
+			Double n1 = (Double) stack.pop();
 			if (n1 > n2) {
 				stack.push(1.0);
 			} else {
