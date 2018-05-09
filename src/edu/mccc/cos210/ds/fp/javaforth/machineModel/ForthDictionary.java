@@ -73,15 +73,16 @@ public class ForthDictionary {
 		GraphicsWordBase[] words = new GraphicsWordBase[]
 		{
 			new ClearGraphics(frame),
+			new DrawCubicCurve(frame),
 			new DrawLine(frame),
 			new DrawOval(frame),
+			new DrawQuadCurve(frame),
+			new FillOval(frame),
+			new FillQuadCurve(frame),
+			new FillRectangle(frame),
+			new SetBackgroundColor(frame),
 			new SetColor(frame),
 			new SetStroke(frame),
-			new SetBackgroundColor(frame),
-			new FillOval(frame),
-			new FillRectangle(frame),
-			new DrawQuadCurve(frame),
-			new DrawCubicCurve(frame),
 		};
 		for (ForthWordBase word : words) {
 			this.dictionary.put(word.getName(), word);
