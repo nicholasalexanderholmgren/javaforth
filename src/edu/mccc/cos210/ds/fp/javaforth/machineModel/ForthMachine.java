@@ -31,6 +31,7 @@ public class ForthMachine {
 	private boolean pauseRequested;
 	public ForthMachine() {
 		this.dictionary.initRequiredWords();
+		this.dictionary.initGraphicsWords();
 	}
 	/**
 	 * Passes the input into the input stream so the interpreter can pick it up. Passing an empty string or no

@@ -1,15 +1,16 @@
 package edu.mccc.cos210.ds.fp.javaforth.machineModel;
 
-import java.io.IOException;
-import java.io.StreamTokenizer;
-import edu.mccc.cos210.ds.fp.javaforth.controlwords.ForthControlWord;
+import java.awt.Graphics2D;
+import edu.mccc.cos210.ds.fp.javaforth.viewIde.GraphicsFrame;
 
 public abstract class GraphicsWordBase extends ForthWordBase{
-	public GraphicsWordBase(String name, String description, boolean immediate) {
-		super(name, description, immediate);
+	private GraphicsFrame frame;
+	protected GraphicsFrame getFrame() {
+		return frame;
 	}
-	abstract GraphicsWordBase build(StreamTokenizer tokenizer, ForthDictionary dictionary) throws IOException;
-	protected void throwCompileModeOnly() {
-		throw new RuntimeException(super.getName() + " can only be called during compile mode.");
+	public GraphicsWordBase(String name, String description, GraphicsFrame frame) {
+		super(name, description);
+		this.frame = frame;
 	}
+	abstract public void draw(Graphics2D g2d);
 }
