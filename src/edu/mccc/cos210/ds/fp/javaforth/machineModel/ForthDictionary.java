@@ -42,6 +42,9 @@ public class ForthDictionary {
 			new ZeroEquals(), 
 			new ZeroLess(), 
 			new ZeroMore(),
+			//double words
+			new DoubleMinus(),
+			new DoublePlus(),
 			// Control words aka words that look ahead. Orginally used to solve control structures.
 			new If(),
 			new Else(),
