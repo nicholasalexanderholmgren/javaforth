@@ -5,17 +5,32 @@ import java.io.StringReader;
 import edu.mccc.cos210.ds.SinglyLinkedList;
 import edu.mccc.cos210.ds.fp.javaforth.controlwords.CompiledWord;
 import edu.mccc.cos210.ds.fp.javaforth.util.IStackUpdatedEventListener;
-
+/**
+ * Class for performing forth computations. 
+ * @author Jing-Chao Feng, Nicholas Holmgren, Ryan Hammound
+ */
 public class ForthMachine {
 	SinglyLinkedList<ITerminalUpdatedEventListener> terminalUpdatedEventListener = new SinglyLinkedList<>();
 	SinglyLinkedList<IStackUpdatedEventListener> stackUpdatedEventListeners = new SinglyLinkedList<>();
+	/**
+	 * Adds the listener to the collection of dictionary update listeners, who are notified on dictionary update events.
+	 * @param listener - the new listener
+	 */
 	public void AddDictionaryUpdatedEventListener(IDictionaryUpdatedEventListener listener) {
 		this.dictionary.addDictionaryUpdatedEventListener(listener);
 	}
+	/**
+	 * Adds the listener to the collection of stack event listeners, who are notified on stack update events.
+	 * @param listener - the new listener 
+	 */
 	public void AddStackUpdatedEventListener(IStackUpdatedEventListener listener) {
 		this.stackUpdatedEventListeners.addFirst(listener);
 		this.stack.addStackUpdatedEventListener(listener);
 	}
+	/**
+	 * Adds the listener to the collection of terminal event listeners, who are notified on terminal update events.
+	 * @param listener - the new listener 
+	 */
 	public void AddTerminalUpdatedEventListener(ITerminalUpdatedEventListener listener) {
 		this.terminalUpdatedEventListener.addFirst(listener);
 	}
@@ -79,21 +94,6 @@ public class ForthMachine {
 	}
 	public void unpause() {
 		this.unpause();
-	}
-	/**
-	 * Method for retrieving the data stack as a string. The stack contains only byte objects, so this string
-	 * will be formatted into two digit hexadecimal numbers (0x00 - 0xFF) separated by spaces.
-	 * @return String
-	 */
-	public Iterable<String> getStackAsString() {
-		throw new UnsupportedOperationException();
-	}
-	/**
-	 * Method retrieves each variable declared in the 
-	 * @return Map<String,String>
-	 */
-	public edu.mccc.cos210.ds.Map<String, String> getDictionaryAsMap() {
-		throw new UnsupportedOperationException();
 	}
 	private void reset() {
 		this.pauseRequested = false;
