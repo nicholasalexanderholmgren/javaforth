@@ -17,16 +17,16 @@ public class DrawLine extends GraphicsWordBase {
 	}
 	@Override
 	public void draw(Graphics2D g2d) {
-		g2d.drawLine((int)x1, (int)y1, (int)x2, (int)y2);
+		g2d.drawLine((int) x1, (int) y1, (int) x2, (int) y2);
 	}
 	@Override
 	public void execute(IStack<Object> stack, ForthDictionary dictionary, ITerminalOutput terminalOutput) {
 		// Takes parameter, create new instance and save it to graphics frame.
-				DrawLine word = new DrawLine(getFrame());
-				word.x1 = (double)stack.pop();
-				word.y1 = (double)stack.pop();
-				word.x2 = (double)stack.pop();
-				word.y2 = (double)stack.pop();
-				getFrame().addWord(word);
+		DrawLine word = new DrawLine(getFrame());
+		word.y2 = (double) stack.pop();
+		word.x2 = (double) stack.pop();
+		word.y1 = (double) stack.pop();
+		word.x1 = (double) stack.pop();
+		getFrame().addWord(word);
 	}
 }

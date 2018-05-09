@@ -11,6 +11,6 @@ public class SemiColon extends ForthWordBase {
 	}
 	@Override
 	public void execute(IStack<Object> stack, ForthDictionary dictionary, ITerminalOutput terminalOutput) {
-		// TODO Auto-generated method stub
+		super.throwUnexpectedWord();
 	}
 }

@@ -5,6 +5,7 @@ import edu.mccc.cos210.ds.IMap;
 import edu.mccc.cos210.ds.Map;
 import edu.mccc.cos210.ds.SinglyLinkedList;
 import edu.mccc.cos210.ds.fp.javaforth.graphicswords.DrawLine;
+import edu.mccc.cos210.ds.fp.javaforth.graphicswords.DrawOval;
 import edu.mccc.cos210.ds.fp.javaforth.viewIde.GraphicsFrame;
 import edu.mccc.cos210.ds.fp.javaforth.words.*;
 import edu.mccc.cos210.ds.fp.javaforth.controlwords.*;
@@ -16,9 +17,49 @@ public class ForthDictionary {
 		return this.dictionary.get(name.toUpperCase());
 	}
 	public void initRequiredWords() {
-		ForthWordBase[] words = new ForthWordBase[] { new ConDup(), new Depth(), new Divide(), new Dot(), new Dup(), new Equals(), new Emit(), new False(), new Fetch(), new GreaterThan(), new LessThan(), new Minus(), new Mod(), new Negate(), new BitwiseOr(), new Plus(), new Sharp(), new Sleep(), new Store(), new Times(), new True(), new ZeroEquals(), new ZeroLess(), new ZeroMore(),
-				// Control words
-				new If(), new Else(), new Then(), new DotQuote(), new Colon(), new SemiColon(), new Comment(), new Loop(), new PlusLoop(), new Do(), new I(), new J(), new K(), new Leave(), new Forget(),
+		ForthWordBase[] words = new ForthWordBase[] 
+		{ 
+			new ConDup(), 
+			new Depth(),
+			new Divide(), 
+			new Dot(), 
+			new Dup(), 
+			new Equals(), 
+			new Emit(),
+			new False(), 
+			new Fetch(), 
+			new GreaterThan(),
+			new LessThan(), 
+			new Minus(), 
+			new Mod(), 
+			new Negate(), 
+			new BitwiseOr(), 
+			new Plus(),
+			new Sharp(), 
+			new Sleep(),
+			new Store(), 
+			new Times(), 
+			new True(), 
+			new ZeroEquals(), 
+			new ZeroLess(), 
+			new ZeroMore(),
+			// Control words aka words that look ahead. Orginally used to solve control structures.
+			new If(),
+			new Else(),
+			new Then(),
+			new DotQuote(),
+			new Colon(),
+			new SemiColon(),
+			new Comment(),
+			new Loop(),
+			new PlusLoop(),
+			new Do(),
+			new I(),
+			new IPrime(),
+			new J(),
+			new K(),
+			new Leave(),
+			new Forget(),
 		};
 		for (ForthWordBase word : words) {
 			this.dictionary.put(word.getName(), word);
@@ -26,7 +67,10 @@ public class ForthDictionary {
 	}
 	public void initGraphicsWords() {
 		GraphicsFrame frame = new GraphicsFrame();
-		GraphicsWordBase[] words = new GraphicsWordBase[] { new DrawLine(frame),
+		GraphicsWordBase[] words = new GraphicsWordBase[]
+		{ 
+			new DrawLine(frame),
+			new DrawOval(frame),
 		};
 		for (ForthWordBase word : words) {
 			this.dictionary.put(word.getName(), word);
