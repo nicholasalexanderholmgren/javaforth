@@ -19,15 +19,12 @@ public class SetBackgroundColor extends GraphicsWordBase {
 	}
 	@Override
 	public void execute(IStack<Object> stack, ForthDictionary dictionary, ITerminalOutput terminalOutput) {
-		try {
-			EventQueue.invokeAndWait(()->{
-				int b = (int)(double)stack.pop();
-				int g = (int)(double)stack.pop();
-				int r = (int)(double)stack.pop();
-				super.getFrame().setBackground(new Color(r,g,b));
-			});
-		} catch (InvocationTargetException | InterruptedException e) {
-			throw new RuntimeException(e);
-		}
+		EventQueue.invokeLater(() -> {
+			int b = (int) (double) stack.pop();
+			int g = (int) (double) stack.pop();
+			int r = (int) (double) stack.pop();
+			super.getFrame().setVisible(true);
+			super.getFrame().setBackgroundColor(new Color(r, g, b));
+		});
 	}
 }

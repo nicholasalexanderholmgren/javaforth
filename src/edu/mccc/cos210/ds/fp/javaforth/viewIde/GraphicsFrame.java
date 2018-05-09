@@ -7,14 +7,6 @@ import java.awt.Dimension;
 import java.awt.EventQueue;
 import java.awt.Graphics;
 import java.awt.Graphics2D;
-import java.awt.PaintContext;
-import java.awt.Rectangle;
-import java.awt.RenderingHints;
-import java.awt.Shape;
-import java.awt.Stroke;
-import java.awt.geom.AffineTransform;
-import java.awt.geom.Rectangle2D;
-import java.awt.image.ColorModel;
 import javax.swing.JFrame;
 import javax.swing.JPanel;
 import edu.mccc.cos210.ds.SinglyLinkedList;
@@ -22,6 +14,13 @@ import edu.mccc.cos210.ds.fp.javaforth.machineModel.GraphicsWordBase;;
 
 @SuppressWarnings("serial")
 public class GraphicsFrame extends JFrame {
+	private Color backgroundColor;
+	public Color getBackgroundColor() {
+		return backgroundColor;
+	}
+	public void setBackgroundColor(Color backgroundColor) {
+		this.backgroundColor = backgroundColor;
+	}
 	public GraphicsFrame() {
 		super.setDefaultCloseOperation(JFrame.HIDE_ON_CLOSE);
 		super.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
@@ -31,11 +30,16 @@ public class GraphicsFrame extends JFrame {
 			starCoordinates[i][0] = 250 * Math.sin(Math.toRadians(72 * i));
 			starCoordinates[i][1] = 250 * Math.cos(Math.toRadians(72 * i));
 		}
+		final GraphicsFrame frame = this;
 		super.add(new JPanel() {
 			private static final long serialVersionUID = 1L;
 			@Override
 			public Dimension getPreferredSize() {
 				return new Dimension(800, 600);
+			}
+			@Override
+			public Color getBackground() {
+				return frame.getBackgroundColor();
 			}
 			@Override
 			protected void paintComponent(Graphics g) {
@@ -45,7 +49,8 @@ public class GraphicsFrame extends JFrame {
 				// for each word, call GraphicsWordBase.draw(g2d);
 				for (GraphicsWordBase word : words) {
 					word.draw(g2d);
-				}g2d.setStroke(new BasicStroke());
+				}
+				g2d.setStroke(new BasicStroke());
 				g2d.dispose();
 			}
 		}, BorderLayout.CENTER);
