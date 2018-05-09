@@ -8,7 +8,6 @@ import java.io.File;
 import java.io.FileReader;
 import java.io.FileWriter;
 import java.io.IOException;
-
 import javax.swing.AbstractAction;
 import javax.swing.Action;
 import javax.swing.JFileChooser;
@@ -21,7 +20,6 @@ import javax.swing.border.BevelBorder;
 import javax.swing.border.CompoundBorder;
 import javax.swing.border.EtchedBorder;
 import javax.swing.filechooser.FileFilter;
-
 import edu.mccc.cos210.ds.fp.javaforth.machineModel.ForthMachine;
 
 public class IdeWindow extends JFrame {
@@ -65,10 +63,7 @@ public class IdeWindow extends JFrame {
 		});
 		return panel;
 	}
-	public ForthMachine getMachine() {
-		return machine;
-	}
-	private class MyMenuBar extends JMenuBar{
+	private class MyMenuBar extends JMenuBar {
 		JMenu file;
 		Action save, open, saveAs, quit;
 		String priorSave;
@@ -77,20 +72,17 @@ public class IdeWindow extends JFrame {
 		public MyMenuBar() {
 			super();
 			dialog.setFileFilter(new FileFilter() {
-
 				@Override
 				public boolean accept(File arg0) {
-					if(arg0.isDirectory()) {
+					if (arg0.isDirectory()) {
 						return true;
 					}
 					return arg0.getName().endsWith(".fs");
 				}
-
 				@Override
 				public String getDescription() {
 					return "Forth Script Files";
 				}
-				
 			});
 		}
 		public void init() {
@@ -111,10 +103,9 @@ public class IdeWindow extends JFrame {
 				private static final long serialVersionUID = 1L;
 				@Override
 				public void actionPerformed(ActionEvent arg0) {
-					if(! textPanel.getTextContents().equals(priorSave)) {
+					if (!textPanel.getTextContents().equals(priorSave)) {
 						save();
 					}
-					
 				}
 			};
 			file.add(save);
@@ -124,29 +115,28 @@ public class IdeWindow extends JFrame {
 				private static final long serialVersionUID = 1L;
 				@Override
 				public void actionPerformed(ActionEvent arg0) {
-					if(! textPanel.getTextContents().equals(priorSave)) {
+					if (!textPanel.getTextContents().equals(priorSave)) {
 						saveAs();
 					}
-					
 				}
 			};
 			file.add(saveAs);
 		}
 		private void saveAs() {
-			if(dialog.showSaveDialog(null) == JFileChooser.APPROVE_OPTION) {
+			if (dialog.showSaveDialog(null) == JFileChooser.APPROVE_OPTION) {
 				fileName = dialog.getSelectedFile().getAbsolutePath();
-				if(! fileName.endsWith(".fs")) {
+				if (!fileName.endsWith(".fs")) {
 					fileName = fileName.concat(".fs");
 				}
 				save();
 			}
 		}
 		private void save() {
-			if(fileName == null) {
+			if (fileName == null) {
 				saveAs();
 				return;
 			}
-			if(! textPanel.getTextContents().equals(priorSave)) {
+			if (!textPanel.getTextContents().equals(priorSave)) {
 				try {
 					FileWriter writer = new FileWriter(fileName);
 					writer.write(textPanel.getTextContents());
@@ -164,7 +154,7 @@ public class IdeWindow extends JFrame {
 				private static final long serialVersionUID = 1L;
 				@Override
 				public void actionPerformed(ActionEvent arg0) {
-					open();	
+					open();
 				}
 			};
 			file.add(open);
@@ -174,12 +164,12 @@ public class IdeWindow extends JFrame {
 				try {
 					BufferedReader reader = new BufferedReader(new FileReader(dialog.getSelectedFile()));
 					StringBuilder sb = new StringBuilder();
-					while(reader.ready()) {
-						sb.append(reader.readLine()+"\n");
+					while (reader.ready()) {
+						sb.append(reader.readLine() + "\n");
 					}
 					reader.close();
 					textPanel.setTextContents(sb.toString());
-				}catch(IOException e) {
+				} catch (IOException e) {
 					e.printStackTrace();
 				}
 			}
@@ -188,8 +178,6 @@ public class IdeWindow extends JFrame {
 			file.add("Quit");
 		}
 		private void initEditMenu() {
-			
 		}
-		
 	}
 }

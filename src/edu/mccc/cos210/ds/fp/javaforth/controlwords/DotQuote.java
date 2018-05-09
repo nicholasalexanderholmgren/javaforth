@@ -16,13 +16,17 @@ public class DotQuote extends ForthControlWordBase {
 	@Override
 	ForthWordBase build(StreamTokenizer tokenizer, ForthDictionary dictionary) throws IOException {
 		DotQuote word = new DotQuote();
+		word.content = new StringBuilder();
 		int next = tokenizer.nextToken();
 		while (next != StreamTokenizer.TT_EOF) {
-			if (tokenizer.sval.endsWith("\"")) {
-				return word;
-			}
 			if (tokenizer.sval != null) {
-				content.append(tokenizer.sval);
+				if (tokenizer.sval.endsWith("\"")) {
+					word.content.append(tokenizer.sval.substring(0, tokenizer.sval.length() - 1));
+					return word;
+				}
+				if (tokenizer.sval != null) {
+					word.content.append(tokenizer.sval);
+				}
 			}
 			next = tokenizer.nextToken();
 		}

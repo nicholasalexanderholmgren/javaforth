@@ -29,7 +29,7 @@ class ControlWordUtility {
 					throw new RuntimeException("Word not found. " + tokenizer.sval);
 				} else {
 					if (word instanceof ForthControlWordBase) {
-						((ForthControlWordBase) word).build(tokenizer, dictionary);
+						word = ((ForthControlWordBase) word).build(tokenizer, dictionary);
 					}
 					return word;
 				}

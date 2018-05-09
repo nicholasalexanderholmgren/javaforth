@@ -20,13 +20,16 @@ public class If extends ForthControlWordBase {
 		ForthWordBase nextWord = ControlWordUtility.buildNext(tokenizer, dictionary);
 		while (nextWord != null) {
 			if (nextWord instanceof Else) {
-				this._else = (Else) ((Else) nextWord).build(tokenizer, dictionary);
+				if(word._else != null) {
+					throw new RuntimeException("Unexpected word ELSE.");
+				}
+				word._else = (Else) nextWord;
 				return word;
 			}
-			if (nextWord instanceof Then) {
+			if(nextWord instanceof Then) {
 				return word;
 			}
-			this.codes.addLast(nextWord);
+			word.codes.addLast(nextWord);
 			nextWord = ControlWordUtility.buildNext(tokenizer, dictionary);
 		}
 		return word;

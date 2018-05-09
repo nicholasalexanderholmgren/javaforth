@@ -1,21 +1,16 @@
 package edu.mccc.cos210.ds.fp.javaforth.machineModel;
 
-import java.awt.EventQueue;
-import java.io.IOException;
 import java.io.StreamTokenizer;
 import java.io.StringReader;
-import java.util.StringTokenizer;
 import edu.mccc.cos210.ds.SinglyLinkedList;
 import edu.mccc.cos210.ds.fp.javaforth.controlwords.CompiledWord;
 import edu.mccc.cos210.ds.fp.javaforth.util.IStackUpdatedEventListener;
-import edu.mccc.cos210.ds.fp.javaforth.words.Minus;
 
 public class ForthMachine {
-	SinglyLinkedList<IDictionaryUpdatedEventListener> dictionaryUpdatedEventListeners = new SinglyLinkedList<>();
 	SinglyLinkedList<ITerminalUpdatedEventListener> terminalUpdatedEventListener = new SinglyLinkedList<>();
 	SinglyLinkedList<IStackUpdatedEventListener> stackUpdatedEventListeners = new SinglyLinkedList<>();
 	public void AddDictionaryUpdatedEventListener(IDictionaryUpdatedEventListener listener) {
-		this.dictionaryUpdatedEventListeners.addFirst(listener);
+		this.dictionary.addDictionaryUpdatedEventListener(listener);
 	}
 	public void AddStackUpdatedEventListener(IStackUpdatedEventListener listener) {
 		this.stackUpdatedEventListeners.addFirst(listener);

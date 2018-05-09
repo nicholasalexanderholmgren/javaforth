@@ -43,6 +43,8 @@ public class ForthDictionary {
 			new Else(),
 			new Then(),
 			new DotQuote(),
+			new Colon(),
+			new SemiColon(),
 		};
 		for (ForthWordBase word : words) {
 			this.dictionary.put(word.getName(), word);

@@ -21,26 +21,15 @@ public class TerminalPanel extends JScrollPane implements ITerminalUpdatedEventL
 	String input;
 	JComponent contents;
 	JTextArea outputTextArea;
-	JScrollBar vertical; 
+	JScrollBar vertical;
 	JPanel fullText;
-	
-	
-	public TerminalPanel(ForthMachine machine , StackPanel sp) {
+	public TerminalPanel(ForthMachine machine, StackPanel sp) {
 		super(null, JScrollPane.VERTICAL_SCROLLBAR_ALWAYS, JScrollPane.HORIZONTAL_SCROLLBAR_AS_NEEDED);
 		fullText = createInputAndOutput();
 		this.setViewportView(fullText);
 		vertical = this.getVerticalScrollBar();
 		this.machine = machine;
 		machine.AddTerminalUpdatedEventListener(this);
-	}
-	public void getStatus() {
-		
-	}
-	public void update(String status) {
-		if(status != null && !status.isEmpty()) {
-		    appendOutput(status.trim());	
-		}
-		vertical.setValue(vertical.getMaximum());
 	}
 	public String getTerminalInput() {
 		return input;
@@ -51,25 +40,23 @@ public class TerminalPanel extends JScrollPane implements ITerminalUpdatedEventL
 	private JPanel createInputAndOutput() {
 		//CHANGES
 		String arrow = ">";
-		
 		JPanel ioRegion;
 		JTextArea inputArea;
 		inputArea = new JTextArea();
 		inputArea.setTabSize(4);
 		//CHANGES
-		inputArea.setFont(new Font(Font.DIALOG_INPUT,Font.PLAIN, 22));
-		inputArea.setBackground(new Color(0,100,0));
-		inputArea.setCaretColor(new Color(255,51,51));
-		inputArea.setSelectedTextColor(new Color(0,255,0));
-		inputArea.setForeground(new Color(0, 255 , 0));
+		inputArea.setFont(new Font(Font.DIALOG_INPUT, Font.PLAIN, 22));
+		inputArea.setBackground(new Color(0, 100, 0));
+		inputArea.setCaretColor(new Color(255, 51, 51));
+		inputArea.setSelectedTextColor(new Color(0, 255, 0));
+		inputArea.setForeground(new Color(0, 255, 0));
 		inputArea.append(arrow);
-		
 		inputArea.addKeyListener(new KeyAdapter() {
 			@Override
 			public void keyReleased(KeyEvent ke) {
 				if (ke.getKeyCode() == KeyEvent.VK_ENTER && inputArea.hasFocus()) {
-					if(inputArea.getText().length() > 2) {
-						String input = inputArea.getText().substring(inputArea.getText().indexOf(">")+1);
+					if (inputArea.getText().length() > 2) {
+						String input = inputArea.getText().substring(inputArea.getText().indexOf(">") + 1);
 						appendOutput(input);
 						machine.interpret(input);
 						inputArea.setText(arrow);
@@ -79,15 +66,13 @@ public class TerminalPanel extends JScrollPane implements ITerminalUpdatedEventL
 			}
 			@Override
 			public void keyTyped(KeyEvent ke) {
-				if(inputArea.getText().length() < 2) {
+				if (inputArea.getText().length() < 2) {
 					inputArea.setText(arrow);
 					inputArea.moveCaretPosition(1);
 				}
 			}
 		});
-		
 		inputArea.setWrapStyleWord(true);
-		
 		outputTextArea = new JTextArea();
 		outputTextArea.setEditable(false);
 		outputTextArea.setTabSize(4);
@@ -95,29 +80,26 @@ public class TerminalPanel extends JScrollPane implements ITerminalUpdatedEventL
 		outputTextArea.setFont(new Font(Font.DIALOG_INPUT, Font.PLAIN, 22));
 		outputTextArea.setWrapStyleWord(true);
 		outputTextArea.setMaximumSize(new Dimension(Integer.MAX_VALUE, 0));
-		outputTextArea.setBackground(new Color(0,100,0));
-		outputTextArea.setCaretColor(new Color(255,51,51));
-		outputTextArea.setSelectedTextColor(new Color(50,205,50));
+		outputTextArea.setBackground(new Color(0, 100, 0));
+		outputTextArea.setCaretColor(new Color(255, 51, 51));
+		outputTextArea.setSelectedTextColor(new Color(50, 205, 50));
 		outputTextArea.setForeground(new Color(0, 255, 0));
-		
 		ioRegion = new JPanel();
 		ioRegion.setLayout(new BoxLayout(ioRegion, BoxLayout.Y_AXIS));
 		ioRegion.add(outputTextArea);
 		ioRegion.add(inputArea);
-		ioRegion.doLayout();		
-		
+		ioRegion.doLayout();
 		return ioRegion;
 	}
 	private void appendOutput(String message) {
 		outputTextArea.append(message.trim() + "\n");
-	    EventQueue.invokeLater(()->vertical.setValue(vertical.getMaximum()));
+		EventQueue.invokeLater(() -> vertical.setValue(vertical.getMaximum()));
 	}
 	@Override
 	public void onTerminalUpdated(boolean clear, String message) {
-		if(clear) {
+		if (clear) {
 			this.outputTextArea.setText("");
 		}
-		this.outputTextArea.append(message);
-		
+		this.appendOutput(message);
 	}
 }

@@ -2,7 +2,9 @@ package edu.mccc.cos210.ds.fp.javaforth.viewIde;
 
 import java.awt.Color;
 import java.awt.Dimension;
+import java.awt.EventQueue;
 import java.awt.Font;
+import java.lang.reflect.InvocationTargetException;
 import javax.swing.DefaultListModel;
 import javax.swing.JLabel;
 import javax.swing.JScrollPane;
@@ -60,10 +62,16 @@ public class DictionaryPanel extends JScrollPane implements IDictionaryUpdatedEv
 		table.setAutoResizeMode(JTable.AUTO_RESIZE_OFF);
 		return table;
 	}
+	private final Object updateOperationLock = new Object();
 	@Override
 	public void onDictionaryUpdated(edu.mccc.cos210.ds.Map<String, ForthWordBase> entries) {
-		list.removeAllElements();
-		fillDict(entries);
-		this.setViewportView(buildTable(dictMap));
+		// Cannot call invokeAndWait because it might come from the UI thread.
+		EventQueue.invokeLater(() -> {
+			synchronized (updateOperationLock) {
+				list.removeAllElements();
+				fillDict(entries);
+				this.setViewportView(buildTable(dictMap));
+			}
+		});
 	}
 }
