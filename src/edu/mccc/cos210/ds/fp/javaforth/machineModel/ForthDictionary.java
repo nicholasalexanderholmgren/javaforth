@@ -70,13 +70,15 @@ public class ForthDictionary {
 	public void initGraphicsWords() {
 		GraphicsFrame frame = new GraphicsFrame();
 		GraphicsWordBase[] words = new GraphicsWordBase[]
-		{ 
+		{
 			new ClearGraphics(frame),
 			new DrawLine(frame),
 			new DrawOval(frame),
 			new SetColor(frame),
 			new SetStroke(frame),
 			new SetBackgroundColor(frame),
+			new FillOval(frame),
+			new FillRectangle(frame),
 		};
 		for (ForthWordBase word : words) {
 			this.dictionary.put(word.getName(), word);
