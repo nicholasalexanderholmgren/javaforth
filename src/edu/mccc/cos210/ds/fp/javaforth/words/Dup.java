@@ -4,7 +4,11 @@ import java.util.NoSuchElementException;
 import edu.mccc.cos210.ds.IStack;
 import edu.mccc.cos210.ds.fp.javaforth.machineModel.ForthDictionary;
 import edu.mccc.cos210.ds.fp.javaforth.machineModel.ForthWordBase;
-
+/**
+ * Forthword that duplicates  the top element of the stack.
+ * @author Jing-Chao Feng, Nicholas Holmgren, Ryan Hammound
+ *
+ */
 public class Dup extends ForthWordBase {
 	public Dup() {
 		super("DUP", "(n1 -- n1 n1) Copies the top number of the stack and");

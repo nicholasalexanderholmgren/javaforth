@@ -31,7 +31,7 @@ public class TextEditorPanel extends JPanel {
 		textPane.setFont(new Font(Font.SERIF, Font.PLAIN, lineHeight));
 	}
 	/**
-	 * 
+	 * Method for retrieving the text editor's contents as a string.
 	 * @return String - the contents of the text area of this panel. Useful for saving.
 	 */
 	public String getTextContents() {

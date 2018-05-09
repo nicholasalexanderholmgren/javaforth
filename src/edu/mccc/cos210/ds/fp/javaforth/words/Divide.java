@@ -6,7 +6,11 @@ import edu.mccc.cos210.ds.IStack;
 import edu.mccc.cos210.ds.fp.javaforth.machineModel.ForthDictionary;
 import edu.mccc.cos210.ds.fp.javaforth.machineModel.ForthWordBase;
 import edu.mccc.cos210.ds.fp.javaforth.machineModel.ITerminalOutput;
-
+/**
+ * Forth word for /. Performs integer division using the top two elements of the stack.
+ * @author Jing-Chao Feng, Nicholas Holmgren, Ryan Hammound
+ *
+ */
 public class Divide extends ForthWordBase {
 	public Divide() {
 		super("/", "n1 n2 -- n3 Divide n1 by n2 and leave the quotient n3. n3  is  rounded toward zero.");
