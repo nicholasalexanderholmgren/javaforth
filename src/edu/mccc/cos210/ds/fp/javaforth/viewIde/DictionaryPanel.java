@@ -3,13 +3,16 @@ package edu.mccc.cos210.ds.fp.javaforth.viewIde;
 import java.awt.Color;
 import java.awt.Dimension;
 import java.awt.Font;
+
 import javax.swing.DefaultListModel;
 import javax.swing.JLabel;
 import javax.swing.JScrollPane;
 import javax.swing.JTable;
 import javax.swing.JTextArea;
 import javax.swing.table.TableCellRenderer;
+
 import edu.mccc.cos210.ds.IMap;
+import edu.mccc.cos210.ds.ISet;
 import edu.mccc.cos210.ds.Map;
 import edu.mccc.cos210.ds.fp.javaforth.machineModel.ForthMachine;
 import edu.mccc.cos210.ds.fp.javaforth.machineModel.ForthWordBase;
@@ -19,7 +22,6 @@ import edu.mccc.cos210.ds.fp.javaforth.machineModel.IDictionaryUpdatedEventListe
 public class DictionaryPanel extends JScrollPane implements IDictionaryUpdatedEventListener {
 	private static final long serialVersionUID = 1L;
 	private DefaultListModel<String> list = new DefaultListModel<String>();
-
 	Map<String,String> dictMap = new edu.mccc.cos210.ds.Map<>();
 	JTextArea textArea;
 	JTable table;
@@ -35,20 +37,20 @@ public class DictionaryPanel extends JScrollPane implements IDictionaryUpdatedEv
 		return this.textArea;
 	}
 	public void fillDict(Map<String, ForthWordBase> dictMap) {
-		for (IMap.Entry<String, ForthWordBase> entry : dictMap)
-		{	
-			list.addElement(entry.getKey() + " : " + entry.getValue().getDescription());
+		ISet<String> keys = dictMap.keySet();
+		for(String s : keys) {
+			this.dictMap.put(s, dictMap.get(s).getDescription());
 		}
 	}
 		
 	private JTable buildTable(Map<String, String> dict){
 		dict = this.dictMap;
 		String columnNames[] = { "WORD", "DEFINITION" };
-		Object[][] data = new Object[dict.getSize()][2];
+		Object[][] data = new Object[dict.keySet().getSize()][2];
 		int counter = 0;
 		for(IMap.Entry<String, String> entry : dict) {
 		  data[counter][0] = entry.getKey();
-		  data[counter][1] = entry.getValue();
+		  data[counter][1] = entry.getValue().toString();
 		  counter++;
 		}
 		JTable table = new JTable(data, columnNames);
@@ -59,13 +61,16 @@ public class DictionaryPanel extends JScrollPane implements IDictionaryUpdatedEv
 		table.setPreferredScrollableViewportSize(super.getPreferredSize());
 		TableCellRenderer rendererFromHeader = table.getTableHeader().getDefaultRenderer();
 		JLabel headerLabel = (JLabel) rendererFromHeader;
-		headerLabel.setHorizontalAlignment(JLabel.LEFT);	
+		headerLabel.setHorizontalAlignment(JLabel.LEFT);
 		table.setAutoResizeMode(JTable.AUTO_RESIZE_OFF);
 		return table;
 	}
 	@Override
 	public void onDictionaryUpdated(edu.mccc.cos210.ds.Map<String, ForthWordBase> entries) {
 		list.removeAllElements();
-//		fillDict(dictMap);
+		fillDict(entries);
+		table = buildTable(this.dictMap);
+		table.setVisible(true);
+		repaint();
 	}
 }

@@ -15,6 +15,7 @@ public class ForthMachine {
 	SinglyLinkedList<IStackUpdatedEventListener> stackUpdatedEventListeners = new SinglyLinkedList<>();
 	public void AddDictionaryUpdatedEventListener(IDictionaryUpdatedEventListener listener) {
 		this.dictionaryUpdatedEventListeners.addFirst(listener);
+		this.dictionary.addDictionaryUpdatedEventListener(listener);
 	}
 	public void AddStackUpdatedEventListener(IStackUpdatedEventListener listener) {
 		this.stackUpdatedEventListeners.addFirst(listener);

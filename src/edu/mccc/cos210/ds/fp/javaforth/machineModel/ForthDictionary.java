@@ -1,5 +1,7 @@
 package edu.mccc.cos210.ds.fp.javaforth.machineModel;
 
+import java.awt.EventQueue;
+
 import javax.swing.JPanel;
 import edu.mccc.cos210.ds.Map;
 import edu.mccc.cos210.ds.SinglyLinkedList;
@@ -18,7 +20,7 @@ public class ForthDictionary {
 			new ZeroEquals(), new ZeroLess(), new ZeroMore(),
 		};
 		for (ForthWordBase word : words) {
-			this.dictionary.put(word.getName(), word);
+			this.addWord(word);
 		}
 	}
 	public void initGraphicsWords() {
@@ -31,5 +33,6 @@ public class ForthDictionary {
 	}
 	public void addDictionaryUpdatedEventListener(IDictionaryUpdatedEventListener listener) {
 		this.dictionaryUpdatedEventListeners.addFirst(listener);
+		EventQueue.invokeLater(() -> listener.onDictionaryUpdated(dictionary));
 	}
 }
