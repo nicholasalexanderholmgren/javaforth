@@ -1,5 +1,6 @@
 package edu.mccc.cos210.ds.fp.javaforth.viewIde;
 
+import java.awt.BasicStroke;
 import java.awt.BorderLayout;
 import java.awt.Color;
 import java.awt.Dimension;
@@ -9,6 +10,8 @@ import java.awt.Graphics2D;
 import java.awt.PaintContext;
 import java.awt.Rectangle;
 import java.awt.RenderingHints;
+import java.awt.Shape;
+import java.awt.Stroke;
 import java.awt.geom.AffineTransform;
 import java.awt.geom.Rectangle2D;
 import java.awt.image.ColorModel;
@@ -35,10 +38,6 @@ public class GraphicsFrame extends JFrame {
 				return new Dimension(800, 600);
 			}
 			@Override
-			public Color getBackground() {
-				return new Color(240, 180, 33);
-			}
-			@Override
 			protected void paintComponent(Graphics g) {
 				super.paintComponent(g);
 				// Setup canvas.
@@ -46,7 +45,7 @@ public class GraphicsFrame extends JFrame {
 				// for each word, call GraphicsWordBase.draw(g2d);
 				for (GraphicsWordBase word : words) {
 					word.draw(g2d);
-				}
+				}g2d.setStroke(new BasicStroke());
 				g2d.dispose();
 			}
 		}, BorderLayout.CENTER);

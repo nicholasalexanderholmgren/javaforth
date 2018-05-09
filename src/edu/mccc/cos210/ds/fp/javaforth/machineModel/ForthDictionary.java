@@ -4,8 +4,7 @@ import java.awt.EventQueue;
 import edu.mccc.cos210.ds.IMap;
 import edu.mccc.cos210.ds.Map;
 import edu.mccc.cos210.ds.SinglyLinkedList;
-import edu.mccc.cos210.ds.fp.javaforth.graphicswords.DrawLine;
-import edu.mccc.cos210.ds.fp.javaforth.graphicswords.DrawOval;
+import edu.mccc.cos210.ds.fp.javaforth.graphicswords.*;
 import edu.mccc.cos210.ds.fp.javaforth.viewIde.GraphicsFrame;
 import edu.mccc.cos210.ds.fp.javaforth.words.*;
 import edu.mccc.cos210.ds.fp.javaforth.controlwords.*;
@@ -71,6 +70,9 @@ public class ForthDictionary {
 		{ 
 			new DrawLine(frame),
 			new DrawOval(frame),
+			new SetColor(frame),
+			new SetStroke(frame),
+			new SetBackgroundColor(frame),
 		};
 		for (ForthWordBase word : words) {
 			this.dictionary.put(word.getName(), word);
