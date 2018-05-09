@@ -15,10 +15,10 @@ public class ZeroMore extends ForthWordBase {
 
 		try {
 			Double n1 = (Double) stack.pop();
-			if (n1 > 0) {
-				stack.push(1);
+			if(n1 > 0.0) {
+				stack.push(1.0);
 			}else {
-				stack.push(0);
+				stack.push(0.0);
 			}
 		}catch(NoSuchElementException e) {
 			throw new RuntimeException("Stack underflow error on word 0>");

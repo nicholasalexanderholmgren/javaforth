@@ -16,9 +16,9 @@ public class Equals extends ForthWordBase {
 			Object n1 = stack.pop();
 			Object n2 = stack.pop();
 			if(n1.equals(n2)) {
-				stack.push(1);
+				stack.push(1.0);
 			}else {
-				stack.push(0);
+				stack.push(0.0);
 			}
 		}catch(NoSuchElementException e) {
 			throw new RuntimeException("Stack underflow error on word =");

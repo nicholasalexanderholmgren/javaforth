@@ -16,9 +16,9 @@ public class LessThan extends ForthWordBase {
 			Double n1 = (Double) stack.pop();
 			Double n2 = (Double) stack.pop();
 			if (n1 < n2) {
-				stack.push(1);
+				stack.push(1.0);
 			}else {
-				stack.push(0);
+				stack.push(0.0);
 			}
 		}catch(NoSuchElementException e) {
 			throw new RuntimeException("Stack underflow error on word <");
