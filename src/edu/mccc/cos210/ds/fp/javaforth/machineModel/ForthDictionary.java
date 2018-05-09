@@ -22,6 +22,7 @@ public class ForthDictionary {
 			new Dot(), 
 			new Dup(), 
 			new Equals(), 
+			new Emit(),
 			new False(), 
 			new Fetch(), 
 			new GreaterThan(), 
