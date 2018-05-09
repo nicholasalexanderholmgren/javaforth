@@ -18,6 +18,7 @@ public class ForthDictionary {
 	public void initRequiredWords() {
 		ForthWordBase[] words = new ForthWordBase[] 
 		{ 
+			new Abs(),
 			new ConDup(), 
 			new Depth(),
 			new Divide(), 
