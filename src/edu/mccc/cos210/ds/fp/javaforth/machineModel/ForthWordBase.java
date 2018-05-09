@@ -11,10 +11,7 @@ public abstract class ForthWordBase {
 	}
 	public ForthWordBase(String name, String description, boolean immediate) {
 		super();
-		if (!name.toUpperCase().equals(name)) {
-			throw new UnsupportedOperationException("Forth word name " + name + " has to be all uppercase.");
-		}
-		this.name = name;
+		this.name = name.toUpperCase();
 		this.description = description;
 	}
 	public ForthWordBase(String name, String description) {
@@ -27,7 +24,7 @@ public abstract class ForthWordBase {
 	}
 	public abstract void execute(IStack<Object> stack, ForthDictionary dictionary);
 	/* 
-	 * Override this if you need to output to terminal. This is for compatibility. Override only one of the method.
+	 * override this if you need to output to terminal.
 	 */
 	public void execute(IStack<Object> stack, ForthDictionary dictionary, ITerminalOutput terminalOutput) {
 	}
