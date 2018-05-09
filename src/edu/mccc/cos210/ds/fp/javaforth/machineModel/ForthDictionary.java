@@ -1,5 +1,7 @@
 package edu.mccc.cos210.ds.fp.javaforth.machineModel;
 
+import java.awt.EventQueue;
+
 import javax.swing.JPanel;
 import edu.mccc.cos210.ds.Map;
 import edu.mccc.cos210.ds.SinglyLinkedList;
@@ -31,5 +33,6 @@ public class ForthDictionary {
 	public void addDictionaryUpdatedEventListener(IDictionaryUpdatedEventListener listener) {
 		listener.onDictionaryUpdated(this.dictionary);
 		this.dictionaryUpdatedEventListeners.addFirst(listener);
+		EventQueue.invokeLater(()-> listener.onDictionaryUpdated(dictionary) );
 	}
 }
