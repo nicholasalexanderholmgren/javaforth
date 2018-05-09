@@ -28,7 +28,7 @@ public class Do extends ForthLoopWordBase {
 			word.codes.addLast(nextWord);
 			nextWord = ControlWordUtility.buildNext(tokenizer, dictionary, compiling);
 		}
-		return word;
+		throw new RuntimeException("Expecting terminating word for DO.");
 	}
 	@Override
 	public void execute(IStack<Object> stack, ForthDictionary dictionary, ITerminalOutput terminalOutput) {
