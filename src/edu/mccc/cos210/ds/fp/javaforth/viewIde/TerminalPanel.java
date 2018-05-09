@@ -14,7 +14,12 @@ import javax.swing.JScrollPane;
 import javax.swing.JTextArea;
 import edu.mccc.cos210.ds.fp.javaforth.machineModel.ForthMachine;
 import edu.mccc.cos210.ds.fp.javaforth.machineModel.ITerminalUpdatedEventListener;
-
+/**
+ * Class for displaying the Read-Evaluate-Print-Loop. Can take user input and pass it to the forth machine.
+ * 
+ * @author Nicholas Holmgren, Jing-Chao Feng, Ryan Hammound
+ *
+ */
 public class TerminalPanel extends JScrollPane implements ITerminalUpdatedEventListener {
 	private static final long serialVersionUID = 1L;
 	ForthMachine machine;
@@ -31,6 +36,10 @@ public class TerminalPanel extends JScrollPane implements ITerminalUpdatedEventL
 		this.machine = machine;
 		machine.AddTerminalUpdatedEventListener(this);
 	}
+	/**
+	 * Method for retriveing user input
+	 * @return String - current contents of the user input text area.
+	 */
 	public String getTerminalInput() {
 		return input;
 	}
@@ -97,6 +106,12 @@ public class TerminalPanel extends JScrollPane implements ITerminalUpdatedEventL
 			EventQueue.invokeLater(() -> vertical.setValue(vertical.getMaximum()));
 		}
 	}
+	/**
+	 * Method for retrieving the output of the forth machines evaluations.
+	 * 
+	 * @param clear - Whether the output area should be cleared before displaying the new message.
+	 * @param message - the message to be displayed in the output area. Appending to the current contents if clear is false.
+	 */
 	@Override
 	public void onTerminalUpdated(boolean clear, String message) {
 		if (clear) {

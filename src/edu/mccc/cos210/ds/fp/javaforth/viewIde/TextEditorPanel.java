@@ -7,7 +7,11 @@ import javax.swing.JPanel;
 import javax.swing.JScrollPane;
 import javax.swing.JTextPane;
 import edu.mccc.cos210.ds.fp.javaforth.machineModel.ForthMachine;
-
+/**
+ * Class for managing the text editor region of the user interface.
+ * @author Jing-Chao Feng, Nicholas Holmgren, Ryan Hammound
+ *
+ */
 public class TextEditorPanel extends JPanel {
 	private static final long serialVersionUID = 1L;
 	private final JTextPane textPane = new JTextPane();
