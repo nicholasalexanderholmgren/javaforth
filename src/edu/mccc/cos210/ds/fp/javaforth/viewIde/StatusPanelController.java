@@ -1,17 +1,15 @@
 package edu.mccc.cos210.ds.fp.javaforth.viewIde;
 
 import java.awt.Color;
-
 import javax.swing.JButton;
 import javax.swing.text.BadLocationException;
 import javax.swing.text.SimpleAttributeSet;
 import javax.swing.text.StyleConstants;
 import javax.swing.text.StyledDocument;
-
 import edu.mccc.cos210.ds.fp.javaforth.machineModel.ForthMachine;
 import edu.mccc.cos210.ds.fp.javaforth.machineModel.ICanExecuteChangedEventListener;
 
-public class StatusPanelController implements ICanExecuteChangedEventListener{
+public class StatusPanelController implements ICanExecuteChangedEventListener {
 	private final SimpleAttributeSet highlightAttribute;
 	private final SimpleAttributeSet disableHighlightAttribute;
 	private int currentLineNumber = 1;
@@ -25,18 +23,21 @@ public class StatusPanelController implements ICanExecuteChangedEventListener{
 		statusPanel.getStartButton().addActionListener(a -> {
 			((JButton) a.getSource()).setText("Continue");
 			boolean skipBreakpoint = true;
+			StringBuilder sb = new StringBuilder();
 			for (int i = DocumentUtilities.getLineStartIndexByLineNumber(document, currentLineNumber); i < document.getLength(); i++) {
 				if (DocumentUtilities.isBreakPoint(document, i) && !skipBreakpoint) {
+					machine.interpret(sb.toString(), true);
 					this.highlightLine(document, i);
 					return;
 				}
-				int lineEnd = this.processLine(document, i, machine);
+				int lineEnd = this.processLine(document, i, sb);
 				if (lineEnd == -1) {
 					break;
 				}
 				i = lineEnd;
 				skipBreakpoint = false;
 			}
+			machine.interpret(sb.toString(), true);
 			// Ran to completion
 			this.reset(document);
 		});
@@ -75,6 +76,22 @@ public class StatusPanelController implements ICanExecuteChangedEventListener{
 			try {
 				String forthCode = document.getText(i, lineEnd - i);
 				machine.interpret(forthCode, true);
+			} catch (BadLocationException e) {
+				e.printStackTrace();
+			}
+			currentLineNumber++;
+		}
+		return lineEnd;
+	}
+	private int processLine(StyledDocument document, int i, StringBuilder sb) {
+		if (i == 0) {
+			this.statusPanel.getStartButton().setText("Continue");
+		}
+		int lineEnd = DocumentUtilities.getNextLineStartIndex(document, i);
+		if (lineEnd != -1) {
+			try {
+				String forthCode = document.getText(i, lineEnd - i);
+				sb.append(forthCode);
 			} catch (BadLocationException e) {
 				e.printStackTrace();
 			}
