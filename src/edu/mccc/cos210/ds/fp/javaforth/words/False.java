@@ -10,6 +10,6 @@ public class False extends ForthWordBase {
 	}
 	@Override
 	public void execute(IStack<Object> stack, ForthDictionary dict) {
-		stack.push(0);
+		stack.push(0.0);
 	}
 }
