@@ -24,6 +24,7 @@ public class GraphicsFrame extends JFrame {
 	public GraphicsFrame() {
 		super.setDefaultCloseOperation(JFrame.HIDE_ON_CLOSE);
 		super.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
+		this.backgroundColor = new Color(230, 230, 230);
 		// Calculate star coordinates.
 		final double[][] starCoordinates = new double[5][2];
 		for (int i = 0; i < 5; i++) {
