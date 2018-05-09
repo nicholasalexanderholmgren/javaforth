@@ -80,6 +80,8 @@ public class ForthDictionary {
 			new SetBackgroundColor(frame),
 			new FillOval(frame),
 			new FillRectangle(frame),
+			new DrawQuadCurve(frame),
+			new DrawCubicCurve(frame),
 		};
 		for (ForthWordBase word : words) {
 			this.dictionary.put(word.getName(), word);
