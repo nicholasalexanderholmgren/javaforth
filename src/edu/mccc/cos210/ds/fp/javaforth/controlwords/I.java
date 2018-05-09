@@ -11,6 +11,9 @@ public class I extends ForthLoopWordBase {
 	public I() {
 		super("I", "  -- n Copy the loop index onto the data stack.   May only be used in the form: DO ... I ... LOOP   or DO ... I ... +LOOP");
 	}
+	protected I(String name, String description) {
+		super(name, description);
+	}
 	@Override
 	public void execute(IStack<Object> stack, ForthDictionary dictionary, ITerminalOutput terminalOutput) {
 		ForthLoopWordBase parent = super.getParentLoop();
