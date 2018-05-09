@@ -20,8 +20,9 @@ public class ObservableStack implements IStack<Object>, Iterable<Object> {
 	}
 	@Override
 	public Object pop() {
+		Object value = theList.removeFirst();
 		listeners.forEach(l -> l.onStackUpdated(() -> theList.iterator()));
-		return theList.removeFirst();
+		return value;
 	}
 	public void addStackUpdatedEventListener(IStackUpdatedEventListener listener) {
 		this.listeners.addFirst(listener);
