@@ -13,15 +13,15 @@ public abstract class ForthWordBase {
 		super();
 		this.name = name;
 		this.description = description;
-		this.immediate = immediate;
+	}
+	public ForthWordBase(String name, String description) {
+		super();
+		this.name = name;
+		this.description = description;
 	}
 	public String getName() {
 		return name;
 	}
-	public boolean isImmediate() {
-		return immediate;
-	}
-	private boolean immediate;
 	public abstract void execute(IStack<Object> stack, ForthDictionary dictionary);
 	/* 
 	 * override this if you need to output to terminal.
