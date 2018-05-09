@@ -4,23 +4,34 @@ import java.io.IOException;
 import java.io.StreamTokenizer;
 import edu.mccc.cos210.ds.fp.javaforth.machineModel.ForthDictionary;
 import edu.mccc.cos210.ds.fp.javaforth.machineModel.ForthWordBase;
+import edu.mccc.cos210.ds.fp.javaforth.words.Minus;
 
 class ControlWordUtility {
 	public static ForthWordBase buildNext(StreamTokenizer tokenizer, ForthDictionary dictionary) throws IOException {
 		int next = tokenizer.nextToken();
-		boolean buildingFalse = false;
 		if (next == StreamTokenizer.TT_EOF) {
 			return null;
 		}
-		if (next == StreamTokenizer.TT_NUMBER) {
-//			return tokenizer.nval;
-		} else {
+		try {
+			double nval = Double.parseDouble(tokenizer.sval);
+			// Has to be a number.
+			return new PutNumberOnStackWord(nval);
+		} catch (NumberFormatException ex) {
 			// Has to be a word.
-			ForthWordBase word = dictionary.getWord(tokenizer.sval);
-			if (buildingFalse) {
-				//this.codeBlockForFalse.addLast(word);
+			if (tokenizer.sval.equals("-")) {
+				return new Minus();// Dirty hack for an issue.
 			} else {
-//				this.codeBlockForTrue.addLast(word);
+				ForthWordBase word = dictionary.getWord(tokenizer.sval);
+				if (word == null) {
+					throw new RuntimeException("Word not found. " + tokenizer.sval);
+				} else {
+					if (word instanceof ForthControlWord) {
+						((ForthControlWord) word).build(tokenizer, dictionary);
+					}
+					else {
+						return word;
+					}
+				}
 			}
 		}
 		throw new UnsupportedOperationException();

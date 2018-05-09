@@ -5,17 +5,14 @@ import java.io.StreamTokenizer;
 import edu.mccc.cos210.ds.IStack;
 import edu.mccc.cos210.ds.fp.javaforth.machineModel.ForthDictionary;
 
-public class ThenWord extends ForthControlWord {
-	public ThenWord(String name, String description, boolean immediate) {
-		super(name, description, immediate);
-		
+public class Else extends ForthControlWord {
+	public Else() {
+		super("ELSE", "TODO");
 	}
-
 	@Override
 	ForthControlWord build(StreamTokenizer tokenizer, ForthDictionary dictionary) throws IOException {
-		throw new RuntimeException();
+		return null;
 	}
-
 	@Override
 	public void execute(IStack<Object> stack, ForthDictionary dictionary) {
 	}

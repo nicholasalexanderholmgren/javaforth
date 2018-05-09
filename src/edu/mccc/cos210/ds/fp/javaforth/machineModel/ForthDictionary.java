@@ -29,7 +29,7 @@ public class ForthDictionary {
 	public void addWord(ForthWordBase word) {
 		this.dictionary.put(word.getName(), word);
 		this.dictionaryUpdatedEventListeners.forEach(l -> l.onDictionaryUpdated(this.dictionary));
-	}
+	} 
 	public void addDictionaryUpdatedEventListener(IDictionaryUpdatedEventListener listener) {
 		listener.onDictionaryUpdated(this.dictionary);
 		this.dictionaryUpdatedEventListeners.addFirst(listener);

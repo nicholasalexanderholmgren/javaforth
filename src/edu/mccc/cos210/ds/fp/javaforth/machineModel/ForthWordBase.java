@@ -11,6 +11,9 @@ public abstract class ForthWordBase {
 	}
 	public ForthWordBase(String name, String description, boolean immediate) {
 		super();
+		if (!name.toUpperCase().equals(name)) {
+			throw new UnsupportedOperationException("Forth word name " + name + " has to be all uppercase.");
+		}
 		this.name = name;
 		this.description = description;
 	}
