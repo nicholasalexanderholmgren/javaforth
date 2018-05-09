@@ -9,6 +9,9 @@ import edu.mccc.cos210.ds.fp.javaforth.words.Minus;
 class ControlWordUtility {
 	public static ForthWordBase buildNext(StreamTokenizer tokenizer, ForthDictionary dictionary) throws IOException {
 		int next = tokenizer.nextToken();
+		while (next != StreamTokenizer.TT_EOF && tokenizer.sval == null) {
+			next = tokenizer.nextToken();
+		}
 		if (next == StreamTokenizer.TT_EOF) {
 			return null;
 		}

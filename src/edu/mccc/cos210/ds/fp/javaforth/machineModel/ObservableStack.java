@@ -1,9 +1,11 @@
-package edu.mccc.cos210.ds.fp.javaforth.util;
+package edu.mccc.cos210.ds.fp.javaforth.machineModel;
 
 import java.util.Iterator;
+import java.util.NoSuchElementException;
 import edu.mccc.cos210.ds.ISinglyLinkedList;
 import edu.mccc.cos210.ds.SinglyLinkedList;
 import edu.mccc.cos210.ds.fp.javaforth.machineModel.Symbol;
+import edu.mccc.cos210.ds.fp.javaforth.util.IStackUpdatedEventListener;
 import edu.mccc.cos210.ds.IStack;
 
 public class ObservableStack implements IStack<Object>, Iterable<Object> {
@@ -11,18 +13,22 @@ public class ObservableStack implements IStack<Object>, Iterable<Object> {
 	private SinglyLinkedList<IStackUpdatedEventListener> listeners = new SinglyLinkedList<>();
 	@Override
 	public void push(Object data) {
-		if(data instanceof Boolean || data instanceof Double || data instanceof Symbol) {
-			theList.addFirst(data);	
+		if (data instanceof Double || data instanceof Symbol) {
+			theList.addFirst(data);
 			listeners.forEach(l -> l.onStackUpdated(() -> theList.iterator()));
 			return;
 		}
-		throw new RuntimeException("Only put boolean double and Symbol into Forth Stack.");
+		throw new RuntimeException("Only put double and Symbol into Forth Stack.");
 	}
 	@Override
 	public Object pop() {
-		Object value = theList.removeFirst();
-		listeners.forEach(l -> l.onStackUpdated(() -> theList.iterator()));
-		return value;
+		try {
+			Object value = theList.removeFirst();
+			listeners.forEach(l -> l.onStackUpdated(() -> theList.iterator()));
+			return value;
+		} catch (NoSuchElementException ex) {
+			throw new NoSuchElementException("Stack underflow.");
+		}
 	}
 	public void addStackUpdatedEventListener(IStackUpdatedEventListener listener) {
 		this.listeners.addFirst(listener);

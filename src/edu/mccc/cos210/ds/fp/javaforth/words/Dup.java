@@ -8,7 +8,7 @@ import edu.mccc.cos210.ds.fp.javaforth.machineModel.ForthWordBase;
 
 public class Dup extends ForthWordBase {
 	public Dup() {
-		super("dup", "(n1 -- n1 n1) Copies the top number of the stack and "+
+		super("DUP", "(n1 -- n1 n1) Copies the top number of the stack and "+
 	"", false);
 	}
 	@Override

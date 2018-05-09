@@ -27,7 +27,7 @@ public abstract class ForthWordBase {
 	}
 	public abstract void execute(IStack<Object> stack, ForthDictionary dictionary);
 	/* 
-	 * override this if you need to output to terminal.
+	 * Override this if you need to output to terminal. This is for compatibility. Override only one of the method.
 	 */
 	public void execute(IStack<Object> stack, ForthDictionary dictionary, ITerminalOutput terminalOutput) {
 	}

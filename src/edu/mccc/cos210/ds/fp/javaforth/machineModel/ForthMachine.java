@@ -6,8 +6,8 @@ import java.io.StreamTokenizer;
 import java.io.StringReader;
 import java.util.StringTokenizer;
 import edu.mccc.cos210.ds.SinglyLinkedList;
+import edu.mccc.cos210.ds.fp.javaforth.controlwords.CompiledWord;
 import edu.mccc.cos210.ds.fp.javaforth.util.IStackUpdatedEventListener;
-import edu.mccc.cos210.ds.fp.javaforth.util.ObservableStack;
 import edu.mccc.cos210.ds.fp.javaforth.words.Minus;
 
 public class ForthMachine {
@@ -43,58 +43,13 @@ public class ForthMachine {
 		StreamTokenizer tokenizer = new StreamTokenizer(new StringReader(input));
 		tokenizer.resetSyntax();
 		tokenizer.wordChars('!', 'z');
-//		for (int i = '!'; i <= 'z'; i++) {
-//			System.out.println(String.valueOf((char)i));
-//		}
 		new Thread(() -> {
 			synchronized (executingLock) {
 				try {
-					int next = tokenizer.nextToken();
-					StringBuilder dotQuoteContent = null;
-					while (next != StreamTokenizer.TT_EOF) {
-						while (this.pauseRequested) {
-							Thread.sleep(0);
-						}
-						if (this.stopRequested) {
-							return;
-						}
-						if (tokenizer.sval != null) {
-							try {
-								double nval = Double.parseDouble(tokenizer.sval);
-								// Has to be a number.
-								this.stack.push(nval);
-							} catch (NumberFormatException ex) {
-								if (dotQuoteContent != null) {
-									dotQuoteContent.append(tokenizer.sval.substring(0, tokenizer.sval.length() - 2));
-									if (tokenizer.sval.endsWith("\"")) {
-										this.updateTerminal(dotQuoteContent.toString());
-										dotQuoteContent = null;
-									}
-								} else {
-									// Has to be a word.
-									if (tokenizer.sval.equals(".\"")) {
-										dotQuoteContent = new StringBuilder();
-									} else {
-										if(tokenizer.sval.equals("-")) {
-											new Minus().execute(stack, dictionary);
-										}
-										else {
-											ForthWordBase word = this.dictionary.getWord(tokenizer.sval);
-											if(word == null) {
-												throw new RuntimeException("Word not found. " + tokenizer.sval);
-											}
-											word.execute(stack, dictionary);
-											word.execute(stack, dictionary, s -> updateTerminal(s));											
-										}
-									}
-								}
-							}
-						}
-						next = tokenizer.nextToken();
-					}
-					if (dotQuoteContent != null) {
-						throw new RuntimeException("dot-quote .\" not properly closed");
-					}
+					CompiledWord word = new CompiledWord();
+					word.build(tokenizer, dictionary);
+					word.execute(stack, dictionary);
+					word.execute(stack, dictionary, s -> this.updateTerminal(s));
 				} catch (Exception ex) {
 					this.terminalUpdatedEventListener.iterator().forEachRemaining(l -> l.onTerminalUpdated(false, ex.getMessage()));
 				} finally {
