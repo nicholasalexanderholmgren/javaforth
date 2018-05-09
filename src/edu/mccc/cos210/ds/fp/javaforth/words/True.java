@@ -9,7 +9,7 @@ public class True extends ForthWordBase {
 		super("TRUE", "flag A non-zero value represents the true condition flag.", false);
 	}
 	@Override
-	public void execute(IStack<Object> stack, ForthDictionary dict) {
+	public void execute(IStack<Object> stack, ForthDictionary dict, edu.mccc.cos210.ds.fp.javaforth.machineModel.ITerminalOutput terminalOutput) {
 		stack.push(1.0);
 	}
 }

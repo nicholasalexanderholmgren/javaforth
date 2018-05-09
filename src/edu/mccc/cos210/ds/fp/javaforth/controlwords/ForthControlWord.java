@@ -2,9 +2,9 @@ package edu.mccc.cos210.ds.fp.javaforth.controlwords;
 
 import java.io.IOException;
 import java.io.StreamTokenizer;
-import edu.mccc.cos210.ds.IStack;
 import edu.mccc.cos210.ds.fp.javaforth.machineModel.ForthDictionary;
 import edu.mccc.cos210.ds.fp.javaforth.machineModel.ForthWordBase;
+import edu.mccc.cos210.ds.fp.javaforth.machineModel.ITerminalOutput;
 
 public abstract class ForthControlWord extends ForthWordBase {
 	public ForthControlWord(String name, String description) {

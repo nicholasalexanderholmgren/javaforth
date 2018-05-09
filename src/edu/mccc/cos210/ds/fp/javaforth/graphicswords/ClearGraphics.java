@@ -14,7 +14,7 @@ public class ClearGraphics extends GraphicsWordBase {
 	public void draw(Graphics2D g2d) {
 	}
 	@Override
-	public void execute(IStack<Object> stack, ForthDictionary dictionary) {
+	public void execute(IStack<Object> stack, ForthDictionary dict, edu.mccc.cos210.ds.fp.javaforth.machineModel.ITerminalOutput terminalOutput){
 		getFrame().clear();
 	}
 }

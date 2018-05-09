@@ -1,10 +1,11 @@
 package edu.mccc.cos210.ds.fp.javaforth.words;
 
 import java.util.NoSuchElementException;
-
 import edu.mccc.cos210.ds.IStack;
 import edu.mccc.cos210.ds.fp.javaforth.machineModel.ForthDictionary;
 import edu.mccc.cos210.ds.fp.javaforth.machineModel.ForthWordBase;
+import edu.mccc.cos210.ds.fp.javaforth.machineModel.ITerminalOutput;
+
 /**
  * Javacode for the forth word ?dup. pops the top flag from the stack, then if it was true, executes dup.
  * @author Nicholas Holmgren
@@ -12,26 +13,24 @@ import edu.mccc.cos210.ds.fp.javaforth.machineModel.ForthWordBase;
  */
 public class ConDup extends ForthWordBase {
 	public ConDup() {
-		super("?dup", "(flag n1 -- n1 n1) Conditionally duplicates the second from the top element of the stack",
-				false);
+		super("?dup", "(flag n1 -- n1 n1) Conditionally duplicates the second from the top element of the stack", false);
 	}
 	@Override
-	public void execute(IStack<Object> stack, ForthDictionary dict) {
+	public void execute(IStack<Object> stack, ForthDictionary dictionary, ITerminalOutput terminalOutput) {
 		try {
 			double flag;
-			if(stack.peek() instanceof Double) {
+			if (stack.peek() instanceof Double) {
 				flag = (double) stack.pop();
-			}else {
+			} else {
 				throw new RuntimeException("Error, top of stack is not a number for conditional.");
 			}
-			if(flag != 0.0) {
-				new Dup().execute(stack, dict);
+			if (flag != 0.0) {
+				new Dup().execute(stack, dictionary, terminalOutput);
 			}
-		}catch(NoSuchElementException e) {
+		} catch (NoSuchElementException e) {
 			throw new RuntimeException("Stack underflow error on word ?Dup");
-		}catch(Exception e) {
+		} catch (Exception e) {
 			throw new RuntimeException("Error on word ?Dup");
 		}
-		
 	}
 }

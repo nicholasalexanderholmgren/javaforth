@@ -24,12 +24,8 @@ public class CompiledWord extends ForthWordBase {
 		}
 	}
 	@Override
-	public void execute(IStack<Object> stack, ForthDictionary dictionary) {
-	}
-	@Override
 	public void execute(IStack<Object> stack, ForthDictionary dictionary, ITerminalOutput terminalOutput) {
 		for (ForthWordBase word : this.words) {
-			word.execute(stack, dictionary);
 			word.execute(stack, dictionary, terminalOutput);
 		}
 	}

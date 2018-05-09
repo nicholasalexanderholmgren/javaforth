@@ -49,7 +49,6 @@ public class ForthMachine {
 				try {
 					CompiledWord word = new CompiledWord();
 					word.build(tokenizer, dictionary);
-					word.execute(stack, dictionary);
 					word.execute(stack, dictionary, s -> this.updateTerminal(s));
 				} catch (Exception ex) {
 					this.terminalUpdatedEventListener.iterator().forEachRemaining(l -> l.onTerminalUpdated(false, ex.getMessage()));

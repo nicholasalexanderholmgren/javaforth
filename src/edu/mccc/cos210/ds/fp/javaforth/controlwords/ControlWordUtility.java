@@ -31,12 +31,9 @@ class ControlWordUtility {
 					if (word instanceof ForthControlWord) {
 						((ForthControlWord) word).build(tokenizer, dictionary);
 					}
-					else {
-						return word;
-					}
+					return word;
 				}
 			}
 		}
-		throw new UnsupportedOperationException();
 	}
 }

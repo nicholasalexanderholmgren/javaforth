@@ -9,7 +9,7 @@ public class SemiColon extends ForthWordBase {
 		super(";", "Terminate  a  colon  definition  and  stop  compilation.    If compiling  from mass storage and the input stream is exhausted before encountering ; an error condition exists.");
 	}
 	@Override
-	public void execute(IStack<Object> stack, ForthDictionary dictionary) {
+	public void execute(IStack<Object> stack, ForthDictionary dict, edu.mccc.cos210.ds.fp.javaforth.machineModel.ITerminalOutput)ionary) {
 		throw new RuntimeException();
 	}
 }

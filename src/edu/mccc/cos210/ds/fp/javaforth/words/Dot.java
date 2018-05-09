@@ -10,9 +10,6 @@ public class Dot extends ForthWordBase {
 		super(".", "n -- Display  n converted according to BASE in a free field  format with one trailing blank.  Display only a negative sign.", false);
 	}
 	@Override
-	public void execute(IStack<Object> stack, ForthDictionary dictionary) {
-	}
-	@Override 
 	public void execute(IStack<Object> stack, ForthDictionary dictionary, ITerminalOutput terminalOutput) {
 		terminalOutput.writeLine(stack.pop().toString());
 	}

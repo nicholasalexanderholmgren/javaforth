@@ -5,13 +5,14 @@ import java.util.NoSuchElementException;
 import edu.mccc.cos210.ds.IStack;
 import edu.mccc.cos210.ds.fp.javaforth.machineModel.ForthDictionary;
 import edu.mccc.cos210.ds.fp.javaforth.machineModel.ForthWordBase;
+import edu.mccc.cos210.ds.fp.javaforth.machineModel.ITerminalOutput;
 
 public class Divide extends ForthWordBase {
 	public Divide() {
 		super("/", "n1 n2 -- n3 Divide n1 by n2 and leave the quotient n3. n3  is  rounded toward zero.", false);
 	}
 	@Override
-	public void execute(IStack<Object> stack, ForthDictionary dict) {
+	public void execute(IStack<Object> stack, ForthDictionary dict, ITerminalOutput terminalOutput) {
 		try {
 			int n2 = ((Double) stack.pop()).intValue();
 			int n1 = ((Double) stack.pop()).intValue();

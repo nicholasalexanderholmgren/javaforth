@@ -54,6 +54,7 @@ public class Map<K, V> implements IMap<K, V>, Iterable<IMap.Entry<K, V>> {
 		if (!theVector.get(index).contains(entry)) {
 			list.add(entry);
 			size++;
+			return;
 		}
 		Iterator<edu.mccc.cos210.ds.IMap.Entry<K, V>> iterator = list.iterator();
 		while (iterator.hasNext()) {

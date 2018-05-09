@@ -22,10 +22,5 @@ public abstract class ForthWordBase {
 	public String getName() {
 		return name;
 	}
-	public abstract void execute(IStack<Object> stack, ForthDictionary dictionary);
-	/* 
-	 * override this if you need to output to terminal.
-	 */
-	public void execute(IStack<Object> stack, ForthDictionary dictionary, ITerminalOutput terminalOutput) {
-	}
+	public abstract void execute(IStack<Object> stack, ForthDictionary dictionary, ITerminalOutput terminalOutput);
 }

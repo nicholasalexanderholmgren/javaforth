@@ -9,12 +9,12 @@ public class Minus extends ForthWordBase {
 		super("-", "n1 n2 -- n3 Subtract n2 from n1 and leave the difference n3.", false);
 	}
 	@Override
-	public void execute(IStack<Object> stack, ForthDictionary dict) {
+	public void execute(IStack<Object> stack, ForthDictionary dict, edu.mccc.cos210.ds.fp.javaforth.machineModel.ITerminalOutput terminalOutput) {
 		try {
 			int n2 = ((Double) stack.pop()).intValue();
 			int n1 = ((Double) stack.pop()).intValue();
-			stack.push(Double.valueOf((n1-n2)));
-		}catch(Exception e) {
+			stack.push(Double.valueOf((n1 - n2)));
+		} catch (Exception e) {
 			throw new RuntimeException("Error on word -");
 		}
 	}

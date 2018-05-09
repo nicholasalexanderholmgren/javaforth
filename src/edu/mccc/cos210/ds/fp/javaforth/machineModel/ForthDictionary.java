@@ -6,6 +6,7 @@ import edu.mccc.cos210.ds.SinglyLinkedList;
 import edu.mccc.cos210.ds.fp.javaforth.graphicswords.DrawLine;
 import edu.mccc.cos210.ds.fp.javaforth.viewIde.GraphicsFrame;
 import edu.mccc.cos210.ds.fp.javaforth.words.*;
+import edu.mccc.cos210.ds.fp.javaforth.controlwords.*;
 
 public class ForthDictionary {
 	Map<String, ForthWordBase> dictionary = new Map<String, ForthWordBase>();
@@ -14,7 +15,33 @@ public class ForthDictionary {
 		return this.dictionary.get(name);
 	}
 	public void initRequiredWords() {
-		ForthWordBase[] words = new ForthWordBase[] { new ConDup(), new Divide(), new Dot(), new Dup(), new Equals(), new False(), new Fetch(), new GreaterThan(), new LessThan(), new Minus(), new Mod(), new Negate(), new BitwiseOr(), new Plus(), new Sharp(), new Store(), new Times(), new True(), new ZeroEquals(), new ZeroLess(), new ZeroMore(),
+		ForthWordBase[] words = new ForthWordBase[] 
+		{ 
+			new ConDup(), 
+			new Divide(), 
+			new Dot(), 
+			new Dup(), 
+			new Equals(), 
+			new False(), 
+			new Fetch(), 
+			new GreaterThan(), 
+			new LessThan(), 
+			new Minus(), 
+			new Mod(), 
+			new Negate(), 
+			new BitwiseOr(), 
+			new Plus(),
+			new Sharp(), 
+			new Store(), 
+			new Times(), 
+			new True(), 
+			new ZeroEquals(), 
+			new ZeroLess(), 
+			new ZeroMore(),
+			// Control words
+			new If(),
+			new Else(),
+			new Then(),
 		};
 		for (ForthWordBase word : words) {
 			this.dictionary.put(word.getName(), word);
@@ -22,8 +49,9 @@ public class ForthDictionary {
 	}
 	public void initGraphicsWords() {
 		GraphicsFrame frame = new GraphicsFrame();
-		GraphicsWordBase[] words = new GraphicsWordBase[] { 
-				new DrawLine(frame),
+		GraphicsWordBase[] words = new GraphicsWordBase[]
+		{ 
+			new DrawLine(frame),
 		};
 		for (ForthWordBase word : words) {
 			this.dictionary.put(word.getName(), word);

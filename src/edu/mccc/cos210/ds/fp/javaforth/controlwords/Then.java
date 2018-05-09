@@ -9,6 +9,6 @@ public class Then extends ForthWordBase {
 		super("THEN", "Used in a colon-definition in the form: IF ... ELSE ... THEN or IF ... THEN. THEN is the point where execution resumes after ELSE or IF (when no ELSE is present).");
 	}
 	@Override
-	public void execute(IStack<Object> stack, ForthDictionary dictionary) {
+	public void execute(IStack<Object> stack, ForthDictionary dict, edu.mccc.cos210.ds.fp.javaforth.machineModel.ITerminalOutput)ionary) {
 	}
 }

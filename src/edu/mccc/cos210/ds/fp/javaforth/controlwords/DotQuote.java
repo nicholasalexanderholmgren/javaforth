@@ -28,6 +28,6 @@ public class DotQuote extends ForthControlWord {
 		throw new RuntimeException("dot-quote .\" not properly closed");
 	}
 	@Override
-	public void execute(IStack<Object> stack, ForthDictionary dictionary) {
+	public void execute(IStack<Object> stack, ForthDictionary dict, edu.mccc.cos210.ds.fp.javaforth.machineModel.ITerminalOutput)ionary) {
 	}
 }
