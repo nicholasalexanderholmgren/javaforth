@@ -8,7 +8,6 @@ import edu.mccc.cos210.ds.fp.javaforth.util.IStackUpdatedEventListener;
 /**
  * Class for performing forth computations. 
  * @author Jing-Chao Feng, Nicholas Holmgren, Ryan Hammound
- *
  */
 public class ForthMachine {
 	SinglyLinkedList<ITerminalUpdatedEventListener> terminalUpdatedEventListener = new SinglyLinkedList<>();
@@ -22,7 +21,7 @@ public class ForthMachine {
 	}
 	/**
 	 * Adds the listener to the collection of stack event listeners, who are notified on stack update events.
-	 * @param listener - the new listner 
+	 * @param listener - the new listener 
 	 */
 	public void AddStackUpdatedEventListener(IStackUpdatedEventListener listener) {
 		this.stackUpdatedEventListeners.addFirst(listener);
@@ -30,7 +29,7 @@ public class ForthMachine {
 	}
 	/**
 	 * Adds the listener to the collection of terminal event listeners, who are notified on terminal update events.
-	 * @param listener - the new listner 
+	 * @param listener - the new listener 
 	 */
 	public void AddTerminalUpdatedEventListener(ITerminalUpdatedEventListener listener) {
 		this.terminalUpdatedEventListener.addFirst(listener);
