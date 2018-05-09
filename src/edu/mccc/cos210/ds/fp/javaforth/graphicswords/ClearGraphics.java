@@ -7,8 +7,8 @@ import edu.mccc.cos210.ds.fp.javaforth.machineModel.GraphicsWordBase;
 import edu.mccc.cos210.ds.fp.javaforth.viewIde.GraphicsFrame;
 
 public class ClearGraphics extends GraphicsWordBase {
-	public ClearGraphics(String name, String description, GraphicsFrame frame) {
-		super(name, description, frame);
+	public ClearGraphics(GraphicsFrame frame) {
+		super("CLEARGRAPHICS", "Clears everything on the graphics panel", frame);
 	}
 	@Override
 	public void draw(Graphics2D g2d) {

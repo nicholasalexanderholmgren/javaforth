@@ -68,6 +68,7 @@ public class ForthDictionary {
 		GraphicsFrame frame = new GraphicsFrame();
 		GraphicsWordBase[] words = new GraphicsWordBase[]
 		{ 
+			new ClearGraphics(frame),
 			new DrawLine(frame),
 			new DrawOval(frame),
 			new SetColor(frame),

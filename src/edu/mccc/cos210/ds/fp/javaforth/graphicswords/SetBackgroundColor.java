@@ -3,7 +3,6 @@ package edu.mccc.cos210.ds.fp.javaforth.graphicswords;
 import java.awt.Color;
 import java.awt.EventQueue;
 import java.awt.Graphics2D;
-import java.lang.reflect.InvocationTargetException;
 import edu.mccc.cos210.ds.IStack;
 import edu.mccc.cos210.ds.fp.javaforth.machineModel.ForthDictionary;
 import edu.mccc.cos210.ds.fp.javaforth.machineModel.GraphicsWordBase;
