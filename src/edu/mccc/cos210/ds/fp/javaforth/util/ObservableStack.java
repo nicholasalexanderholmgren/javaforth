@@ -12,8 +12,9 @@ public class ObservableStack implements IStack<Object>, Iterable<Object> {
 	@Override
 	public void push(Object data) {
 		if(data instanceof Boolean || data instanceof Double || data instanceof Symbol) {
-			listeners.forEach(l -> l.onStackUpdated(() -> theList.iterator()));
 			theList.addFirst(data);	
+			listeners.forEach(l -> l.onStackUpdated(() -> theList.iterator()));
+			return;
 		}
 		throw new RuntimeException("Only put boolean double and Symbol into Forth Stack.");
 	}

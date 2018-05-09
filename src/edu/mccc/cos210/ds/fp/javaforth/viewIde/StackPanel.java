@@ -32,10 +32,9 @@ public class StackPanel extends JScrollPane implements IStackUpdatedEventListene
 		for(Object o : stack) {
 			list.addElement(o.toString());
 		}
-		// TODO
 		EventQueue.invokeLater(() -> {
 			JScrollBar verticalScrollBar = this.getVerticalScrollBar();
-			verticalScrollBar.setValue(verticalScrollBar.getMaximum());
+			verticalScrollBar.setValue(verticalScrollBar.getMinimum());
 		});
 		this.repaint();
 	}
