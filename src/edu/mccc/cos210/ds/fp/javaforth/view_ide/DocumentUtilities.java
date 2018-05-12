@@ -1,4 +1,4 @@
-package edu.mccc.cos210.ds.fp.javaforth.viewIde;
+package edu.mccc.cos210.ds.fp.javaforth.view_ide;
 
 import javax.swing.text.BadLocationException;
 import javax.swing.text.SimpleAttributeSet;

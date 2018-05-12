@@ -1,18 +1,17 @@
 package edu.mccc.cos210.ds.fp.javaforth;
 
 import java.awt.EventQueue;
-import edu.mccc.cos210.ds.fp.javaforth.machineModel.ForthMachine;
-import edu.mccc.cos210.ds.fp.javaforth.viewIde.IdeWindow;
+import edu.mccc.cos210.ds.fp.javaforth.machine_model.ForthMachine;
+import edu.mccc.cos210.ds.fp.javaforth.view_ide.IdeWindow;
 
 public class JavaForth {
 	private ForthMachine machine;
 	private IdeWindow view;
 	JavaForth() {
 		this.machine = createForthMachine();
-		this.view = createViewIDE(machine);
-		this.machine.registerObserver(this.view);
+		this.view = createview_ide(machine);
 	}
-	public static IdeWindow createViewIDE(ForthMachine machine) {
+	public static IdeWindow createview_ide(ForthMachine machine) {
 		return new IdeWindow(machine);
 	}
 	public ForthMachine createForthMachine() { 

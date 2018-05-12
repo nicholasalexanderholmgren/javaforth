@@ -1,4 +1,4 @@
-package edu.mccc.cos210.ds.fp.javaforth.viewIde;
+package edu.mccc.cos210.ds.fp.javaforth.view_ide;
 
 import java.awt.Color;
 import java.awt.Dimension;
@@ -12,7 +12,11 @@ import javax.swing.JPanel;
 import javax.swing.event.DocumentEvent;
 import javax.swing.event.DocumentListener;
 import javax.swing.text.StyledDocument;
-
+/**
+ * Class for containing and updating the region where breakpoints are held. 
+ * @author Jing-Chao Feng, Nicholas Holmgren, Ryan Hammound
+ *
+ */
 @SuppressWarnings("serial")
 public class BreakPointPanel extends JPanel implements DocumentListener, MouseListener, AdjustmentListener {
 	// AdjustmentListener Added to scroll bar of text editor.
@@ -61,11 +65,11 @@ public class BreakPointPanel extends JPanel implements DocumentListener, MouseLi
 			int nextLineStartIndex = DocumentUtilities.getNextLineStartIndex(this.document, i);
 			if (currentLine == lineNumber) {
 				if (DocumentUtilities.isBreakPoint(this.document, i)) {
-					this.document.setCharacterAttributes(i, nextLineStartIndex - 1 - i, 
+					this.document.setCharacterAttributes(i, nextLineStartIndex - i, 
 							DocumentUtilities.DisableBreakPointAttribute, false);
 				}
 				else {
-					this.document.setCharacterAttributes(i, nextLineStartIndex - 1 - i, 
+					this.document.setCharacterAttributes(i, nextLineStartIndex - i, 
 							DocumentUtilities.BreakPointAttribute, false);					
 				}
 				break;

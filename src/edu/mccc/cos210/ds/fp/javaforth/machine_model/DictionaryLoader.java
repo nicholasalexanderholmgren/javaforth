@@ -1,4 +1,4 @@
-package edu.mccc.cos210.ds.fp.javaforth.machineModel;
+package edu.mccc.cos210.ds.fp.javaforth.machine_model;
 
 import java.io.BufferedReader;
 import java.io.File;
